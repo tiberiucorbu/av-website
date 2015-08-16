@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title></title>
+</head>
+<body>
+<form class="bs-example bs-example-form" data-example-id="input-group-segmented-buttons" method="GET" action="/search">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="input-group">
+          <input name="q" class="form-control" aria-label="Text input with segmented button dropdown" type="text" />
+          <div class="input-group-btn">
+            <button type="submit" class="btn btn-default">
+                <span class="fa fa-search">
+            </span></button>
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <span class="caret"></span>
+              <span class="sr-only">Toggle Dropdown</span>
+            </button>
+            <ul id="search-sort-dropdown" class="dropdown-menu dropdown-menu-right">
+              <li>
+<a>
+<div class="radio">
+  <label for="optionsRadios1">
+    <input type="radio" name="by-date" id="optionsRadios1" value="true" checked />
+    Sort By Date
+  </label>
+</div>
+</a>
+
+</li>
+<li>
+<a>
+<div class="radio">
+  <label>
+    <input type="radio" name="by-date" id="optionsRadios2" value="true" checked />
+    Sort by relevance
+  </label>
+</div>
+</a>
+
+</li>
+
+            </ul>
+          </div>
+        </div><!-- /.input-group -->
+      </div><!-- /.col-md-12 -->
+    </div><!-- /.row -->
+  </form>
+<script>
+  $("#search-sort-dropdown li a").click(function(){
+  $(this).parents(".dropdown").find('.btn').html($(this).text() + ' <span class="caret"></span>');
+  $(this).parents(".dropdown").find('.btn').val($(this).data('value'));
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,44 @@
+  <!-- for Google -->
+                  <meta name="description" content="" />
+                  <meta name="keywords" content="" />
+
+                  <meta name="author" content="" />
+                  <meta name="copyright" content="" />
+                  <meta name="application-name" content="" />
+
+                  <!-- for Facebook -->          
+                  <meta property="og:title" content="" />
+                  <meta property="og:type" content="article" />
+                  <meta property="og:image" content="" />
+                  <meta property="og:url" content="" />
+                  <meta property="og:description" content="" />
+					
+
+
+
+
+				  <b:if cond='data:post.firstImageUrl'>
+  					<meta expr:content='data:post.firstImageUrl' itemprop='image_url'/>
+                  </b:if>
+                  <meta expr:content='data:blog.blogId' itemprop='blogId'/>
+                  <meta expr:content='data:post.id' itemprop='postId'/>
+                  <b:if cond='data:blog.metaDescription'>
+                    <meta expr:content='data:blog.metaDescription' itemprop='description'/>
+                    <b:else/>
+                    <meta expr:content='data:post.snippet' itemprop='description'/>
+                  </b:if>
+                  <meta expr:content='data:post.url' property='og:url'/>
+                  <meta content='website' property='og:type'/>
+                  <meta expr:content='data:post.title' property='og:title'/>
+                  <b:if cond='data:blog.metaDescription'>
+                    <meta expr:content='data:blog.metaDescription' itemprop='description' property='og:description'/>
+                    <b:else/>
+                    <meta expr:content='data:post.snippet' itemprop='description' property='og:description'/>
+                  </b:if>
+                  <b:if cond='data:post.postFirstImageUrl'>
+                    <meta expr:content='data:post.postFirstImageUrl' property='og:image'/>
+                    <b:else/>
+                    <b:if cond='data:post.postFirstImageUrl'>
+                      <meta expr:content='data:post.postFirstImageUrl ? data:post.postFirstImageUrl:data:post.thumbnailUrl' property='og:image'/>
+                    </b:if>
+                  </b:if>

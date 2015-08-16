@@ -1,0 +1,33 @@
+# extends 'admin/admin_base.html'
+# import 'macro/utils.html' as utils
+# import 'macro/forms.html' as forms
+
+# block head
+  {{utils.prefetch_link(next_url)}}
+# endblock
+
+# block admin_content
+  <div class="page-header">
+    <h1>{{title}}</h1>
+  </div>
+  <div class="row">
+    <div class="col-md-4">
+      <form method="POST" action="{{url_for('story_create')}}">
+        <fieldset>
+          {{form.csrf_token}}
+
+          {{forms.text_field(form.title, autofocus=True)}}
+          {{forms.textarea_field(form.description)}}
+          {{forms.text_field(form.meta_keywords)}}
+          {{forms.textarea_field(form.meta_description)}}
+
+          <button type="submit" class="btn btn-primary btn-block">
+            Create Story
+          </button>
+        </fieldset>
+      </form>
+    </div>
+  </div>
+
+  {{utils.next_link(next_url)}}
+# endblock
