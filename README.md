@@ -91,4 +91,4 @@ Contributions and Ideas
 Author
 ------
 
-[![Tiberiu flair on stackoverflow.com][tiberiu-corbu]][tiberiu]
+<a href="http://stackoverflow.com/users/2406376/tiberiu-corbu"><img src="http://stackoverflow.com/users/flair/2406376.png" width="208" height="58" alt="profile for tiberiu.corbu at Stack Overflow, Q&amp;A for professional and enthusiast programmers" title="profile for tiberiu.corbu at Stack Overflow, Q&amp;A for professional and enthusiast programmers"></a>
