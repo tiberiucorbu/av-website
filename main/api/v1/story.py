@@ -22,11 +22,12 @@ from main import api_v1
 class StoryListAPI(restful.Resource):
   @auth.admin_required
   def get(self):
-    parser = reqparse.RequestParser()
-    parser.add_argument('rate', type=int, help='Rate cannot be converted')
-    parser.add_argument('name')
-    args = parser.parse_args()
+    #parser = reqparse.RequestParser()
+    #parser.add_argument('order', type=str, help='Rate cannot be converted')
+    #parser.add_argument('limit', type=int)
+    #args = parser.parse_args()
     story_keys = util.param('story_keys', list)
+    
     if story_keys:
       story_db_keys = [ndb.Key(urlsafe=k) for k in story_keys]
       story_dbs = ndb.get_multi(story_db_keys)

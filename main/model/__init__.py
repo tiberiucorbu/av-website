@@ -11,4 +11,4 @@ from .meta import ItemMeta
 from .meta import PageMeta
 
 from .story import Story
-from .media import Media
+from .story_item import StoryItem

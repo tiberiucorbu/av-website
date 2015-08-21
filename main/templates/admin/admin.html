@@ -5,10 +5,19 @@
     <h1>{{title}}</h1>
   </div>
   <div class="row text-center">
-    {{admin_link('Navigation Bar', 'navicon', url_for('admin_content_navbar'))}}
+
     {{admin_link('Stories', 'heart', url_for('admin_content_stories'))}}
-    {{admin_link('Media', 'image', url_for('admin_content_media'))}}
-  </div>  
+
+  </div>
+  <div class="page-header">
+    <h2>Resources</h2>
+  </div>
+
+  <div class="row text-center">
+    {{admin_link('Resource Upload', 'cloud-upload', url_for('resource_upload'))}}
+    {{admin_link('Resource List', 'th-list', url_for('resource_list'))}}
+  </div>
+
   <div class="page-header">
     <h2>Configuration</h2>
   </div>

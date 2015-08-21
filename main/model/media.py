@@ -22,6 +22,7 @@ class Media(model.Base, model.VisibilityFlags):
   raw_data = ndb.StringProperty()
   formated_data = ndb.StringProperty()
   mime_type = ndb.StringProperty(required=True)
+  tags = ndb.StringProperty(repeated=True)
 
   # Exposed fields in the service api @see: api/v1/media.py
   # Must match the same name as the db table
@@ -31,7 +32,9 @@ class Media(model.Base, model.VisibilityFlags):
       'ref_url': fields.String,
       'raw_data': fields.Blob,
       'mime_type': fields.String,
+      'tags' : fields.String
     }
 
   FIELDS.update(model.Base.FIELDS)
+  FIELDS.update(model.ItemMeta.FIELDS)
   FIELDS.update(model.VisibilityFlags.FIELDS)
