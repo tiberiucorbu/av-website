@@ -2,4 +2,5 @@
 
 from .config import *
 from .user import *
+from .story import *
 from .resource import *

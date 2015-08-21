@@ -10,9 +10,11 @@ import util
 
 
 class Base(ndb.Model):
+  # log_data
   created = ndb.DateTimeProperty(auto_now_add=True)
   modified = ndb.DateTimeProperty(auto_now=True)
   version = ndb.IntegerProperty(default=config.CURRENT_VERSION_TIMESTAMP)
+
 
   @classmethod
   def get_by(cls, name, value):

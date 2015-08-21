@@ -21,6 +21,7 @@ class User(model.Base):
   admin = ndb.BooleanProperty(default=False)
   permissions = ndb.StringProperty(repeated=True)
   verified = ndb.BooleanProperty(default=False)
+  contact_user = ndb.BooleanProperty(default=False)
   token = ndb.StringProperty(default='')
   password_hash = ndb.StringProperty(default='')
 
@@ -76,6 +77,7 @@ class User(model.Base):
       'permissions': fields.List(fields.String),
       'username': fields.String,
       'verified': fields.Boolean,
+      'contact_user' : fields.Boolean
     }
 
   FIELDS.update(model.Base.FIELDS)
