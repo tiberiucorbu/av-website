@@ -12,9 +12,10 @@ import util
 
 class StoryItem(model.Base, model.VisibilityFlags):
   """
-    Media
+    SoryItem
 
-    Refers to an item within a story
+    Refers to an item within a story that can hold a text, or a reference
+    to a resource.
   """
   user_key = ndb.KeyProperty(kind=model.User, required=True)
   story_key = ndb.KeyProperty(kind=model.Story)
