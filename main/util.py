@@ -17,6 +17,9 @@ import config
 # Request Parameters
 ###############################################################################
 def param(name, cast=None):
+  """
+  Gets a parameter from the request by name and casts by the desired type
+  """
   value = None
   if flask.request.json:
     return flask.request.json.get(name, None)
@@ -36,6 +39,19 @@ def param(name, cast=None):
     return cast(value)
   return value
 
+def get_perv_url(prev_url=''):
+  prev_url = prev_url or param('prev') or param('prev_url')
+  do_not_redirect_urls = [flask.url_for(u) for u in [
+      'signin', 'signup', 'user_forgot', 'user_reset',
+    ]]
+  if prev_url:
+    if any(url in prev_url for url in do_not_redirect_urls):
+      return flask.url_for('welcome')
+    return prev_url
+  referrer = flask.request.referrer
+  if referrer and referrer.startswith(flask.request.host_url):
+    return referrer
+  return flask.url_for('welcome')
 
 def get_next_url(next_url=''):
   next_url = next_url or param('next') or param('next_url')
@@ -80,7 +96,9 @@ def get_dbs(
   model_dbs, next_cursor, more = query.fetch_page(
       limit, start_cursor=cursor, keys_only=keys_only,
     )
+
   next_cursor = next_cursor.to_websafe_string() if more else None
+
   return list(model_dbs), next_cursor
 
 
@@ -126,6 +144,13 @@ def generate_next_url(next_cursor, base_url=None, cursor_name='cursor'):
   args[cursor_name] = next_cursor
   return '%s?%s' % (base_url, urllib.urlencode(args))
 
+def generate_prev_url(prev_cursor, base_url=None, cursor_name='cursor'):
+  if not prev_cursor:
+    return None
+  base_url = base_url or flask.request.base_url
+  args = flask.request.args.to_dict()
+  args[cursor_name] = prev_cursor
+  return '%s?%s' % (base_url, urllib.urlencode(args))
 
 def uuid():
   return uuid4().hex

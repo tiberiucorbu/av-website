@@ -27,7 +27,7 @@ class StoryListAPI(restful.Resource):
     #parser.add_argument('limit', type=int)
     #args = parser.parse_args()
     story_keys = util.param('story_keys', list)
-    
+
     if story_keys:
       story_db_keys = [ndb.Key(urlsafe=k) for k in story_keys]
       story_dbs = ndb.get_multi(story_db_keys)
@@ -52,11 +52,11 @@ class StoryListAPI(restful.Resource):
 @api_v1.resource('/story/<string:story_key>/', endpoint='api.story')
 class StoryAPI(restful.Resource):
   @auth.admin_required
-  def get(self, user_key):
-    user_db = ndb.Key(urlsafe=story_key).get()
-    if not user_db:
-      helpers.make_not_found_exception('Story %s not found' % user_key)
-    return helpers.make_response(user_db, model.Story.FIELDS)
+  def get(self, story_key):
+    story_db = ndb.Key(urlsafe=story_key).get()
+    if not story_db:
+      helpers.make_not_found_exception('Story %s not found' % story_key)
+    return helpers.make_response(story_db, model.Story.FIELDS)
 
   @auth.admin_required
   def delete(self, story_key):
