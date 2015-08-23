@@ -33,7 +33,7 @@ def story_update(story_id):
   if form.validate_on_submit():
     form.populate_obj(story_db)
     story_db.put()
-    return flask.redirect(flask.url_for('admin_content_stories', order='-modified'))
+    return flask.redirect(flask.url_for('story_list', order='-modified'))
   return flask.render_template(
       'content/content_story_update.html',
       html_class='story-update',
