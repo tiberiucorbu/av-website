@@ -26,7 +26,7 @@ class Story(model.Base, model.VisibilityFlags, model.PageMeta):
         'title': fields.String,
         'description': fields.String,
         'parent_story_key': fields.Integer,
-        'tags': fields.String
+        'tags': fields.List(fields.String)
     }
 
     FIELDS.update(model.Base.FIELDS)

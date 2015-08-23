@@ -6,14 +6,22 @@
     "jquery": "~2",
     "lesshat": "~3",
     "moment": "~2",
-    "nprogress": "https://github.com/lipis/nprogress.git#master"
+    "nprogress": "https://github.com/lipis/nprogress.git#master",
+    "eonasdan-bootstrap-datetimepicker": "~4.15.35"
   },
   "overrides": {
     "bootstrap": {
-      "main": ["less/**", "fonts/*", "js/*"]
+      "main": [
+        "less/**",
+        "fonts/*",
+        "js/*"
+      ]
     },
     "font-awesome": {
-      "main": ["less/*", "fonts/*"]
+      "main": [
+        "less/*",
+        "fonts/*"
+      ]
     }
   }
 }

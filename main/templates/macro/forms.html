@@ -74,6 +74,9 @@
   {{input_field(field, type='number', **kwargs)}}
 # endmacro
 
+# macro datetime_field(field)
+  {{input_field(field, type='datetime', **kwargs)}}
+# endmacro
 
 # macro date_field(field)
   {{input_field(field, type='date', **kwargs)}}
@@ -161,6 +164,30 @@
   # endif
 # endmacro
 
+# macro panel_type_fields(name, fields, help)
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" data-parent=".panel-group" href="#{{slugify(name)}}">{{name}}</a>
+        <span class="fa fa-check pull-right {{'hide' if not check_form_fields(fields)}}"></span>
+      </h4>
+    </div>
+    <div id="{{slugify(name)}}" class="panel-collapse collapse">
+      <div class="panel-body">
+        # if is_iterable(fields)
+          # for field in fields:
+            {{field}}
+          # endfor
+        #else
+          {{fields}}
+        #endif
+        # if help
+          <p class="help-block">{{help|safe}}</p>
+        # endif
+      </div>
+    </div>
+  </div>
+# endmacro
 
 # macro panel_fields(name, fields, help)
   <div class="panel panel-default">

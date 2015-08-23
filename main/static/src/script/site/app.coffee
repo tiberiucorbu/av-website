@@ -26,3 +26,7 @@ $ -> $('html.resource-view').each ->
 
 $ -> $('html.resource-upload').each ->
   init_resource_upload()
+
+$ -> $('html.story-update').each ->
+  $('input[type="datetime"]').datetimepicker
+    format : 'YYYY/MM/DD HH:mm'

@@ -11,6 +11,8 @@ config =
     "#{paths.static.ext}/bootstrap/js/collapse.js"
     "#{paths.static.ext}/bootstrap/js/dropdown.js"
     "#{paths.static.ext}/bootstrap/js/tooltip.js"
+    "#{paths.static.ext}/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"
+
   ]
   style: [
     "#{paths.src.style}/style.less"

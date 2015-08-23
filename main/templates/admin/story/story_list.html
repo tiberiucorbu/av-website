@@ -5,7 +5,7 @@
 #endblock
 
 #block admin_content
-    <a class="btn btn-sm btn-primary" href="{{url_for('story_create')}}">
+    <a class="btn btn-sm btn-primary" href="{{url_for('admin_story_create')}}">
       <span class="fa fa-fw fa-file"></span> New Story
     </a>
     <div class="alert alert-warning alert-dismissable {{'hide' if story_dbs | count > 0}}">
@@ -24,7 +24,7 @@
         #for story_db in story_dbs
         <tr>
           <td>
-            <a href="{{url_for('story_update', story_id=story_db.key.id())}}" title="Update {{story_db.title}}">
+            <a href="{{url_for('admin_story_update', story_id=story_db.key.id())}}" title="Update {{story_db.title}}">
                 {{story_db.title}}
             </a>
           </td>
@@ -35,7 +35,7 @@
             <time datetime="{{story_db.modified}}">{{story_db.modified}}</time>
           </td>
           <td class="text-nowrap">
-            <a class="btn btn-xs btn-primary" href="{{url_for('story_update', story_id=story_db.key.id())}}">
+            <a class="btn btn-xs btn-primary" href="{{url_for('admin_story_update', story_id=story_db.key.id())}}">
               <i class="fa fa-fw fa-edit"></i>
             </a>
             <button class="btn btn-xs btn-danger btn-delete"

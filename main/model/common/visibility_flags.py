@@ -13,10 +13,12 @@ class VisibilityFlags(ndb.Model):
   # log_data
   deleted = ndb.DateTimeProperty()
   disabled = ndb.DateTimeProperty()
+  available = ndb.DateTimeProperty()
 
   FIELDS = {
       'deleted': fields.DateTime,
-      'disabled': fields.DateTime
+      'disabled': fields.DateTime,
+      'available': fields.DateTime
   }
 
   @property

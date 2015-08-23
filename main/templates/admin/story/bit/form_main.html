@@ -1,0 +1,21 @@
+# import 'macro/forms.html' as forms
+
+<fieldset class="col-sm-6">
+  {{form.csrf_token}}
+  {{forms.textarea_field(form.title, autofocus=True)}}
+  {{forms.textarea_field(form.description)}}
+
+</fieldset>
+<fieldset class="col-sm-6">
+  {{forms.textarea_field(form.tags, type='textarea')}}
+  {{forms.textarea_field(form.deleted, type="datetime")}}
+
+
+  {{
+    forms.panel_fields(
+        'Meta Data',
+        (form.meta_keywords, form.meta_description),
+      )
+  }}
+
+</fieldset>
