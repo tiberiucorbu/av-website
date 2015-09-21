@@ -22,6 +22,10 @@ class Story(model.Base, model.VisibilityFlags, model.PageMeta):
         Circular reference here A story is a parent of a story item.
     """
     story_items = ndb.KeyProperty(kind='StoryItem', repeated=True)
+    """
+        Recursive reference, A story can be is a parent of another story.
+    """
+    child_stories = ndb.KeyProperty(kind='Story', repeated=True)
     
    
     # Exposed fields in the service api @see: api/v1/story.py

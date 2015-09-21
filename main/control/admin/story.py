@@ -89,6 +89,8 @@ class StoryUpdateForm(wtf.Form):
   available = wtforms.DateField(
       'Available On', [wtforms.validators.optional()])
   tags = TagListField('Tags', [wtforms.validators.optional()])
+  canonical_path = wtforms.StringField(
+      'Canonical Path', [wtforms.validators.optional()])
   meta_keywords = wtforms.StringField(
       'Meta Kewords', [wtforms.validators.optional()])
   meta_description = wtforms.StringField(
