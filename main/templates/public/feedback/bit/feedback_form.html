@@ -1,0 +1,10 @@
+# import 'macro/forms.html' as forms
+<form method="POST" action="{{url_for('feedback')}}" novalidate>
+	{{feedback_form.csrf_token}} {{forms.email_field(feedback_form.email)}}
+	{{forms.textarea_field(feedback_form.message, rows=8, autofocus=True)}}
+	# if config.CONFIG_DB.has_anonymous_recaptcha
+	 {{forms.recaptcha_field(feedback_form.recaptcha)}}
+  # endif
+	<button type="submit" class="btn btn-primary btn-block btn-loading"{{forms.data_loading_text()}}>
+		Send</button>
+</form>

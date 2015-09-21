@@ -46,12 +46,12 @@ def get_perv_url(prev_url=''):
     ]]
   if prev_url:
     if any(url in prev_url for url in do_not_redirect_urls):
-      return flask.url_for('welcome')
+      return flask.url_for('home')
     return prev_url
   referrer = flask.request.referrer
   if referrer and referrer.startswith(flask.request.host_url):
     return referrer
-  return flask.url_for('welcome')
+  return flask.url_for('home')
 
 def get_next_url(next_url=''):
   next_url = next_url or param('next') or param('next_url')
@@ -60,12 +60,12 @@ def get_next_url(next_url=''):
     ]]
   if next_url:
     if any(url in next_url for url in do_not_redirect_urls):
-      return flask.url_for('welcome')
+      return flask.url_for('home')
     return next_url
   referrer = flask.request.referrer
   if referrer and referrer.startswith(flask.request.host_url):
     return referrer
-  return flask.url_for('welcome')
+  return flask.url_for('home')
 
 
 ###############################################################################

@@ -1,2 +1,3 @@
 # coding: utf-8
-from .welcome import *
+from .home import *
+from .feedback import *

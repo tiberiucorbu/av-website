@@ -26,6 +26,7 @@ class Config(model.Base, model.ConfigAuth):
   recaptcha_public_key = ndb.StringProperty(default='', verbose_name='Public Key')
   salt = ndb.StringProperty(default=util.uuid())
   verify_email = ndb.BooleanProperty(default=True, verbose_name='Verify user emails')
+  signup_enabled = ndb.BooleanProperty(default=False, verbose_name='Allow users to signup into the platform')
 
   @property
   def has_anonymous_recaptcha(self):
@@ -59,6 +60,7 @@ class Config(model.Base, model.ConfigAuth):
       'recaptcha_public_key': fields.String,
       'salt': fields.String,
       'verify_email': fields.Boolean,
+      'signup_enabled': fields.Boolean,
     }
 
   FIELDS.update(model.Base.FIELDS)

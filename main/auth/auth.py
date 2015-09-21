@@ -193,7 +193,7 @@ def signin():
       if result is None:
         form.email.errors.append('Email or Password do not match')
       if result is False:
-        return flask.redirect(flask.url_for('welcome'))
+        return flask.redirect(flask.url_for('home'))
     if not form.errors:
       form.next_url.data = next_url
 
@@ -225,6 +225,10 @@ class SignUpForm(wtf.Form):
 
 @app.route('/signup/', methods=['GET', 'POST'])
 def signup():
+  # block signup based on configuration
+  if not config.CONFIG_DB.signup_enabled:
+      flask.flash("Signing up is disabled", category="info")
+      return flask.redirect(flask.url_for('home'))
   next_url = util.get_next_url()
   form = None
   if config.CONFIG_DB.has_email_authentication:
@@ -245,7 +249,7 @@ def signup():
         user_db.put()
         task.activate_user_notification(user_db)
         cache.bump_auth_attempt()
-        return flask.redirect(flask.url_for('welcome'))
+        return flask.redirect(flask.url_for('home'))
 
   if form and form.errors:
     cache.bump_auth_attempt()
@@ -267,7 +271,7 @@ def signup():
 @app.route('/signout/')
 def signout():
   login.logout_user()
-  return flask.redirect(util.param('next') or flask.url_for('signin'))
+  return flask.redirect(util.param('next') or flask.url_for('home'))
 
 
 ###############################################################################
@@ -345,6 +349,10 @@ def form_with_recaptcha(form):
 # User related stuff
 ###############################################################################
 def create_user_db(auth_id, name, username, email='', verified=False, **props):
+    # block signup based on configuration
+  if not config.CONFIG_DB.signup_enabled:
+      flask.flash("Signing up is disabled", category="info")
+      return None
   email = email.lower() if email else ''
   if verified and email:
     user_dbs, user_cr = model.User.get_dbs(email=email, verified=True, limit=2)
@@ -385,7 +393,7 @@ def signin_user_db(user_db):
     return flask.redirect(flask.url_for('signin'))
   flask_user_db = FlaskUser(user_db)
   auth_params = flask.session.get('auth-params', {
-      'next': flask.url_for('welcome'),
+      'next': flask.url_for('home'),
       'remember': False,
     })
   flask.session.pop('auth-params', None)

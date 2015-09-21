@@ -15,7 +15,9 @@
   <div class="form-group">
     <div class="btn-group btn-group-justified form-control-static">
       <a class="btn btn-link btn-xs ellipsis" href="{{url_for('user_forgot')}}">Forgot password?</a>
-      <a class="btn btn-link btn-xs ellipsis" href="{{url_for('signup', next=next_url)}}">Create new account</a>
+      # if config.CONFIG_DB.signup_enabled
+        <a class="btn btn-link btn-xs ellipsis" href="{{url_for('signup', next=next_url)}}">Create new account</a>
+      #endif
     </div>
   </div>
 </form>

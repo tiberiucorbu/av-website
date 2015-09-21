@@ -12,14 +12,18 @@ import util
 
 class Story(model.Base, model.VisibilityFlags, model.PageMeta):
 
-    # database fields
+    #     database fields
     user_key = ndb.KeyProperty(kind=model.User, required=True)
-    parent_story_key = ndb.KeyProperty()
+    parent_story_key = ndb.KeyProperty(kind='Story')
     title = ndb.StringProperty(required=True)
-    description = ndb.StringProperty(default='')
+    description = ndb.TextProperty(default='')
     tags = ndb.StringProperty(repeated=True)
-
-
+    """
+        Circular reference here A story is a parent of a story item.
+    """
+    story_items = ndb.KeyProperty(kind='StoryItem', repeated=True)
+    
+   
     # Exposed fields in the service api @see: api/v1/story.py
     # Must match the same name as the db table
     FIELDS = {

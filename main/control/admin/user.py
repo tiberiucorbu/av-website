@@ -162,7 +162,7 @@ def user_forgot(token=None):
     count = len(user_dbs)
     if count == 1:
       task.reset_password_notification(user_dbs[0])
-      return flask.redirect(flask.url_for('welcome'))
+      return flask.redirect(flask.url_for('home'))
     elif count == 0:
       form.email.errors.append('This email was not found')
     elif count == 2:
@@ -200,7 +200,7 @@ def user_reset(token=None):
   user_db = model.User.get_by('token', token)
   if not user_db:
     flask.flash('That link is either invalid or expired.', category='danger')
-    return flask.redirect(flask.url_for('welcome'))
+    return flask.redirect(flask.url_for('home'))
 
   if auth.is_logged_in():
     login.logout_user()
@@ -247,7 +247,7 @@ def user_activate(token):
   user_db = model.User.get_by('token', token)
   if not user_db:
     flask.flash('That link is either invalid or expired.', category='danger')
-    return flask.redirect(flask.url_for('welcome'))
+    return flask.redirect(flask.url_for('home'))
 
   form = UserActivateForm(obj=user_db)
   if form.validate_on_submit():
