@@ -1,9 +1,9 @@
 AV Website
 ==========
 
-A showcase website for a photographer.
+Showcase WebSite for a photographer.
 
-Forked from the gae-init-upload sandbox.
+Forked from the [gae-init-upload][] sandbox.
 
 Running the Development Environment
 -----------------------------------
@@ -83,6 +83,13 @@ Upstream Author
 
 [![Lipis flair on stackoverflow.com][lipisflair]][lipis]
 
+
+Author
+------
+
+<a href="http://stackoverflow.com/users/2406376/tiberiu-corbu"><img src="http://stackoverflow.com/users/flair/2406376.png" width="208" height="58" alt="profile for tiberiu.corbu at Stack Overflow, Q&amp;A for professional and enthusiast programmers" title="profile for tiberiu.corbu at Stack Overflow, Q&amp;A for professional and enthusiast programmers"></a>
+
+
 [bootstrap]: http://getbootstrap.com/
 [bower]: http://bower.io/
 [chris]: http://stackoverflow.com/users/226394/chris-top
@@ -123,10 +130,4 @@ Upstream Author
 [virtualenv]: http://www.virtualenv.org/
 [windows]: http://windows.microsoft.com/
 [xcash]: https://github.com/xcash
-
-
-Author
-------
-
-<a href="http://stackoverflow.com/users/2406376/tiberiu-corbu"><img src="http://stackoverflow.com/users/flair/2406376.png" width="208" height="58" alt="profile for tiberiu.corbu at Stack Overflow, Q&amp;A for professional and enthusiast programmers" title="profile for tiberiu.corbu at Stack Overflow, Q&amp;A for professional and enthusiast programmers"></a>
-
+[gae-init-upload]: https://github.com/gae-init/gae-init-upload.git
