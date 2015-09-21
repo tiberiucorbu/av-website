@@ -60,7 +60,7 @@ class Config(model.Base, model.ConfigAuth):
       'recaptcha_public_key': fields.String,
       'salt': fields.String,
       'verify_email': fields.Boolean,
-      'signup_enabled': fields.Boolean,
+      'signup_enabled': fields.Boolean
     }
 
   FIELDS.update(model.Base.FIELDS)

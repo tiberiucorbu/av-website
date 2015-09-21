@@ -9,6 +9,7 @@ from api import fields
 import model
 import util
 
+
 class Resource(model.Base):
   user_key = ndb.KeyProperty(kind=model.User, required=True)
   blob_key = ndb.BlobKeyProperty(required=True)

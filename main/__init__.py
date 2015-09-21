@@ -1,16 +1,13 @@
 # coding: utf-8
 """
-gae-init
+av-website
 ~~~~~~~~
 
-Google App Engine with Bootstrap, Flask and tons of other cool features.
+App deployable on GAE, configured and customised with Bootstrap, Flask.
 
-https://github.com/gae-init
-http://gae-init.appspot.com
-
-Copyright (c) 2012-2015 by Panayiotis Lipiridis.
+Copyright (c) 2015 by Tiberiu CORBU.
 License MIT, see LICENSE for more details.
 
 """
 
-__version__ = '3.2.1'
+__version__ = '3.3.0'

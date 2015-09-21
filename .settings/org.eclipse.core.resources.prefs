@@ -1,4 +1,7 @@
 eclipse.preferences.version=1
+encoding//main/__init__.py=utf-8
+encoding//main/api/v1/__init__.py=utf-8
+encoding//main/api/v1/user.py=utf-8
 encoding//main/auth/auth.py=utf-8
 encoding//main/auth/google.py=utf-8
 encoding//main/auth/instagram.py=utf-8
