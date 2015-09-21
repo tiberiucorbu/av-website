@@ -1,10 +1,10 @@
 {
-  "name": "gae-init",
-  "author": "Panayiotis Lipiridis <lipiridis@gmail.com>",
+  "name": "av-website",
+  "author": "Tiberiu CORBU <tiberiu.corbu@gmail.com>",
   "license": "MIT",
    "repository": {
     "type": "git",
-    "url": "https://github.com/gae-init"
+    "url": "https://github.com/tiberiucorbu/av-website"
   },
   "dependencies": {
     "coffee-script": "~1",
