@@ -18,23 +18,19 @@ import util
 
 from main import api_v1
 
-@api_v1.resource('/story/', endpoint='api.story.list')
-class StoryListAPI(restful.Resource):
+@api_v1.resource('/module-config/', endpoint='api.moduleconfig.list')
+class ModuleConfigAPI(restful.Resource):
   @auth.admin_required
   def get(self):
-    # parser = reqparse.RequestParser()
-    # parser.add_argument('order', type=str, help='Rate cannot be converted')
-    # parser.add_argument('limit', type=int)
-    # args = parser.parse_args()
-    story_keys = util.param('story_keys', list)
+    module_config_keys = util.param('module_config_keys', list)
 
-    if story_keys:
-      story_db_keys = [ndb.Key(urlsafe=k) for k in story_keys]
-      story_dbs = ndb.get_multi(story_db_keys)
-      return helpers.make_response(story_dbs, model.Story.FIELDS)
+    if module_config_keys:
+      module_config_db_keys = [ndb.Key(urlsafe=k) for k in module_config_keys]
+      module_config_dbs = ndb.get_multi(module_config_db_keys)
+      return helpers.make_response(module_config_dbs, model.ModuleConfig.FIELDS)
 
-    story_dbs, story_cursor = model.Story.get_dbs()
-    return helpers.make_response(story_dbs, model.Story.FIELDS, story_cursor)
+    module_config_dbs, cursor = model.ModuleConfig.get_dbs()
+    return helpers.make_response(module_config_dbs, model.ModuleConfig.FIELDS, cursor)
 
   @auth.admin_required
   def delete(self):
@@ -42,21 +38,21 @@ class StoryListAPI(restful.Resource):
     if not story_keys:
       helpers.make_not_found_exception('Story(s) %s not found' % story_keys)
     stoty_db_keys = [ndb.Key(urlsafe=k) for k in story_keys]
-    delete_story_dbs(stoty_db_keys)
+    delete_story_dbs(story_db_keys)
     return flask.jsonify({
         'result': story_keys,
         'status': 'success',
       })
 
 
-@api_v1.resource('/story/<string:story_key>/', endpoint='api.story')
+@api_v1.resource('/story/<string:story_key>/', endpoint='api.storyitem')
 class StoryAPI(restful.Resource):
   @auth.admin_required
-  def get(self, story_key):
-    story_db = ndb.Key(urlsafe=story_key).get()
-    if not story_db:
-      helpers.make_not_found_exception('Story %s not found' % story_key)
-    return helpers.make_response(story_db, model.Story.FIELDS)
+  def get(self, user_key):
+    user_db = ndb.Key(urlsafe=story_key).get()
+    if not user_db:
+      helpers.make_not_found_exception('Story %s not found' % user_key)
+    return helpers.make_response(user_db, model.Story.FIELDS)
 
   @auth.admin_required
   def delete(self, story_key):
