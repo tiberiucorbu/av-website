@@ -4,10 +4,9 @@ import flask
 
 import auth
 import config
+from main import app
 import model
 import util
-
-from main import app
 
 
 vk_config = dict(

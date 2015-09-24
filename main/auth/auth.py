@@ -2,24 +2,24 @@
 
 from __future__ import absolute_import
 
-import functools
-import re
-
+import flask
 from flask.ext import login
 from flask.ext import wtf
-from flask.ext.oauthlib import client as oauth
-from google.appengine.ext import ndb
-import flask
+import functools
+import re
 import unidecode
 import wtforms
 
+from google.appengine.ext import ndb
+
 import cache
 import config
+from flask.ext.oauthlib import client as oauth
+from main import app
 import model
 import task
 import util
 
-from main import app
 
 _signals = flask.signals.Namespace()
 

@@ -3,10 +3,9 @@
 import flask
 
 import auth
+from main import app
 import model
 import util
-
-from main import app
 
 
 instagram_config = dict(

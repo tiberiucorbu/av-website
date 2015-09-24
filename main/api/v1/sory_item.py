@@ -2,21 +2,21 @@
 
 from __future__ import absolute_import
 
+import flask
+from flask.ext import restful
+from flask_restful import reqparse
 import logging
 
-from flask.ext import restful
 from google.appengine.ext import blobstore
 from google.appengine.ext import deferred
 from google.appengine.ext import ndb
-import flask
-from flask_restful import reqparse
 
 from api import helpers
 import auth
+from main import api_v1
 import model
 import util
 
-from main import api_v1
 
 @api_v1.resource('/story-item/', endpoint='api.storyitem.list')
 class StoryItemListAPI(restful.Resource):

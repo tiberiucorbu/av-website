@@ -4,8 +4,8 @@ from .auth import *
 from .bitbucket import *
 from .dropbox import *
 from .facebook import *
-from .github import *
 from .gae import *
+from .github import *
 from .google import *
 from .instagram import *
 from .linkedin import *
@@ -14,3 +14,5 @@ from .reddit import *
 from .twitter import *
 from .vk import *
 from .yahoo import *
+
+

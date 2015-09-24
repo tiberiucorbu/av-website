@@ -7,9 +7,8 @@ from flask.ext import restful
 from api import helpers
 import auth
 import config
-import model
-
 from main import api_v1
+import model
 
 
 @api_v1.resource('/config/', endpoint='api.config')

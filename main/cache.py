@@ -1,7 +1,8 @@
 # coding: utf-8
 
-from google.appengine.api import memcache
 import flask
+
+from google.appengine.api import memcache
 
 import config
 

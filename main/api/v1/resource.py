@@ -2,20 +2,20 @@
 
 from __future__ import absolute_import
 
+import flask
 from flask.ext import restful
+import werkzeug
+
 from google.appengine.api import images
 from google.appengine.ext import blobstore
 from google.appengine.ext import ndb
-import flask
-import werkzeug
 
 from api import helpers
 import auth
 import config
+from main import api_v1
 import model
 import util
-
-from main import api_v1
 
 
 ###############################################################################

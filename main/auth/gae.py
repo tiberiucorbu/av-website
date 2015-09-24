@@ -2,14 +2,14 @@
 
 from __future__ import absolute_import
 
-from google.appengine.api import users
 import flask
 
+from google.appengine.api import users
+
 import auth
+from main import app
 import model
 import util
-
-from main import app
 
 
 @app.route('/signin/gae/')

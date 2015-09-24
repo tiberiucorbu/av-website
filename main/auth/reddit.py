@@ -1,17 +1,15 @@
 # coding: utf-8
 
 import base64
-
-from flask.ext.oauthlib import client
-from werkzeug import urls
 import flask
+from werkzeug import urls
 
 import auth
 import config
+from flask.ext.oauthlib import client
+from main import app
 import model
 import util
-
-from main import app
 
 
 reddit_config = dict(
