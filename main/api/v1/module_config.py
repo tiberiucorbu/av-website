@@ -22,7 +22,7 @@ import util
 class ModuleConfigListAPI(restful.Resource):
   @auth.admin_required
   def get(self):
-      
+
 
     module_config_keys = util.param('module_config_keys', list)
 
@@ -39,7 +39,6 @@ class ModuleConfigListAPI(restful.Resource):
     module_config_obj = util.param('module_config')
     if not module_config_obj:
       helpers.make_bad_request_exception(' `module_config` json parameter is expected to be found in request but was not found ')
-    module_config_db.
     return helpers.make_response(module_config_db, model.ModuleConfiguration.FIELDS)
   @auth.admin_required
   def delete(self):
