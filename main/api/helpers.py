@@ -65,3 +65,8 @@ def make_not_found_exception(description):
   exception = exceptions.NotFound()
   exception.description = description
   raise exception
+  
+def make_bad_request_exception(description):
+  exception = exceptions.BadRequest()
+  exception.description = description
+  raise exception

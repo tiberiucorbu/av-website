@@ -64,7 +64,7 @@ class StoryAPI(restful.Resource):
     if not story_db:
       helpers.make_not_found_exception('Story %s not found' % story_key)
     delete_story_task(story_db.key)
-    return helpers.make_response(user_db, model.Story.FIELDS)
+    return helpers.make_response(story_db, model.Story.FIELDS)
 
 
 ###############################################################################

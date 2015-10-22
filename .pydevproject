@@ -3,11 +3,10 @@
 <pydev_variables_property name="org.python.pydev.PROJECT_VARIABLE_SUBSTITUTION">
 <key>GOOGLE_APP_ENGINE</key>
 <value>/home/tiberiu/soft/google_appengine</value>
-<key>DJANGO_MANAGE_LOCATION</key>
-<value>manage.py</value>
 </pydev_variables_property>
 <pydev_pathproperty name="org.python.pydev.PROJECT_SOURCE_PATH">
 <path>/anabellaveress-website</path>
+<path>/${PROJECT_DIR_NAME}/main/lib</path>
 </pydev_pathproperty>
 <pydev_pathproperty name="org.python.pydev.PROJECT_EXTERNAL_SOURCE_PATH">
 <path>${GOOGLE_APP_ENGINE}</path>
