@@ -1,31 +1,36 @@
-<footer class="footer" role="contentinfo">
-	<div class="container">
-		<div class="row">
-			<div class="col-md-4">
-				<ul class="footer-links-list">
-					<li><a href="{{url_for('home')}}">Home</a></li>
-					
-					<li class="{{'active' if html_class.find('auth') != -1}}">
-				    <a href="{{url_for('signin')}}"><span class="fa fa-sign-in"></span> Sign in</a>
-				  </li>
-					
-				</ul>
-			</div>
-			<div class="col-md-4">
-				<ul class="footer-links-list">
-					<li>Home</li>
-				</ul>
-			</div>
-			<div class="col-md-4">
-				<div class="contact-wrapper">
-				  # include 'public/feedback/bit/feedback_form.html'
-				</div>
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-6 text-left">
+			&copy; Anabella
+	  </div>
+		<div class="col-md-6 text-right share-buttons-wrapper">
+			F T G
+	  </div>
+	</div>
+</div>
+<div class="container-fluid hidden">
+	<div class="row">
+		<div class="col-md-4">
+			<ul class="footer-links-list">
+				<li><a href="{{url_for('home')}}">Home</a></li>
+
+				<li class="{{'active' if html_class.find('auth') != -1}}">
+			    <a href="{{url_for('signin')}}"><span class="fa fa-sign-in"></span> Sign in</a>
+			  </li>
+
+			</ul>
+		</div>
+		<div class="col-md-4">
+			<ul class="footer-links-list">
+				<li>Home</li>
+			</ul>
+		</div>
+		<div class="col-md-4">
+			<div class="contact-wrapper">
+			  # include 'public/feedback/bit/feedback_form.html'
 			</div>
 		</div>
-		#include 'bit/current_version.html'
-		<p>&copy; 2015 - {{config.CONFIG_DB.brand_name}}</p>
 	</div>
-</footer>
-
-
-
+	#include 'bit/current_version.html'
+	<p>&copy; 2015 - {{config.CONFIG_DB.brand_name}}</p>
+</div>

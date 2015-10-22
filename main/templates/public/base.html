@@ -8,25 +8,31 @@
       # endblock
       {{config.CONFIG_DB.brand_name}}
     </title>
-    # include 'bit/style.html'
+    # include 'public/bit/style.html'
     # block head
     # endblock
-    
+
   </head>
 
   <body>
-    # include 'bit/announcement.html'
-    # block header
-      #include 'public/bit/header.html'
-    # endblock
-    <div class="container">
-      # include 'bit/notifications.html'
+    <div id="main-wrapper">
+
+      # include 'bit/announcement.html'
+      # block header
+        #include 'public/bit/header.html'
+      # endblock
+      <div class="container-fluid">
+        # include 'bit/notifications.html'
+      </div>
       # block content
       # endblock
+
+      <footer id="main-footer" class="footer" role="contentinfo">
+        # block footer
+          # include 'bit/footer.html'
+        # endblock
+      </footer>
     </div>
-    # block footer
-      # include 'bit/footer.html'
-    # endblock
     # include 'bit/script.html'
     # block scripts
     # endblock

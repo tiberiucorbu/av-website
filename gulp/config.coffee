@@ -1,6 +1,6 @@
 paths = require './paths'
 # Configuration for the front office scripts
-config = {} 
+config = {}
 
 config.fe =
   ext: [
@@ -16,7 +16,7 @@ config.fe =
 
   ]
   style: [
-    "#{paths.src.style}/style.less"
+    "#{paths.src.style}/public/style.less"
   ]
   script: [
     "#{paths.src.script}/**/*.coffee"
