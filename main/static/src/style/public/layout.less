@@ -1,0 +1,22 @@
+html, body {
+    height: 100%;
+}
+
+#main-wrapper {
+  margin-left: auto;
+  margin-right: auto;
+  position : relative;
+  max-width: @main-max-width;
+
+  min-height: 100%;
+  height: auto !important;
+  margin: 0px auto -@footer-collapsed-width;
+}
+
+#main-footer {
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
+  height: @footer-collapsed-width;
+  max-height: @footer-collapsed-width;
+}

@@ -38,7 +38,7 @@ config.be =
 
   ]
   style: [
-    "#{paths.src.style}/style.less"
+    "#{paths.src.style}/private/style.less"
   ]
   script: [
     "#{paths.src.script}/**/*.coffee"
