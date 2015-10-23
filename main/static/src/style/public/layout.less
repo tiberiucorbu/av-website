@@ -1,36 +1,24 @@
 html, body {
     height: 100%;
+    margin: 0;
 }
-
 .table-header {
     display: table-row;
 }
 
 .table-content {
-    display: table-row;  /* height is dynamic, and will expand... */
-    height: 100%;        /* ...as content is added (won't scroll) */
+    display: table-row;
+    height: 100%;
 
 }
 .table-footer {
     display: table-row;
 }
 
-
-html, body {
-    height: 100%;
-    margin: 0;
-}
-.wrapper {
-
-    background: yellow;  /* just to make sure nothing bleeds */
-}
-
-
 #main-wrapper {
   margin-left: auto;
   margin-right: auto;
   position: relative;
-  background: #00F none repeat scroll 0% 0%;
   display: table;
   height: 100%;
   width: 100%;
@@ -39,16 +27,13 @@ html, body {
 
 #page-content-wrapper {
   .table-content;
-   background : #F1F1F1;
    postion: relative;
 }
 
 #page-header-wrapper {
   .table-header;
-  background : #E1E1E1;
 }
 
 #page-footer-wrapper {
   .table-footer;
-  background : #E1E1E1;
 }
