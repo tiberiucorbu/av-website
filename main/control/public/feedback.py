@@ -40,9 +40,13 @@ def feedback():
     flask.flash('Thank you for your feedback!', category='success')
     return flask.redirect(flask.url_for('home'))
 
+
+  model = {
+    title : 'Feedback',
+    html_class : 'feedback',
+    feedback_form : feedback_form
+  }
   return flask.render_template(
       'public/feedback/feedback.html',
-      title='Feedback',
-      html_class='feedback',
-      feedback_form=feedback_form,
+       model = respone_model
     )

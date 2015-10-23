@@ -1,39 +1,5 @@
-<!DOCTYPE html>
-<html class="{% block html_class %}{{html_class}}{% endblock %}" lang="en">
-  <head>
-    # include 'bit/meta.html'
-    <title>
-      # block title
-        {{title + ' |' if title}}
-      # endblock
-      {{config.CONFIG_DB.brand_name}}
-    </title>
-    # include 'public/bit/style.html'
-    # block head
-    # endblock
-
-  </head>
-
-  <body class="{{pageStyleClass}}">
-    <div id="main-wrapper">
-    <header id="page-header-wrapper" class="header" role="contentinfo">
-      # block header
-        #include 'public/bit/header.html'
-      # endblock
-    </header>
-    <div id="page-content-wrapper">
-      # block content
-      # endblock
-    </div>
-    <footer id="page-footer-wrapper" class="footer" role="contentinfo">
-      # block footer
-        # include 'bit/footer.html'
-      # endblock
-    </footer>
-    </div>
-    # include 'bit/script.html'
-    # block scripts
-    # endblock
-    # include 'bit/analytics.html'
-  </body>
-</html>
+{% if model.view_reduced %}
+  # extends 'public/reduced.html'
+{% else %}
+  # extends 'public/full.html'
+{% endif %}

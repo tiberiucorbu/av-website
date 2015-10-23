@@ -95,3 +95,7 @@ class StoryUpdateForm(wtf.Form):
       'Meta Kewords', [wtforms.validators.optional()])
   meta_description = wtforms.StringField(
       'Meta Description', [wtforms.validators.optional()])
+  deprecated_category_id = wtforms.IntegerField(
+      'Old Category Id', [wtforms.validators.optional()])
+  deprecated_category_data = wtforms.StringField(
+      'Old Category Data', [wtforms.validators.optional()])

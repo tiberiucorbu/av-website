@@ -18,6 +18,9 @@ class Story(model.Base, model.VisibilityFlags, model.PageMeta):
     title = ndb.StringProperty(required=True)
     description = ndb.TextProperty(default='')
     tags = ndb.StringProperty(repeated=True)
+    deprecated_category_id = ndb.IntegerProperty(required=False)
+    deprecated_category_data = ndb.JsonProperty(required=False)
+
     """
         Circular reference here A story is a parent of a story item.
     """
@@ -26,14 +29,16 @@ class Story(model.Base, model.VisibilityFlags, model.PageMeta):
         Recursive reference, A story can be is a parent of another story.
     """
     child_stories = ndb.KeyProperty(kind='Story', repeated=True)
-    
-   
+
+
     # Exposed fields in the service api @see: api/v1/story.py
     # Must match the same name as the db table
     FIELDS = {
         'title': fields.String,
         'description': fields.String,
         'parent_story_key': fields.Integer,
+        'deprecated_category_id': fields.Integer,
+        'deprecated_category_data' : fields.String,
         'tags': fields.List(fields.String)
     }
 
