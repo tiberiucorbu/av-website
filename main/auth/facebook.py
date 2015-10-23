@@ -11,7 +11,7 @@ import util
 
 facebook_config = dict(
     access_token_url='/oauth/access_token',
-    authorize_url='https://www.facebook.com/dialog/oauth',
+    authorize_url='/oauth/authorize',
     base_url='https://graph.facebook.com/',
     consumer_key=config.CONFIG_DB.facebook_app_id,
     consumer_secret=config.CONFIG_DB.facebook_app_secret,
@@ -29,7 +29,7 @@ def facebook_authorized():
     return flask.redirect(util.get_next_url())
 
   flask.session['oauth_token'] = (response['access_token'], '')
-  me = facebook.get('/me')
+  me = facebook.get('/me?fields=name,email')
   user_db = retrieve_user_from_facebook(me.data)
   return auth.signin_user_db(user_db)
 
