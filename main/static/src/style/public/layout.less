@@ -2,21 +2,53 @@ html, body {
     height: 100%;
 }
 
+.table-header {
+    display: table-row;
+}
+
+.table-content {
+    display: table-row;  /* height is dynamic, and will expand... */
+    height: 100%;        /* ...as content is added (won't scroll) */
+
+}
+.table-footer {
+    display: table-row;
+}
+
+
+html, body {
+    height: 100%;
+    margin: 0;
+}
+.wrapper {
+
+    background: yellow;  /* just to make sure nothing bleeds */
+}
+
+
 #main-wrapper {
   margin-left: auto;
   margin-right: auto;
-  position : relative;
+  position: relative;
+  background: #00F none repeat scroll 0% 0%;
+  display: table;
+  height: 100%;
+  width: 100%;
   max-width: @main-max-width;
-
-  min-height: 100%;
-  height: auto !important;
-  margin: 0px auto -@footer-collapsed-width;
 }
 
-#main-footer {
-  position: absolute;
-  bottom: 0px;
-  width: 100%;
-  height: @footer-collapsed-width;
-  max-height: @footer-collapsed-width;
+#page-content-wrapper {
+  .table-content;
+   background : #F1F1F1;
+   postion: relative;
+}
+
+#page-header-wrapper {
+  .table-header;
+  background : #E1E1E1;
+}
+
+#page-footer-wrapper {
+  .table-footer;
+  background : #E1E1E1;
 }

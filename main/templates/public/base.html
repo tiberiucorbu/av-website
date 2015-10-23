@@ -14,24 +14,22 @@
 
   </head>
 
-  <body>
+  <body class="{{pageStyleClass}}">
     <div id="main-wrapper">
-
-      # include 'bit/announcement.html'
+    <header id="page-header-wrapper" class="header" role="contentinfo">
       # block header
         #include 'public/bit/header.html'
       # endblock
-      <div class="container-fluid">
-        # include 'bit/notifications.html'
-      </div>
+    </header>
+    <div id="page-content-wrapper">
       # block content
       # endblock
-
-      <footer id="main-footer" class="footer" role="contentinfo">
-        # block footer
-          # include 'bit/footer.html'
-        # endblock
-      </footer>
+    </div>
+    <footer id="page-footer-wrapper" class="footer" role="contentinfo">
+      # block footer
+        # include 'bit/footer.html'
+      # endblock
+    </footer>
     </div>
     # include 'bit/script.html'
     # block scripts
