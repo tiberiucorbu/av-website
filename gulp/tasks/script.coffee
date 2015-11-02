@@ -7,6 +7,8 @@ util = require '../util'
 
 gulp.task 'script', false, ->
   for key of config
+    if not config[key].script
+      continue
     gulp.src config[key].script
     .pipe $.plumber errorHandler: util.onError
     .pipe $.coffee()
@@ -18,6 +20,8 @@ gulp.task 'script', false, ->
 
 gulp.task 'script:dev', false, ->
   for key of config
+    if not config[key].script
+      continue
     gulp.src config[key].script
     .pipe $.plumber errorHandler: util.onError
     .pipe do $.sourcemaps.init

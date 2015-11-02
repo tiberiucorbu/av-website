@@ -8,7 +8,7 @@
     "nprogress": "https://github.com/lipis/nprogress.git#master",
     "eonasdan-bootstrap-datetimepicker": "~4.15.35",
     "angular": "1.4.6",
-    "nprogress": "https://github.com/lipis/nprogress.git#master"
+    "sortable": "https://github.com/RubaXa/Sortable.git#master"
   },
   "overrides": {
     "bootstrap": {

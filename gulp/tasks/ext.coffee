@@ -7,6 +7,8 @@ util = require '../util'
 
 gulp.task 'ext', false, ->
   for key of config
+    if not config[key].ext
+      continue
     gulp.src config[key].ext
     .pipe $.plumber errorHandler: util.onError
     .pipe $.concat key+'_ext.js'
@@ -17,6 +19,8 @@ gulp.task 'ext', false, ->
 
 gulp.task 'ext:dev', false, ->
   for key of config
+    if not config[key].ext
+      continue
     gulp.src config[key].ext
     .pipe $.plumber errorHandler: util.onError
     .pipe do $.sourcemaps.init
