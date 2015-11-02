@@ -1,0 +1,28 @@
+#extends 'admin/admin_base.html'
+#import 'macro/utils.html' as utils
+
+#block admin_content
+  <!-- Angular -->
+
+  # if config.DEVELOPMENT
+    <script src="/p/dev/script/admin_navbar_ext.js?{{config.CURRENT_VERSION_ID}}"></script>
+  # else
+    <script src="/p/min/script/admin_navbar_ext.js?{{config.CURRENT_VERSION_ID}}"></script>
+  # endif
+
+    <div id="#app-wrapper" ng-app="navbarBuilderApp" class="container" style="margin-top: 2em">
+      <div ng-controller="NavbarBuilderController as controller" >
+        <button ng-click="save()">Save</button>
+        <div ng-repeat="node in tree">
+          <div nav-item item="node" ></div>
+        </div>
+
+        <div nav-item-edit-form></div>
+      </div>
+    </div> <!-- #app-wrapper -->
+# endblock
+
+
+#block scripts
+
+#endblock

@@ -14,10 +14,49 @@ import control.public
 ###############################################################################
 @app.route('/')
 def home():
-  featured_stories = model.Story.query(model.Story.tags == "featured");
-  feedback_form = control.public.FeedbackForm(obj=auth.current_user_db())
-  return flask.render_template('public/home/home.html', html_class='home', feedback_form=feedback_form, featured_stories=featured_stories)
+  resp_model = {};
 
+  resp_model['html_class'] = 'home'
+  decoratePageResponseModel(resp_model)
+
+  featured_stories = model.Story.query(model.Story.tags == "featured");
+  resp_model['featured_stories'] = featured_stories
+  return flask.render_template('public/home/home.html', model=resp_model)
+
+
+@app.route('/category/<int:category_id>')
+def category(category_id):
+  # permanent redirection to the new story URL
+  #find story by category id
+  story = model.Story.get_by('deprecated_category_id', category_id);
+  redirect_url = None
+  if story :
+      redirect_url =flask.url_for('story', story_key=story.title)
+  else :
+      # TODO: flash a message here
+
+      redirect_url =flask.url_for('home')
+  return flask.redirect(redirect_url) # add 301 for permanent redirection
+
+
+@app.route('/story/<story_key>')
+def story(story_key):
+  # if key_is_id(story_key):
+  #     redirect_to_seo
+  #
+  # key_is_seo_token(story_key);
+  resp_model = {};
+  resp_model['html_class'] = 'about'
+  decoratePageResponseModel(resp_model)
+  return flask.render_template('public/about/about.html', model=resp_model)
+
+@app.route('/about')
+def about():
+  resp_model = {};
+
+  resp_model['html_class'] = 'about'
+  decoratePageResponseModel(resp_model)
+  return flask.render_template('public/about/about.html', model=resp_model)
 
 ###############################################################################
 # Sitemap stuff
@@ -39,3 +78,16 @@ def sitemap():
 def warmup():
   # TODO: put your warmup code here
   return 'success'
+
+
+def decoratePageResponseModel (resp_model) :
+    # Add feedbackform, present in the footer - needed for CXFR protection
+    feedback_form = control.public.FeedbackForm(obj=auth.current_user_db())
+    # Add layout switch param - this is the switcher for page render (full (default), reduced)
+    resp_model['feedback_form'] = feedback_form
+    view = util.param('v', str)
+
+    resp_model['view_reduced'] = False
+    if view == 'r':
+        print '######################################', view
+        resp_model['view_reduced'] = True

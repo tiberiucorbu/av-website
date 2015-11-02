@@ -3,4 +3,5 @@ from .admin_dashboard import *
 from .user import *
 from .admin_config import *
 from .resource import *
+from .navbar import *
 from .story import *

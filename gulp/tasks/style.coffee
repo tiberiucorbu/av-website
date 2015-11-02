@@ -7,6 +7,8 @@ util = require '../util'
 
 gulp.task 'style', false, ->
   for key of config
+    if not config[key].style
+      continue
     gulp.src config[key].style
     .pipe $.plumber errorHandler: util.onError
     .pipe do $.less
@@ -19,6 +21,8 @@ gulp.task 'style', false, ->
 
 gulp.task 'style:dev', false, ->
   for key of config
+    if not config[key].style
+      continue
     gulp.src config[key].style
     .pipe $.plumber errorHandler: util.onError
     .pipe do $.sourcemaps.init

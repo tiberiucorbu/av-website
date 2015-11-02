@@ -1,5 +1,4 @@
 # coding: utf-8
-
 import flask
 
 from google.appengine.api import memcache

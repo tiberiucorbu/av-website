@@ -17,7 +17,12 @@
         (form.meta_keywords, form.meta_description),
       )
   }}
-
+  {{
+    forms.panel_fields(
+        'Old Data',
+        (form.deprecated_category_id, form.deprecated_category_data),
+      )
+  }}
 </fieldset>
 </div>
 <div class="row">
@@ -38,4 +43,3 @@
 		</div>
 	</div>
 </div>
-

@@ -16,13 +16,14 @@ class ModuleConfig(model.Base):
     user_key = ndb.KeyProperty(kind=model.User, required=True)
     module_id = ndb.StringProperty(required=True)
     config = ndb.JsonProperty(required=True)
+    revision = ndb.IntegerProperty(default=0)
 
-   
     # Exposed fields in the service api @see: api/v1/module_config.py
     # Must match the same name as the db table
     FIELDS = {
         'module_id': fields.String,
-        'config': fields.String
+        'config': fields.String,
+        'revision' : fields.Integer
     }
 
     FIELDS.update(model.Base.FIELDS)
