@@ -1,3 +1,22 @@
+{% macro navbar_items(nodes, list_class_string) -%}
+  {% if nodes|count > 0 %}
+    <ul class="{{list_class_string}}">
+    {% for item in nodes %}
+      {% if item.nodes|count > 0 %}
+        <li>
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ item.label }}  <span class="caret"></span></a>
+          {{navbar_items(item.nodes, 'dropdown-menu')}}
+        </li>
+      {% else %}
+        <li>
+          <a href="#">{{ item.label }}</a>
+        </li>
+      {% endif %}
+    {% endfor %}
+    </ul>
+  {% endif %}
+{%- endmacro %}
+
 <div class="navbar" role="banner">
   <div class="container-fluid">
     <div class="navbar-header">
@@ -8,6 +27,13 @@
         <span class="icon-bar"></span>
       </button>
       <a class="navbar-brand" href="{{url_for('home')}}">{{config.CONFIG_DB.brand_name}}</a>
+
     </div>
-  </div>
+
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse">
+      {{navbar_items(model.navbar, 'nav navbar-nav navbar-right')}}
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
 </div>

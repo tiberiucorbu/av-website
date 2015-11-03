@@ -8,6 +8,7 @@ import config
 import model
 import util
 import control.public
+import json
 
 ###############################################################################
 # Welcome
@@ -17,7 +18,8 @@ def home():
   resp_model = {};
 
   resp_model['html_class'] = 'home'
-  decoratePageResponseModel(resp_model)
+
+  decorate_page_response_model(resp_model)
 
   featured_stories = model.Story.query(model.Story.tags == "featured");
   resp_model['featured_stories'] = featured_stories
@@ -47,7 +49,7 @@ def story(story_key):
   # key_is_seo_token(story_key);
   resp_model = {};
   resp_model['html_class'] = 'about'
-  decoratePageResponseModel(resp_model)
+  decorate_page_response_model(resp_model)
   return flask.render_template('public/about/about.html', model=resp_model)
 
 @app.route('/about')
@@ -55,7 +57,7 @@ def about():
   resp_model = {};
 
   resp_model['html_class'] = 'about'
-  decoratePageResponseModel(resp_model)
+  decorate_page_response_model(resp_model)
   return flask.render_template('public/about/about.html', model=resp_model)
 
 ###############################################################################
@@ -80,7 +82,13 @@ def warmup():
   return 'success'
 
 
-def decoratePageResponseModel (resp_model) :
+def decorate_page_response_model(resp_model) :
+    # Add navbar data
+    main_navbar_db = model.ModuleConfig.get_by('module_id', 'main-navbar')
+    if main_navbar_db is not None and main_navbar_db.config is not None:
+      main_navbar_data = json.loads(main_navbar_db.config)
+      resp_model['navbar'] = main_navbar_data
+
     # Add feedbackform, present in the footer - needed for CXFR protection
     feedback_form = control.public.FeedbackForm(obj=auth.current_user_db())
     # Add layout switch param - this is the switcher for page render (full (default), reduced)
@@ -89,5 +97,4 @@ def decoratePageResponseModel (resp_model) :
 
     resp_model['view_reduced'] = False
     if view == 'r':
-        print '######################################', view
         resp_model['view_reduced'] = True
