@@ -4,7 +4,8 @@
 
         }
     })
-    .value('navbarTreeModel', [{nodes: [], label: 'Left'}])
+
+    .value('navbarTreeModel', [{nodes: [], label: 'Main Navbar'}])
     .factory('modelFactory', ['$http', function ($http) {
       return {
           getJson: function () {
@@ -18,14 +19,11 @@
 
       modelFactory.getJson().then(
         function (res) {
-          var config = JSON.parse(res.data.result.config);
-          if (!$.isArray(config)){
-            config = [{nodes: [], id: 'left-side', label: 'Left Side'}, {nodes: [], id: 'center', label: 'Center'}, {nodes: [], id: 'right-side', label: 'Right Side'}]
-          }
-          angular.copy(config, navbarTreeModel);
+          var config = JSON.parse(res.data.result.config) || [];
+          angular.copy([{nodes: config, label: 'Main Navbar'}], navbarTreeModel);
         },
         function() {
-          alert('Fuck');
+
         }
       );
 
@@ -61,7 +59,7 @@
       };
 
       $scope.save = function () {
-        var copy = composeNavbarObj(navbarTreeModel);
+        var copy = composeNavbarObj(navbarTreeModel[0].nodes);
         // post copy
         var data = {'module_config': copy};
         var config = {};
