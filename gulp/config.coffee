@@ -7,6 +7,9 @@ config.admin_app =
     "#{paths.src.script}/admin/app.js"
     "#{paths.src.script}/admin/app/**/*.js"
   ]
+  html : [
+    "#{paths.src.html}/admin/**/*.html"
+  ]
 
 config.front =
   ext: [

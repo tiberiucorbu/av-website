@@ -1,23 +1,5 @@
 var app = window.app;
 
-app.controller('editStoryController', function($scope, storyDataFactory, generateDataFactory) {
-  $scope.item = {};
-
-  $scope.save = function() {
-    generateDataFactory.getJson().then(function(res) {
-      storyDataFactory.postJson({
-        title: $scope.title,
-        csrf_token: res.data.result.csrf_token
-      }).then(function(res) {
-        console.log(res);
-      }, function(res) {
-        console.log(res);
-      });
-    });
-  };
-
-});
-
 app.controller('storyListController', function($scope, storyDataFactory) {
 
   $scope.buffer = []
@@ -67,6 +49,24 @@ app.controller('storyListController', function($scope, storyDataFactory) {
 });
 
 
+app.controller('editStoryController', function($scope, storyDataFactory, generateDataFactory) {
+  $scope.item = {};
+
+  $scope.save = function() {
+    generateDataFactory.getJson().then(function(res) {
+      storyDataFactory.postJson({
+        title: $scope.title,
+        csrf_token: res.data.result.csrf_token
+      }).then(function(res) {
+        console.log(res);
+      }, function(res) {
+        console.log(res);
+      });
+    });
+  };
+
+});
+
 app.controller('ModalDemoCtrl', function ($scope, $uibModal, $log) {
 
   $scope.items = ['item1', 'item2', 'item3'];
@@ -77,9 +77,7 @@ app.controller('ModalDemoCtrl', function ($scope, $uibModal, $log) {
 
     var modalInstance = $uibModal.open({
       animation: $scope.animationsEnabled,
-      template: `
-
-      `,
+      template: '',
       controller: 'selectStoryModalInstanceCtrl',
       size: size,
       resolve: {
