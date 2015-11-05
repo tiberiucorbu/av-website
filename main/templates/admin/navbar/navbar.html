@@ -1,15 +1,16 @@
 #extends 'admin/admin_base.html'
 #import 'macro/utils.html' as utils
+
 #block admin_content
-  <div id="#app-wrapper" ng-app="navbarBuilderApp" class="container" style="margin-top: 2em">
+  <div id="#app-wrapper" ng-app="adminApp" class="container-fluid">
     <div class="row">
       <div class="col-md-12">
-        <div nav-preview tree=tree></div>
+        <div nav-preview tree="tree"></div>
       </div>
     </div>
     <div class="row">
       <div class="col-md-4">
-        <div ng-controller="NavbarBuilderController as controller">
+        <div ng-controller="navbarBuilderController as controller">
           <button ng-click="save()">Save</button>
           <div ng-repeat="node in tree">
             <div nav-item item="node"></div>
@@ -17,11 +18,81 @@
         </div>
       </div> <!-- .col-md-4 -->
       <div class="col-md-8">
-        <div nav-item-edit-form></div>
+        <div class="panel-group" role="tablist">
+
+          <div class="panel panel-default" ng-controller="storySelectController" >
+            <div class="panel-heading" role="tab" id="collapseItemEditFormHeading">
+              <h4 class="panel-title">
+                <a class="" role="button" data-toggle="collapse" href="#collapseItemEditForm" aria-expanded="true" aria-controls="collapseItemEditForm">
+                  Any url
+                </a>
+              </h4>
+            </div>
+
+            <div aria-expanded="true" id="collapseItemEditForm" class="panel-collapse collapse" role="tabpanel" aria-labelledby="collapseItemEditFormHeading">
+              <div nav-item-edit-form></div>
+            </div>
+          </div><!-- .panel -->
+
+          <div class="panel panel-default" ng-controller="storySelectController" >
+            <div class="panel-heading" role="tab" id="collapseStoriesListGroupHeading">
+              <h4 class="panel-title">
+                <a class="" role="button" data-toggle="collapse" href="#collapseStoriesListGroup" aria-expanded="true" aria-controls="collapseStoriesListGroup">
+                  Select a story
+                </a>
+              </h4>
+            </div>
+
+            <div aria-expanded="true" id="collapseStoriesListGroup" class="panel-collapse collapse" role="tabpanel" aria-labelledby="collapseStoriesListGroupHeading">
+
+              <div class="input-group" style="margin-bottom: 15px">
+                <input class="form-control" ng-model="search" ng-change="typed(search)">
+                <div class="input-group-btn">
+                  <button class='btn btn-primary fa fa-remove' ng-click="resetList()"></button>
+                </div>
+              </div>
+
+
+              <ul ng-sortable="{ group: {	name: 'navbar',	pull: 'clone',	put: false}, animation: 150 }" class="list-group" style="min-height: 200px; height: 200px; overflow-y: scroll" lazy-load>
+                <li class="list-group-item" ng-repeat="item in buffer">
+                  <span list-item item="item"></span>
+                  <!-- button class="btn btn-xs pull-right" ng-click="press(item)">Press me</button -->
+                </li>
+              </ul>
+
+            </div>
+          </div><!-- .panel -->
+
+          <div class="panel panel-default"  >
+            <div class="panel-heading" role="tab" id="collapsePagesListGroupHeading">
+              <h4 class="panel-title">
+                <a class="" role="button" data-toggle="collapse" href="#collapsePagesListGroup" aria-expanded="true" aria-controls="collapsePagesListGroup">
+                  Other pages
+                </a>
+              </h4>
+            </div>
+
+            <div aria-expanded="true" id="collapsePagesListGroup" class="panel-collapse collapse" role="tabpanel" aria-labelledby="collapsePagesListGroupHeading">
+
+              <ul ng-sortable="{ group: {	name: 'navbar',	pull: 'clone',	put: false}, animation: 150 }" class="list-group">
+                <li class="list-group-item">
+                  <span list-item item="{title: 'Home Page'}">Home</span>
+                </li>
+                <li class="list-group-item">
+                  <span list-item item="{title: 'About Page'}">About Page</span>
+                </li>
+              </ul>
+
+            </div>
+          </div><!-- .panel -->
+
+        </div>
+      </div> <!-- .panel-group -->
       </div> <!-- .col-md-8 -->
     </div> <!-- .row -->
   </div> <!-- #app-wrapper -->
 # endblock
+
 #block scripts
   # if config.DEVELOPMENT
     <script src="/p/dev/script/admin_navbar_ext.js?{{config.CURRENT_VERSION_ID}}"></script>

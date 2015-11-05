@@ -1,135 +1,138 @@
-  angular.module('navbarBuilderApp', ['ng-sortable'])
-    .constant('ngSortableConfig', {
-      onEnd: function() {
+var app = window.app || angular.module('adminApp', ['ng-sortable']);
 
+app.constant('ngSortableConfig', {
+  onEnd: function() {
+
+  }
+});
+
+app.value('navbarTreeModel', [{
+    nodes: [],
+    label: 'Main Navbar'
+  }])
+  .factory('navbarSelectedItem', function() {
+    return {};
+  })
+  .factory('mainNavbarDataService', ['$http', function($http) {
+    return {
+      getJson: function() {
+        return $http.get('/api/v1/module-config/main-navbar/');
+      },
+      postJson: function(data) {
+        return $http.post('/api/v1/module-config/main-navbar/', data);
       }
-    })
+    };
+  }]);
 
-  .value('navbarTreeModel', [{
-      nodes: [],
-      label: 'Main Navbar'
-    }])
-    .factory('navbarSelectedItem', function() {
-      return {};
-    })
-    .factory('mainNavbarDataService', ['$http', function($http) {
-      return {
-        getJson: function() {
-          return $http.get('/api/v1/module-config/main-navbar/');
-        },
-        postJson : function(data){
-          return $http.post('/api/v1/module-config/main-navbar/', data);
-        }
-      };
-    }])
-    .controller('NavbarBuilderController', ['$scope', '$http', 'mainNavbarDataService', 'navbarTreeModel', 'navbarSelectedItem', function($scope, $http, treeModelFactory, navbarTreeModel, navbarSelectedItem) {
+app.controller('navbarBuilderController', ['$scope', '$http', 'mainNavbarDataService', 'navbarTreeModel', 'navbarSelectedItem', function($scope, $http, treeModelFactory, navbarTreeModel, navbarSelectedItem) {
 
-      $scope.tree = navbarTreeModel;
-      $scope.selectedItem = navbarSelectedItem;
+  $scope.tree = navbarTreeModel;
+  $scope.selectedItem = navbarSelectedItem;
 
-      treeModelFactory.getJson().then(
-        function(res) {
-          var config = JSON.parse(res.data.result.config) || [];
-          angular.copy([{
-            nodes: config,
-            label: 'Main Navbar'
-          }], navbarTreeModel);
-        },
-        function() {
+  treeModelFactory.getJson().then(
+    function(res) {
+      var config = JSON.parse(res.data.result.config) || [];
+      angular.copy([{
+        nodes: config,
+        label: 'Main Navbar'
+      }], navbarTreeModel);
+    },
+    function() {
 
-        }
-      );
+    }
+  );
 
-      var mapRecoursive = function(model, copyObject) {
-        copyObject.label = model.label;
-        if (model.nodes !== null && $.isArray(model.nodes)) {
-          copyObject.nodes = [];
-          for (var i = 0; i < model.nodes.length; i++) {
-            var node = {
-              id: model.nodes[i].id
-            };
-            copyObject.nodes.push(node);
-            mapRecoursive(model.nodes[i], copyObject.nodes[i]);
+  var mapRecoursive = function(model, copyObject) {
+    copyObject.label = model.label;
+    if (model.nodes !== null && $.isArray(model.nodes)) {
+      copyObject.nodes = [];
+      for (var i = 0; i < model.nodes.length; i++) {
+        var node = {
+          id: model.nodes[i].id
+        };
+        copyObject.nodes.push(node);
+        mapRecoursive(model.nodes[i], copyObject.nodes[i]);
+      }
+    }
+  };
+
+  var composeNavbarObj = function(model) {
+    var copyObject = [];
+    for (var i = 0; i < model.length; i++) {
+      copyObject[i] = {};
+      mapRecoursive(model[i], copyObject[i]);
+    }
+    return copyObject;
+  };
+
+  var successCallback = function(res) {
+    console.log(res);
+    //$scope.navbarTree = JSON.parse(response.data.result.config);
+  };
+
+  var errorCallback = function(res) {
+    console.log(res);
+
+  };
+
+  $scope.save = function() {
+    var copy = composeNavbarObj(navbarTreeModel[0].nodes);
+    // post copy
+    var data = {
+      'module_config': copy
+    };
+
+    treeModelFactory.postJson(data).then(successCallback, errorCallback);
+  };
+
+
+  $scope.delete = function(data) {
+    data.nodes = [];
+  };
+  $scope.add = function(data) {
+    var post = data.nodes.length + 1;
+    var newName = data.name + '-' + post;
+    var item = {
+      name: newName,
+      nodes: []
+    };
+    data.nodes.push(item);
+    navbarSelectedItem.item = item;
+  };
+
+}]);
+
+app.directive('navItemEditForm', function($timeout, navbarSelectedItem) {
+  return {
+    link: function(scope, elm, attr) {
+      var previousValue;
+      scope.selectedItem = navbarSelectedItem;
+      scope.$watch(function() {
+        return scope.selectedItem.item;
+      }, function(oldValue, newValue) {
+        scope.focusAndSelectFirst();
+      });
+      scope.focusAndSelectFirst = function() {
+        $timeout(function() {
+          var input = elm.find('input')[0];
+          input.focus();
+          if (input.select) {
+            input.select();
+          } else if (input.setSelectionRange) {
+            input.setSelectionRange(0, input.value.lenght);
           }
-        }
-      }
-
-      var composeNavbarObj = function(model) {
-        var copyObject = [];
-        for (var i = 0; i < model.length; i++) {
-          copyObject[i] = {};
-          mapRecoursive(model[i], copyObject[i]);
-        }
-        return copyObject;
+        }, 0, false);
       };
 
-      var successCallback = function(res) {
-        console.log(res);
-        //$scope.navbarTree = JSON.parse(response.data.result.config);
-      };
-
-      var errorCallback = function(res) {
-        console.log(res);
-
-      };
-
-      $scope.save = function() {
-        var copy = composeNavbarObj(navbarTreeModel[0].nodes);
-        // post copy
-        var data = {
-          'module_config': copy
-        };
-
-        treeModelFactory.postJson(data).then(successCallback, errorCallback);
+      scope.cancel = function() {
+        console.log('esc', scope.selectedItem)
+        scope.selectedItem.item = {};
       };
 
 
-      $scope.delete = function(data) {
-        data.nodes = [];
-      };
-      $scope.add = function(data) {
-        var post = data.nodes.length + 1;
-        var newName = data.name + '-' + post;
-        var item = {
-          name: newName,
-          nodes: []
-        };
-        data.nodes.push(item);
-        navbarSelectedItem.item = item;
-      };
-
-    }])
-
-  .directive('navItemEditForm', function($timeout, navbarSelectedItem) {
-      return {
-        link: function(scope, elm, attr) {
-          var previousValue;
-          scope.selectedItem = navbarSelectedItem;
-          scope.$watch(function(){
-            return scope.selectedItem.item;
-          }, function(oldValue, newValue){
-            scope.focusAndSelectFirst();
-          });
-          scope.focusAndSelectFirst = function() {
-            $timeout(function() {
-              var input = elm.find('input')[0];
-              input.focus();
-              if (input.select){
-                input.select();
-              } else if (input.setSelectionRange) {
-                input.setSelectionRange(0, input.value.lenght);
-              }
-            }, 0, false);
-          };
-
-          scope.cancel = function() {
-            console.log('esc', scope.selectedItem)
-            scope.selectedItem.item = {};
-          };
-
-
-        },
-        template: `
+    },
+    replace: false,
+    template: `
       <div ng-show="selectedItem.item">
         <div class="form-group">
           <label>Label</label>
@@ -144,152 +147,178 @@
         <div story-selector></div>
       </div>
       `
-      };
-    })
-    .directive('navGroup', function() {
-      return {
-        restrict: "E",
-        replace: true,
-        scope: {
-          nodes: '=nodes'
-        },
-        template: `
+  };
+});
+app.directive('navGroup', function() {
+  return {
+    restrict: "E",
+    replace: true,
+    scope: {
+      nodes: '=nodes'
+    },
+    template: `
         <div class="group" >
-          <ul ng-sortable="{ group: 'todo', animation: 150 }" style="min-height: 30px">
-            <li nav-item item="node" index="$index" ng-repeat="node in nodes" on-remove="nodes.splice($index,1)" />
+          <ul class="list-group" ng-sortable="{ group: 'navbar', animation: 150 }" style="min-height: 30px">
+            <li class="list-group-item" nav-item item="node" index="$index" ng-repeat="node in nodes" on-remove="nodes.splice($index,1)" />
           </ul>
         </div>
         `,
-        link: function(scope, element, attrs) {
+    link: function(scope, element, attrs) {
 
-        }
-      }
-    })
+    }
+  }
+});
 
-  .directive('navItem', function($compile, navbarSelectedItem) {
-    return {
-      restrict: 'EA',
-      scope: {
-        item: '=item',
-        onRemove: '&'
-      },
-      replace: false,
-      template: `
-          <div ng-class="{'selected': isSelected(item)}">
-            <span class="drag-handle" style="cursor: grab">☰</span>
-            <span ng-click="onSelect(item)" class="Label">{{item.label}}</span>
-            <div>
-              <button class="remove" ng-click="onRemove()">Remove</button>
-              <button class="addChild" ng-click="onNewChildNode(item, $event)">Add Child</button>
+app.directive('navItem', function($compile, navbarSelectedItem) {
+  return {
+    restrict: 'EA',
+    scope: {
+      item: '=item',
+      onRemove: '&'
+    },
+    replace: false,
+    template: `
+          <div ng-class="{'selected': isSelected(item)}" ng-click="onSelect(item)">
+
+            <span class="drag-handle fa fa-th" style="cursor: grab"></span>
+            <span>{{item.label}}</span>
+            <div class="pull-right">
+              <div class="btn-group">
+                <button class="btn btn-xs remove fa fa-minus" title="remove this node" alt="remove this node" ng-click="onRemove()"></button>
+                <button class="btn btn-xs addChild fa fa-plus" title="add a new child node" alt="add a new child node"  ng-click="onNewChildNode(item, $event)"></button>
+              </div>
             </div>
           </div>
         `,
-      link: function(scope, element, attrs) {
-        scope.onSelect = function(item) {
+    link: function(scope, element, attrs) {
+      scope.onSelect = function(item) {
 
-          var resource = navbarSelectedItem;
-          resource.item = item;
-          console.log('From navitem : ', navbarSelectedItem);
-        };
-        scope.isSelected = function() {
-          return scope.item === navbarSelectedItem.item;
+        var resource = navbarSelectedItem;
+        resource.item = item;
+        console.log('From navitem : ', navbarSelectedItem);
+      };
+      scope.isSelected = function() {
+        return scope.item === navbarSelectedItem.item;
 
-        };
-        scope.onNewChildNode = function(item, $event) {
-          if (!angular.isArray(item.nodes)) {
-            item.nodes = [];
-          }
-          if (element[0].querySelectorAll('.group').length === 0) {
-            var newGroupEl = angular.element("<nav-group nodes='item.nodes'/>");
-            element.append(newGroupEl);
-            $compile(newGroupEl)(scope);
-          }
-          item.nodes.push({
-            label: 'new item'
-          });
-          return false;
-        };
-        if (angular.isArray(scope.item.nodes) && scope.item.nodes.length > 0) {
+      };
+      scope.onNewChildNode = function(item, $event) {
+        if (!angular.isArray(item.nodes)) {
+          item.nodes = [];
+        }
+        if (element[0].querySelectorAll('.group').length === 0) {
           var newGroupEl = angular.element("<nav-group nodes='item.nodes'/>");
           element.append(newGroupEl);
-          $compile(newGroupEl)(scope)
+          $compile(newGroupEl)(scope);
         }
+        item.nodes.push({
+          label: 'new item'
+        });
+        return false;
+      };
+      if (angular.isArray(scope.item.nodes) && scope.item.nodes.length > 0) {
+        var newGroupEl = angular.element("<nav-group nodes='item.nodes'/>");
+        element.append(newGroupEl);
+        $compile(newGroupEl)(scope)
       }
-    };
-  }).directive('navPreview', function($timeout, navbarSelectedItem) {
-    return {
-      scope: {
-        tree : '='
-      },
-      link: function(scope, elm, attr) {
+    }
+  };
+});
+app.directive('navPreview', function($timeout, navbarSelectedItem) {
+  return {
+    scope: {
+      tree: '='
+    },
+    link: function(scope, elm, attr) {
 
-      },
-      template: `
+    },
+    template: `
       <div>
         I am legion
       </div>
       `
-    };
-  });
+  };
+});
 
 
-app.factory('StoryDataFactory', function() {
+app.factory('storyDataFactory', function($http) {
+  var url = '/api/v1/story/';
+  var defaultParams = {
+    limit: 15
+  };
   return {
-    getData: function() {
-      var letters = []
-      for (var i = 1; i < 2001; i++) {
-        letters.push({
-          name: 'Item' +  i.toString()
-        })
+    getJson: function(params) {
+      var params = params || this.getDefaultParams();
+      return $http({
+        url: url,
+        method: "GET",
+        params: params
+      });
+    },
+    getDefaultParams: function() {
+      var result = {};
+      angular.copy(defaultParams, result);
+      return result;
+    },
+    updateNextPageParams: function(params, res) {
+      if (res.data && res.data.next_cursor){
+        params.cursor = res.data.next_cursor;
       }
-      return letters
+      if (res.data.result.length < params.limit && !res.data.next_cursor) {
+        // if the resulted pagesize is smaller than the assign limit it means
+        // that there are no more items
+        params.loadedAll = true;
+      }
     }
   }
 })
 
-app.controller('StorySelectController', function($scope, filterFilter, StoryDataFactory) {
+app.controller('storySelectController', function($scope, filterFilter, storyDataFactory) {
 
-  var data = DataFactory.getData()
+  $scope.buffer = []
+  var params = storyDataFactory.getDefaultParams();
 
-  var ind = 0
-
-
-  $scope.buffer = angular.copy(data)
-  $scope.cachedLetters = data.slice(0, 10)
-
- $scope.typed = function(searchText){
-   $scope.buffer = filterFilter(data, searchText)
- }
-
- $scope.$watch('buffer', function(){
-   console.log('data changed')
-   ind = 0
-   $scope.cachedLetters = $scope.buffer.slice(0, 10)
- })
-
-  $scope.resetList = function() {
-    ind = 0
-    $scope.cachedLetters = $scope.letters.slice(0, 10)
-
-  }
-
-  $scope.loadMore = function() {
-    ind = ind + 10
-    var r = 10
-    if (ind + 10 >= $scope.buffer.length) {
-      r = $scope.buffer.length - ind
+  var loadPage = function() {
+    if (params.loadedAll){
+      return;
     }
-    console.log("Loading")
-    $scope.cachedLetters = $scope.cachedLetters.concat($scope.buffer.slice(ind, r + ind))
-  }
+
+    storyDataFactory.getJson(params).then(function(res) {
+      // Success
+      storyDataFactory.updateNextPageParams(params, res);
+      var result = res.data.result;
+      for (var i=0; i<result.length; i++){
+        $scope.buffer.push(result[i]);
+      }
+      storyDataFactory.updateNextPageParams(params, res);
+
+      console.log(params, $scope.buffer, res);
+    }, function(res) {
+      // Error
+    });
+  };
+
+  var reset = function(){
+    // clear the buffer
+    $scope.buffer = [];
+    params = storyDataFactory.getDefaultParams();
+  };
+
+  $scope.loadPage = loadPage;
+
+  $scope.typed = function(searchText) {
+    reset();
+    params.search = searchText;
+    loadPage();
+  };
 
   $scope.press = function(item) {
     $scope.selectedItem = item
-    console.log(item.name)
+  };
 
-  }
+  // load first page initialy
+  loadPage();
 
-})
+});
 
 app.directive('lazyLoad', function() {
   return {
@@ -298,9 +327,29 @@ app.directive('lazyLoad', function() {
       var scroller = elem[0]
       $(scroller).bind('scroll', function() {
         if (scroller.scrollTop + scroller.offsetHeight >= scroller.scrollHeight) {
-          scope.$apply('loadMore()')
+          scope.$apply('loadPage()')
         }
       })
     }
   }
-})
+});
+
+app.directive('listItem', function($compile, navbarSelectedItem) {
+  return {
+    restrict: 'EA',
+    scope: {
+      item: '=item',
+      onRemove: '&'
+    },
+    replace: false,
+    template: `
+          <span ng-class="{'selected': isSelected(item)}">
+            <span class="drag-handle fa fa-th" style="cursor: grab"></span>
+            <span ng-click="onSelect(item)">{{item.title}}</span>
+          </span>
+        `,
+    link: function(scope, element, attrs) {
+
+    }
+  };
+});
