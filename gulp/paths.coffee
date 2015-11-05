@@ -28,6 +28,7 @@ paths.static.min = "#{paths.static.root}/min"
 paths.src.root = "#{paths.static.root}/src"
 paths.src.script = "#{paths.src.root}/script"
 paths.src.style = "#{paths.src.root}/style"
+paths.src.html = "#{paths.src.root}/html"
 
 
 module.exports = paths

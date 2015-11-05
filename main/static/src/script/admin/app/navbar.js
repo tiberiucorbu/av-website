@@ -126,21 +126,7 @@ app.directive('navItemEditForm', function($timeout, navbarSelectedItem) {
 
     },
     replace: false,
-    template: `
-      <div ng-show="selectedItem.item">
-        <div class="form-group">
-          <label>Label</label>
-          <input type="text" ui-keydown="{esc: 'cancel($event)'}" ng-model="selectedItem.item.label">
-        </div>
-        <div class="form-group">
-          <label>link</label>
-          <input type="text" ui-keydown="{esc: 'cancel($event)'}" ng-model="selectedItem.item.href">
-        </div>
-        <!--  Or select a default page -->
-        <hr />
-        <div story-selector></div>
-      </div>
-      `
+    templateUrl: '/p/html/admin_app/nav_item_edit_form.html'
   };
 });
 app.directive('navGroup', function() {
@@ -150,13 +136,7 @@ app.directive('navGroup', function() {
     scope: {
       nodes: '=nodes'
     },
-    template: `
-        <div class="group" >
-          <ul class="list-group" ng-sortable="{ group: 'navbar', animation: 150 }" style="min-height: 30px">
-            <li class="list-group-item" nav-item item="node" index="$index" ng-repeat="node in nodes" on-remove="nodes.splice($index,1)" />
-          </ul>
-        </div>
-        `,
+    templateUrl: '/p/html/admin_app/nav_group.html',
     link: function(scope, element, attrs) {
 
     }
@@ -171,19 +151,7 @@ app.directive('navItem', function($compile, navbarSelectedItem) {
       onRemove: '&'
     },
     replace: false,
-    template: `
-          <div ng-class="{'selected': isSelected(item)}" ng-click="onSelect(item)">
-
-            <span class="drag-handle fa fa-th" style="cursor: grab"></span>
-            <span>{{item.label}}</span>
-            <div class="pull-right">
-              <div class="btn-group">
-                <button class="btn btn-xs remove fa fa-minus" title="remove this node" alt="remove this node" ng-click="onRemove()"></button>
-                <button class="btn btn-xs addChild fa fa-plus" title="add a new child node" alt="add a new child node"  ng-click="onNewChildNode(item, $event)"></button>
-              </div>
-            </div>
-          </div>
-        `,
+    templateUrl: '/p/html/admin_app/nav_item.html',
     link: function(scope, element, attrs) {
       scope.onSelect = function(item) {
 
@@ -225,11 +193,7 @@ app.directive('navPreview', function($timeout, navbarSelectedItem) {
     link: function(scope, elm, attr) {
 
     },
-    template: `
-      <div>
-        I am legion
-      </div>
-      `
+    templateUrl: '/p/html/admin_app/nav_preview.html'
   };
 });
 
@@ -303,12 +267,7 @@ app.directive('listItem', function($compile, navbarSelectedItem) {
       onRemove: '&'
     },
     replace: false,
-    template: `
-          <span ng-class="{'selected': isSelected(item)}">
-            <span class="drag-handle fa fa-th" style="cursor: grab"></span>
-            <span ng-click="onSelect(item)">{{item.title}}</span>
-          </span>
-        `,
+    templateUrl: '/p/html/admin_app/list_item.html' ,
     link: function(scope, element, attrs) {
 
     }

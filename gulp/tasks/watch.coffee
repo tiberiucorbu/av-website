@@ -24,3 +24,4 @@ gulp.task 'watch', false, ->
   gulp.watch "#{paths.src.script}/**/*.js", ['ext:dev']
   gulp.watch "#{paths.src.script}/**/*.coffee", ['script:dev']
   gulp.watch "#{paths.src.style}/**/*.less", ['style:dev']
+  gulp.watch "#{paths.src.html}/**/*.html", ['html:dev']
