@@ -10,6 +10,7 @@ import util
 
 
 class Api(restful.Api):
+
   def unauthorized(self, response):
     flask.abort(401)
 
@@ -24,14 +25,29 @@ def handle_error(e):
   except AttributeError:
     e.code = 500
     e.name = e.description = 'Internal Server Error'
-  return util.jsonpify({
+  result = {
       'status': 'error',
       'error_code': e.code,
       'error_name': util.slugify(e.name),
       'error_message': e.name,
       'error_class': e.__class__.__name__,
       'description': e.description,
-    }), e.code
+      'data': None,
+      'validations': None
+  }
+  if hasattr(e, 'data'):
+    result['data'] = e.data
+  if hasattr(e, 'validations'):
+    result['validations'] = e.validations
+  return util.jsonpify(result), e.code
+
+
+def make_invalid_form_response(data=[], validations=[]):
+  exception = exceptions.BadRequest()
+  print validations
+  exception.data = data
+  exception.validations = validations
+  raise exception
 
 
 def make_response(data, marshal_table, cursors=None):
@@ -41,7 +57,7 @@ def make_response(data, marshal_table, cursors=None):
         'count': len(data),
         'now': datetime.utcnow().isoformat(),
         'result': map(lambda l: restful.marshal(l, marshal_table), data),
-      }
+    }
     if cursors:
       if isinstance(cursors, dict):
         if cursors.get('next'):
@@ -58,14 +74,23 @@ def make_response(data, marshal_table, cursors=None):
       'status': 'success',
       'now': datetime.utcnow().isoformat(),
       'result': restful.marshal(data, marshal_table),
-    })
+  })
+
+
+def make_object_response(obj):
+  return util.jsonpify({
+      'status': 'success',
+      'now': datetime.utcnow().isoformat(),
+      'result': obj
+  })
 
 
 def make_not_found_exception(description):
   exception = exceptions.NotFound()
   exception.description = description
   raise exception
-  
+
+
 def make_bad_request_exception(description):
   exception = exceptions.BadRequest()
   exception.description = description

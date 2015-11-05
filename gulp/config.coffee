@@ -2,9 +2,10 @@ paths = require './paths'
 # Configuration for the front office scripts
 config = {}
 
-config.admin_navbar =
+config.admin_app =
   ext: [
-    "#{paths.src.script}/admin/navbar/**/*.js"
+    "#{paths.src.script}/admin/app.js"
+    "#{paths.src.script}/admin/app/**/*.js"
   ]
 
 config.front =
@@ -41,6 +42,10 @@ config.admin =
     "#{paths.static.ext}/angular/angular.js"
     "#{paths.static.ext}/sortable/Sortable.js"
     "#{paths.static.ext}/sortable/ng-sortable.js"
+    "#{paths.static.ext}/marked/lib/marked.js"
+    "#{paths.static.ext}/angular-marked/angular-marked.js"
+    "#{paths.static.ext}/angular-bootstrap/ui-bootstrap-tpls.js"
+
   ]
   style: [
     "#{paths.src.style}/private/style.less"
