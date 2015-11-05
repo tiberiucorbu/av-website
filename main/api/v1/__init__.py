@@ -5,5 +5,4 @@ from .module_config import *
 from .resource import *
 from .story import *
 from .user import *
-
-
+from .generate import *

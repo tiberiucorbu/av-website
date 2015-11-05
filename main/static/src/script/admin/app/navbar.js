@@ -1,10 +1,4 @@
-var app = window.app || angular.module('adminApp', ['ng-sortable']);
-
-app.constant('ngSortableConfig', {
-  onEnd: function() {
-
-  }
-});
+var app = window.app;
 
 app.value('navbarTreeModel', [{
     nodes: [],
@@ -238,39 +232,6 @@ app.directive('navPreview', function($timeout, navbarSelectedItem) {
       `
   };
 });
-
-
-app.factory('storyDataFactory', function($http) {
-  var url = '/api/v1/story/';
-  var defaultParams = {
-    limit: 15
-  };
-  return {
-    getJson: function(params) {
-      var params = params || this.getDefaultParams();
-      return $http({
-        url: url,
-        method: "GET",
-        params: params
-      });
-    },
-    getDefaultParams: function() {
-      var result = {};
-      angular.copy(defaultParams, result);
-      return result;
-    },
-    updateNextPageParams: function(params, res) {
-      if (res.data && res.data.next_cursor){
-        params.cursor = res.data.next_cursor;
-      }
-      if (res.data.result.length < params.limit && !res.data.next_cursor) {
-        // if the resulted pagesize is smaller than the assign limit it means
-        // that there are no more items
-        params.loadedAll = true;
-      }
-    }
-  }
-})
 
 app.controller('storySelectController', function($scope, filterFilter, storyDataFactory) {
 

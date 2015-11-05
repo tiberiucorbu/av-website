@@ -2,13 +2,15 @@
   "name": "gae-init",
   "dependencies": {
     "bootstrap": "~3",
+    "angular-bootstrap": "~0.14",
     "font-awesome": "~4",
     "jquery": "~2",
     "moment": "~2",
     "nprogress": "https://github.com/lipis/nprogress.git#master",
     "eonasdan-bootstrap-datetimepicker": "~4.15.35",
     "angular": "1.4.6",
-    "sortable": "https://github.com/RubaXa/Sortable.git#master"
+    "sortable": "https://github.com/RubaXa/Sortable.git#master",
+    "angular-marked": "https://github.com/Hypercubed/angular-marked.git#master"
   },
   "overrides": {
     "bootstrap": {

@@ -13,7 +13,7 @@ from main import app
 
 
 ###############################################################################
-# Admin Stuff
+# Admin route for navbar
 ###############################################################################
 @app.route('/admin/navbar')
 @auth.admin_required
