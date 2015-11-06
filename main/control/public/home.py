@@ -9,6 +9,7 @@ import model
 import util
 import control.public
 import json
+from google.appengine.ext import ndb
 
 ###############################################################################
 # Welcome
@@ -37,20 +38,20 @@ def category(category_id):
   else :
       # TODO: flash a message here
 
-      redirect_url =flask.url_for('home')
+      redirect_url = flask.url_for('home')
   return flask.redirect(redirect_url) # add 301 for permanent redirection
 
 
 @app.route('/story/<story_key>')
 def story(story_key):
-  # if key_is_id(story_key):
-  #     redirect_to_seo
-  #
-  # key_is_seo_token(story_key);
+  story_db = get_story_db(story_key);
+  if story_db is None:
+    flask.redirect(flask.url_for('home'))
   resp_model = {};
-  resp_model['html_class'] = 'about'
+  resp_model['html_class'] = 'story'
   decorate_page_response_model(resp_model)
-  return flask.render_template('public/about/about.html', model=resp_model)
+  decorate_story_page_model(resp_model, story_db);
+  return flask.render_template('public/story/story.html', model=resp_model)
 
 @app.route('/about')
 def about():
@@ -78,9 +79,18 @@ def sitemap():
 ###############################################################################
 @app.route('/_ah/warmup')
 def warmup():
-  # TODO: put your warmup code here
   return 'success'
 
+def get_story_db(key):
+  story_db = model.Story.get_by('canonical_path', key);
+  if story_db is None and key.isdigit():
+    story_db = ndb.Key('Story', long(key)).get()
+  if story_db is None:
+    story_db = ndb.Key(urlsafe=key).get()
+  return story_db
+
+def decorate_story_page_model(resp_model, story_db):
+  resp_model['story'] = story_db;
 
 def decorate_page_response_model(resp_model) :
     # Add navbar data
