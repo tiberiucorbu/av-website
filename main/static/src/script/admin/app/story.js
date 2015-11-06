@@ -3,6 +3,7 @@ var app = window.app;
 app.controller('storyListController', function($scope, storyDataFactory) {
 
   $scope.buffer = []
+  $scope.selected;
   var params = storyDataFactory.getDefaultParams();
 
   var loadPage = function() {
@@ -49,39 +50,16 @@ app.controller('storyListController', function($scope, storyDataFactory) {
 });
 
 
-app.controller('editStoryController', function($scope, storyDataFactory, generateDataFactory) {
+app.controller('editStoryController', function($scope, $uibModal, storyDataFactory, generateDataFactory) {
   $scope.item = {};
 
-  $scope.save = function() {
-    generateDataFactory.getJson().then(function(res) {
-      storyDataFactory.postJson({
-        title: $scope.title,
-        csrf_token: res.data.result.csrf_token
-      }).then(function(res) {
-        console.log(res);
-      }, function(res) {
-        console.log(res);
-      });
-    });
-  };
-
-});
-
-app.controller('ModalDemoCtrl', function ($scope, $uibModal, $log) {
-
-  $scope.items = ['item1', 'item2', 'item3'];
-
-  $scope.animationsEnabled = true;
-
-  $scope.open = function (size) {
+  $scope.openSelectParentStory = function (size) {
 
     var modalInstance = $uibModal.open({
-      animation: $scope.animationsEnabled,
-      template: '',
-      controller: 'selectStoryModalInstanceCtrl',
-      size: size,
+      templateUrl: '/p/html/admin_app/modal_content.html',
+      controller: 'storyListController',
       resolve: {
-        items: function () {
+        title: function () {
           return $scope.items;
         }
       }
@@ -94,8 +72,17 @@ app.controller('ModalDemoCtrl', function ($scope, $uibModal, $log) {
     });
   };
 
-  $scope.toggleAnimation = function () {
-    $scope.animationsEnabled = !$scope.animationsEnabled;
+  $scope.save = function() {
+    generateDataFactory.getJson().then(function(res) {
+      storyDataFactory.postJson({
+        title: $scope.title,
+        csrf_token: res.data.result.csrf_token
+      }).then(function(res) {
+
+      }, function(res) {
+
+      });
+    });
   };
 
 });

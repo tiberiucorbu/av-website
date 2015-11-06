@@ -25,18 +25,25 @@ class StoryListAPI(restful.Resource):
 
   @auth.admin_required
   def get(self):
-    # parser = reqparse.RequestParser()
-    # parser.add_argument('order', type=str, help='Rate cannot be converted')
-    # parser.add_argument('limit', type=int)
-    # args = parser.parse_args()
-    story_keys = util.param('story_keys', list)
 
+    query = model.Story.query() # Retrieve all Story entitites
+
+    root_story_only = util.param('root-stories', bool)
+
+    if root_story_only :
+      query = query.filter(model.Story.parent_story_key == None);
+
+    stories_with_items = util.param('stories-with-items', bool)
+    if stories_with_items :
+      query = query.filter(model.Story.story_item_count > 0);
+
+    story_keys = util.param('story-keys', list)
     if story_keys:
       story_db_keys = [ndb.Key(urlsafe=k) for k in story_keys]
       story_dbs = ndb.get_multi(story_db_keys)
       return helpers.make_response(story_dbs, model.Story.FIELDS)
 
-    story_dbs, story_cursor = model.Story.get_dbs()
+    story_dbs, story_cursor = model.Story.get_dbs(query)
     return helpers.make_response(story_dbs, model.Story.FIELDS, story_cursor)
 
   def post(self):
@@ -79,22 +86,14 @@ class StoryListAPI(restful.Resource):
     })
 
 
-@api_v1.resource('/story/<string:story_key>/', endpoint='api.story')
+@api_v1.resource('/story/tree/', endpoint='api.story')
 class StoryAPI(restful.Resource):
 
   @auth.admin_required
-  def get(self, story_key):
+  def get(self):
     story_db = ndb.Key(urlsafe=story_key).get()
     if not story_db:
       helpers.make_not_found_exception('Story %s not found' % story_key)
-    return helpers.make_response(story_db, model.Story.FIELDS)
-
-  @auth.admin_required
-  def delete(self, story_key):
-    story_db = ndb.Key(urlsafe=story_key).get()
-    if not story_db:
-      helpers.make_not_found_exception('Story %s not found' % story_key)
-    delete_story_task(story_db.key)
     return helpers.make_response(story_db, model.Story.FIELDS)
 
 
