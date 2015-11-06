@@ -17,13 +17,8 @@ from google.appengine.ext import ndb
 @app.route('/')
 def home():
   resp_model = {};
-
-  resp_model['html_class'] = 'home'
-
+  resp_model['html_class'] = 'hp'
   decorate_page_response_model(resp_model)
-
-  featured_stories = model.Story.query(model.Story.tags == "featured");
-  resp_model['featured_stories'] = featured_stories
   return flask.render_template('public/home/home.html', model=resp_model)
 
 
