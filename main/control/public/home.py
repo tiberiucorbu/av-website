@@ -41,12 +41,23 @@ def category(category_id):
 def story(story_key):
   story_db = get_story_db(story_key);
   if story_db is None:
-    flask.redirect(flask.url_for('home'))
+    flask.redirect(flask.url_for('404'))
   resp_model = {};
   resp_model['html_class'] = 'story'
   decorate_page_response_model(resp_model)
   decorate_story_page_model(resp_model, story_db);
   return flask.render_template('public/story/story.html', model=resp_model)
+
+@app.route('/tag/<tag>')
+def tag(tag):
+  story_db = model.Story.query(model.Story.tags == tag).fetch(30);
+  if len(story_db) == 0:
+    flask.redirect(flask.url_for('404'))
+  resp_model = {};
+  resp_model['html_class'] = 'category'
+  decorate_page_response_model(resp_model)
+  decorate_story_page_model(resp_model, story_db);
+  return flask.render_template('public/story/story_list.html', model=resp_model)
 
 @app.route('/about')
 def about():
@@ -77,11 +88,17 @@ def warmup():
   return 'success'
 
 def get_story_db(key):
-  story_db = model.Story.get_by('canonical_path', key);
+  story_db = model.Story.query(model.Story.canonical_path == key).get();
   if story_db is None and key.isdigit():
     story_db = ndb.Key('Story', long(key)).get()
   if story_db is None:
-    story_db = ndb.Key(urlsafe=key).get()
+    key = None
+    try:
+      key = ndb.Key(urlsafe=key)
+    except TypeError:
+      key = None
+    if key is not None:
+      story_db = key.get()
   return story_db
 
 def decorate_story_page_model(resp_model, story_db):

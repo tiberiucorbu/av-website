@@ -48,6 +48,9 @@ config.admin =
     "#{paths.static.ext}/marked/lib/marked.js"
     "#{paths.static.ext}/angular-marked/angular-marked.js"
     "#{paths.static.ext}/angular-bootstrap/ui-bootstrap-tpls.js"
+    "#{paths.static.ext}/angular-upload/angular-upload.js"
+    "#{paths.static.ext}/ng-tags-input/ng-tags-input.min.js"
+    "#{paths.src.script}/common/util/**/*.js"
 
   ]
   style: [

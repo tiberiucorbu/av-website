@@ -13,7 +13,7 @@ class PageMeta(ndb.Model):
   # log_data
   meta_keywords = ndb.StringProperty()
   meta_description = ndb.StringProperty()
-  canonical_path = ndb.StringProperty()
+  canonical_path = ndb.StringProperty(indexed=True)
 
   FIELDS = {
       'meta_keywords': fields.String,

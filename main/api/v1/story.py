@@ -64,8 +64,11 @@ class StoryListAPI(restful.Resource):
       story_db.user_key=auth.current_user_key()
       story_db.title=form.title.data
       story_db.description=form.description.data
+      story_db.tags=form.tags.data
       story_db.meta_keywords=form.meta_keywords.data
       story_db.meta_description=form.meta_keywords.data
+      story_db.tags=form.tags.data
+      story_db.canonical_path=form.canonical_path.data
 
       story_db.put()
 
@@ -86,15 +89,17 @@ class StoryListAPI(restful.Resource):
     })
 
 
-@api_v1.resource('/story/tree/', endpoint='api.story')
+@api_v1.resource('/story/props/', endpoint='api.story.props')
 class StoryAPI(restful.Resource):
 
   @auth.admin_required
   def get(self):
-    story_db = ndb.Key(urlsafe=story_key).get()
-    if not story_db:
-      helpers.make_not_found_exception('Story %s not found' % story_key)
-    return helpers.make_response(story_db, model.Story.FIELDS)
+    query = model.Story.query(projection=["tags"], distinct=True)
+    story_db = query.fetch()
+    #if not story_db.tags:
+    #  helpers.make_not_found_exception('No tags defined')
+    return helpers.make_response(story_db, model.Story.TAG_FIELD)
+
 
 
 ###############################################################################

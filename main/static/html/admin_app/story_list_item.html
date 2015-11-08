@@ -1,0 +1,6 @@
+<div  ng-class="{'selected': isSelected()}">
+  <span ng-click="onSelect()">
+    <span>{{story.title}}</span>
+  </span>
+  <story-form ng-if="showEditForm()" />
+</div>

@@ -21,7 +21,7 @@ class Story(model.Base, model.VisibilityFlags, model.PageMeta):
 
     description = ndb.TextProperty(default='')
 
-    tags = ndb.StringProperty(repeated=True)
+    tags = ndb.StringProperty(repeated=True, indexed=True)
 
     deprecated_category_id = ndb.IntegerProperty(required=False)
     deprecated_category_data = ndb.JsonProperty(required=False)
@@ -84,6 +84,10 @@ class Story(model.Base, model.VisibilityFlags, model.PageMeta):
         'child_stories_count' : fields.Integer,
     }
 
+    TAG_FIELD = {
+      'tags': fields.List(fields.String)
+    }
+
     FIELDS.update(model.Base.FIELDS)
-    FIELDS.update(model.VisibilityFlags.FIELDS)
+    #FIELDS.update(model.VisibilityFlags.FIELDS)
     FIELDS.update(model.meta.PageMeta.FIELDS)
