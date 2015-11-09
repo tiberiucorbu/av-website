@@ -117,8 +117,10 @@ def resource_db_from_upload():
     uploaded_file = flask.request.files['file']
   except:
     return None
+  util.param('resource_keys', list)
   headers = uploaded_file.headers['Content-Type']
-  blob_info_key = werkzeug.parse_options_header(headers)[1]['blob-key']
+  parsedOptionHeader = werkzeug.parse_options_header(headers)[1]
+  blob_info_key = parsedOptionHeader['blob-key']
   blob_info = blobstore.BlobInfo.get(blob_info_key)
 
   image_url = None

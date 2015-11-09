@@ -13,6 +13,8 @@
 */
 
 (function(window) {
+  "use strict";
+
   var strings = window.string || {};
   window.strings = strings;
 
@@ -289,7 +291,7 @@
     return str.replace(/[^\u0000-\u007E]/g, function(a) {
       return diacriticsMap[a] || a;
     });
-  }
+  };
 
   strings.improveTextForPath = function(text) {
     if (!text) {

@@ -18,6 +18,8 @@ class Resource(model.Base):
   image_url = ndb.StringProperty(default='')
   content_type = ndb.StringProperty(default='')
   size = ndb.IntegerProperty(default=0)
+  image_thumb_data_url = ndb.TextProperty(required=False)
+  image_average_color = ndb.StringProperty(required=False)
 
   @ndb.ComputedProperty
   def size_human(self):
@@ -53,6 +55,8 @@ class Resource(model.Base):
       'size': fields.Integer,
       'size_human': fields.String,
       'view_url': fields.String,
+      'image_thumb_data_url': fields.String,
+      'image_average_color': fields.String
     }
 
   FIELDS.update(model.Base.FIELDS)

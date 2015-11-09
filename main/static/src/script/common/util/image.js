@@ -1,14 +1,17 @@
 (function(window) {
+
+  "use strict";
+
   var imageUtil = window.imageUtil || {};
   window.imageUtil = imageUtil;
 
-  imageUtil.loadFileToImageEl = function(file, callback){
-    if (file.type.indexOf('image') === 0){
-      var img = new Image();   // Create new img element
+  imageUtil.loadFileToImageEl = function(file, callback) {
+    if (file.type.indexOf('image') === 0) {
+      var img = new Image(); // Create new img element
 
       var reader = new FileReader();
-      reader.onload = function(e){
-        img.addEventListener("load", function() {
+      reader.onload = function(e) {
+        img.addEventListener('load', function() {
           callback(img);
         }, false);
         img.src = e.target.result;
@@ -17,19 +20,58 @@
     }
   };
 
-  imageUtil.computeAverageRGB = function(imgEl) {
-    if (!imgEl){
+  imageUtil.getSize = function(imgEl, maxSize) {
+
+    var height = imgEl.naturalHeight || imgEl.offsetHeight || imgEl.height;
+    var width = imgEl.naturalWidth || imgEl.offsetWidth || imgEl.width;
+
+    var scaledH, scaledW;
+
+    if (height > width) {
+      scaledH = maxSize;
+      scaledW = window.mathCalcsUtil.map(width, 0, height, 0, maxSize);
+    } else {
+      scaledH = window.mathCalcsUtil.map(height, 0, width, 0, maxSize);
+      scaledW = maxSize;
+    }
+    return {
+      origW: width,
+      origH: height,
+      scaledW: scaledW,
+      scaledH: scaledH
+    };
+
+  };
+  imageUtil.loadImgToCanvas = function(imgEl, scaleToSize) {
+    if (!imgEl) {
       return;
     }
+    var size = imageUtil.getSize(imgEl, scaleToSize),
+      canvas = document.createElement("canvas"),
+      context = canvas.getContext && canvas.getContext('2d');
+    canvas.width = size.scaledW;
+    canvas.height = size.scaledH;
+    context.drawImage(imgEl, 0, 0, size.origW, size.origH, 0, 0, size.scaledW, size.scaledH);
+
+    return {
+      canvas: canvas,
+      size: size
+    };
+  };
+  imageUtil.computeAverageRGB = function(canvas, size) {
+    var result = {
+      r: 0,
+      g: 0,
+      b: 0
+    };
+    if (!canvas) {
+      return result;
+    }
     var blockSize = 5, // only visit every 5 pixels
-      defaultRGB = {
-        r: 0,
-        g: 0,
-        b: 0
-      }, // for non-supporting envs
-      canvas = document.createElement('canvas'),
       context = canvas.getContext && canvas.getContext('2d'),
-      data, width, height,
+      data,
+      width = size.scaledW,
+      height = size.scaledH,
       i = -4,
       length,
       rgb = {
@@ -39,20 +81,15 @@
       },
       count = 0;
 
+
     if (!context) {
-      return defaultRGB;
+      return result;
     }
-
-    height = canvas.height = imgEl.naturalHeight || imgEl.offsetHeight || imgEl.height;
-    width = canvas.width = imgEl.naturalWidth || imgEl.offsetWidth || imgEl.width;
-
-    context.drawImage(imgEl, 0, 0);
-
     try {
       data = context.getImageData(0, 0, width, height);
     } catch (e) {
       /* security error, img on diff domain */
-      return defaultRGB;
+      return result;
     }
 
     length = data.data.length;
@@ -65,11 +102,10 @@
     }
 
     // ~~ used to floor values
-    rgb.r = ~~(rgb.r / count);
-    rgb.g = ~~(rgb.g / count);
-    rgb.b = ~~(rgb.b / count);
-
+    rgb.r = Math.round(rgb.r / count);
+    rgb.g = Math.round(rgb.g / count);
+    rgb.b = Math.round(rgb.b / count);
     return rgb;
 
-  }
+  };
 })(window);
