@@ -1,7 +1,5 @@
 var app = window.app;
 
-
-
 app.controller('storyListController', function($scope, storyDataFactory) {
 
   $scope.buffer = []
@@ -54,7 +52,7 @@ app.controller('storyListController', function($scope, storyDataFactory) {
 
 app.controller('editStoryController', function($scope, storyItemSelect, $uibModal, storyDataFactory, generateDataFactory) {
   $scope.story =  storyItemSelect.item;
-
+  $scope.storyItems = [];
   $scope.openSelectParentStory = function(size) {
 
     var modalInstance = $uibModal.open({
@@ -141,6 +139,26 @@ app.controller('selectStoryModalInstanceCtrl', function($scope, $uibModalInstanc
   $scope.cancel = function() {
     $uibModalInstance.dismiss('cancel');
   };
+});
+
+app.directive('mapDate', function() {
+    return {
+        restrict: 'A',
+        require: 'ngModel',
+        link: function(scope, element, attr, ngModel){
+            ngModel.$formatters.push(function(value){
+                return moment(value).toDate();
+            });
+
+            ngModel.$parsers.push(function(value){
+              if ($.trim(value) === ''){
+                return null;
+              }
+              moment(value).toISOString();
+            });
+
+        }
+    };
 });
 
 app.directive('storyForm', function() {

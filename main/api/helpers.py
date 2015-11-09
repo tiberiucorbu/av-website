@@ -19,7 +19,11 @@ class Api(restful.Api):
 
 
 def handle_error(e):
-  logging.exception(e)
+  if not e:
+    e = {}
+  else :
+    logging.exception(e)
+  
   try:
     e.code
   except AttributeError:

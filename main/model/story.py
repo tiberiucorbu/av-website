@@ -89,5 +89,5 @@ class Story(model.Base, model.VisibilityFlags, model.PageMeta):
     }
 
     FIELDS.update(model.Base.FIELDS)
-    #FIELDS.update(model.VisibilityFlags.FIELDS)
+    FIELDS.update(model.VisibilityFlags.FIELDS)
     FIELDS.update(model.meta.PageMeta.FIELDS)

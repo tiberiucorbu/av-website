@@ -21,12 +21,18 @@ from main import app
 @app.route('/resource/upload/')
 @auth.admin_required
 def resource_upload():
+  view = util.param('v', str)
+
+  reduced = False
+  if view == 'only-html':
+      reduced = True
   return flask.render_template(
       'resource/resource_upload.html',
       title='Resource Upload',
       html_class='resource-upload',
       get_upload_url=flask.url_for('api.resource.upload'),
       has_json=True,
+      only_html = reduced,
       upload_url=blobstore.create_upload_url(
           flask.request.path,
           gs_bucket_name=config.CONFIG_DB.bucket_name or None,

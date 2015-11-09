@@ -69,6 +69,8 @@ class StoryListAPI(restful.Resource):
       story_db.meta_description=form.meta_keywords.data
       story_db.tags=form.tags.data
       story_db.canonical_path=form.canonical_path.data
+      story_db.deprecated_category_id=form.deprecated_category_id.data
+      story_db.deprecated_category_data=form.deprecated_category_data.data
 
       story_db.put()
 
@@ -133,17 +135,10 @@ class TagListField(wtforms.Field):
     else:
       self.data = []
 
-
 class StoryUpdateForm(wtf.Form):
   title = wtforms.StringField('Title', [wtforms.validators.required()])
   description = wtforms.StringField(
       'Description', [wtforms.validators.optional()])
-  disabled = wtforms.DateField(
-      'Disabled On', [wtforms.validators.optional()])
-  deleted = wtforms.DateTimeField(
-      'Delete On', [wtforms.validators.optional()], format='%Y/%m/%d %H:%M')
-  available = wtforms.DateField(
-      'Available On', [wtforms.validators.optional()])
   tags = TagListField('Tags', [wtforms.validators.optional()])
   canonical_path = wtforms.StringField(
       'Canonical Path', [wtforms.validators.optional()])
