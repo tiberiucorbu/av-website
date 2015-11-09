@@ -67,8 +67,17 @@ Requirements
   - [Node.js][], [pip][], [virtualenv][]
   - [OSX][] or [Linux][] or [Windows][]
 
-Contributions and Ideas
------------------------
+Author
+------
+
+<a href="http://stackoverflow.com/users/2406376/tiberiu-corbu"><img src="http://stackoverflow.com/users/flair/2406376.png" width="208" height="58" alt="profile for tiberiu.corbu at Stack Overflow, Q&amp;A for professional and enthusiast programmers" title="profile for tiberiu.corbu at Stack Overflow, Q&amp;A for professional and enthusiast programmers"></a>
+
+Special thanks
+------
+
+[![Lipis flair on stackoverflow.com][lipisflair]][lipis]
+
+### Contributions and Ideas
 
   - [tzador][]
   - [chris][]
@@ -79,16 +88,6 @@ Contributions and Ideas
   - [xcash][]
   - [mdxs][]
 
-Upstream Author
-------
-
-[![Lipis flair on stackoverflow.com][lipisflair]][lipis]
-
-
-Author
-------
-
-<a href="http://stackoverflow.com/users/2406376/tiberiu-corbu"><img src="http://stackoverflow.com/users/flair/2406376.png" width="208" height="58" alt="profile for tiberiu.corbu at Stack Overflow, Q&amp;A for professional and enthusiast programmers" title="profile for tiberiu.corbu at Stack Overflow, Q&amp;A for professional and enthusiast programmers"></a>
 
 
 [bootstrap]: http://getbootstrap.com/
