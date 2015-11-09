@@ -5,7 +5,7 @@ app.directive('imageUploadThumbsPreview', function() {
     scope: {
       items: '=items'
     },
-    replace : true,
+    replace: true,
     templateUrl: '/p/html/admin_app/image_upload_thumbs_preview.html',
     link: function(scope, el, attr) {
       console.log('imageUploadThumbsPreview', scope);
@@ -18,7 +18,7 @@ app.directive('imageUploadThumbPreview', function() {
     scope: {
       item: '=item'
     },
-    replace : true,
+    replace: true,
     templateUrl: '/p/html/admin_app/image_upload_thumb_preview.html',
     link: function(scope, el, attr) {
       console.log('imageUploadThumbnail', scope);
@@ -27,6 +27,23 @@ app.directive('imageUploadThumbPreview', function() {
 });
 
 app.directive('imageUploadForm', function() {
+
+  var buildItemFromFile = function(file) {
+    return {
+      file: file
+    };
+  };
+
+  var findItemByFile = function(items, file){
+    var result = null;
+    for (var i=0; i<items.length; i++){
+      if (items[i].file === file){
+        result = items[i];
+        break;
+      }
+    }
+    return result;
+  };
 
   var buildUploadHandler = function(previewCallback, progressCallback) {
     return {
@@ -66,20 +83,31 @@ app.directive('imageUploadForm', function() {
     },
     templateUrl: '/resource/upload/?v=only-html',
     link: function(scope, el, attr) {
-      console.log('imageUploadForm',scope);
-
+      // Hmm some things to reuse - not angularish but working as a charm
       window.prettyFile();
-
+      var items = scope.items;
       var resourceProgressCallback = function(progress, resource, error, file) {
-        console.log('resourceUploadedCallback', progress, resource, error, file);
+
+        var item = findItemByFile(items, file);
+        item.progress = progress;
+        item.resource = resource;
+        item.error = error;
+        if (progress === 100){
+          console.log(item, scope.items);
+        }
+
       };
 
       var previewUploadCallback = function(file) {
-          console.log(file);
+        var item = buildItemFromFile(file);
+        scope.$apply(function () {
+            items.push(item);
+        });
       };
-      
+
       var handler = buildUploadHandler(previewUploadCallback, resourceProgressCallback);
       fileUploader = initResourceUpload(el, handler);
+
     }
   }
 });
