@@ -5,16 +5,24 @@ app.directive('imageUploadThumbsPreview', function() {
     scope: {
       items: '=items'
     },
-    templateUrl: '/p/html/admin_app/image_upload_thumbs_preview.html'
+    replace : true,
+    templateUrl: '/p/html/admin_app/image_upload_thumbs_preview.html',
+    link: function(scope, el, attr) {
+      console.log('imageUploadThumbsPreview', scope);
+    }
   }
 });
 
-app.directive('imageUploadThumbnail', function() {
+app.directive('imageUploadThumbPreview', function() {
   return {
     scope: {
       item: '=item'
     },
-    templateUrl: '/p/html/admin_app/image_upload_thumb_preview.html'
+    replace : true,
+    templateUrl: '/p/html/admin_app/image_upload_thumb_preview.html',
+    link: function(scope, el, attr) {
+      console.log('imageUploadThumbnail', scope);
+    }
   }
 });
 
@@ -34,6 +42,7 @@ app.directive('imageUploadForm', function() {
   var initResourceUpload = function(el, callbackHandler) {
     var fileUploader = null;
     if (window.File && window.FileList && window.FileReader) {
+
       var fileUploaderConfig = {
         upload_handler: callbackHandler,
         selector: $('.file', el),
@@ -43,6 +52,7 @@ app.directive('imageUploadForm', function() {
         allowed_types: [],
         max_size: 1024 * 1024 * 1024
       };
+
       fileUploader = new FileUploader(fileUploaderConfig);
     }
     return fileUploader;
@@ -51,26 +61,25 @@ app.directive('imageUploadForm', function() {
   var fileUploader;
 
   return {
+    scope: {
+      items: '='
+    },
     templateUrl: '/resource/upload/?v=only-html',
     link: function(scope, el, attr) {
+      console.log('imageUploadForm',scope);
+
       window.prettyFile();
 
-      var resourceUploadedCallback = function(progress, resource, error) {
-        console.log(progress, resource, error);
+      var resourceProgressCallback = function(progress, resource, error, file) {
+        console.log('resourceUploadedCallback', progress, resource, error, file);
       };
 
       var previewUploadCallback = function(file) {
-        console.log(file);
-      }
-
-      var handler = buildUploadHandler(previewUploadCallback, resourceUploadedCallback);
-
-      fileUploader = initResourceUpload(el, {
-        preview: function(file) {
-          previewUploadCallback(file);
-          return resourceUploadedCallback;
-        }
-      });
+          console.log(file);
+      };
+      
+      var handler = buildUploadHandler(previewUploadCallback, resourceProgressCallback);
+      fileUploader = initResourceUpload(el, handler);
     }
   }
 });

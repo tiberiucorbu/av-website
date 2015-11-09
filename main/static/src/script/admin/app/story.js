@@ -52,7 +52,7 @@ app.controller('storyListController', function($scope, storyDataFactory) {
 
 app.controller('editStoryController', function($scope, storyItemSelect, $uibModal, storyDataFactory, generateDataFactory) {
   $scope.story =  storyItemSelect.item;
-  $scope.storyItems = [];
+  $scope.storyItems = [{title: 'A'},{title: 'B'}];
   $scope.openSelectParentStory = function(size) {
 
     var modalInstance = $uibModal.open({

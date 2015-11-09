@@ -66,29 +66,29 @@
       xhr = new XMLHttpRequest()
       if @allowed_types?.length > 0
         if file.type not in @allowed_types
-          progress 0, undefined, 'wrong_type'
+          progress 0, undefined, 'wrong_type', file
           callback()
           return
 
       if @max_size?
         if file.size > @max_size
-          progress 0, undefined, 'too_big'
+          progress 0, undefined, 'too_big', file
           callback()
           return
 
       @active_files += 1
 
       xhr.upload.addEventListener 'progress', (event) ->
-        progress parseInt event.loaded / event.total * 100.0
+        progress parseInt(event.loaded / event.total * 100.0), undefined, undefined, file
 
       xhr.onreadystatechange = (event) =>
         if xhr.readyState == 4
           if xhr.status == 200
             response = JSON.parse(xhr.responseText)
-            progress 100.0, response.result
+            progress 100.0, response.result, undefined, file
             @active_files -= 1
           else
-            progress 0, undefined, 'error'
+            progress 0, undefined, 'error', file
             @active_files -= 1
 
       xhr.open 'POST', url, true
