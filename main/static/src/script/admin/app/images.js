@@ -8,7 +8,7 @@ app.directive('imageUploadThumbsPreview', function() {
     replace: true,
     templateUrl: '/p/html/admin_app/image_upload_thumbs_preview.html',
     link: function(scope, el, attr) {
-      console.log('imageUploadThumbsPreview', scope);
+      // console.log('imageUploadThumbsPreview', scope);
     }
   }
 });
@@ -21,12 +21,16 @@ app.directive('imageUploadThumbPreview', function() {
     replace: true,
     templateUrl: '/p/html/admin_app/image_upload_thumb_preview.html',
     link: function(scope, el, attr) {
-      console.log('imageUploadThumbnail', scope);
+      // console.log('imageUploadThumbnail', scope);
     }
   }
 });
 
 app.directive('imageUploadForm', function() {
+
+  var toHex = function(color){
+    return '#' + ('00000' + (color.r << 16 | color.g << 8 | color.b).toString(16)).slice(-6);
+  };
 
   var buildItemFromFile = function(file) {
     return {
@@ -92,14 +96,22 @@ app.directive('imageUploadForm', function() {
         item.progress = progress;
         item.resource = resource;
         item.error = error;
-        if (progress === 100){
-          console.log(item, scope.items);
-        }
+
 
       };
 
       var previewUploadCallback = function(file) {
         var item = buildItemFromFile(file);
+
+        window.imageUtil.loadFileToImageEl(file, function(img){
+
+          var color = window.imageUtil.computeAverageRGB(img);
+
+          img = null; // free up the space since we don't need the image anymore
+          scope.$apply(function () {
+            item.color = toHex(color);
+          });
+        });
         scope.$apply(function () {
             items.push(item);
         });
