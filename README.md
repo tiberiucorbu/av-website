@@ -55,6 +55,7 @@ Tech Stack
   - [CoffeeScript][], [Less][]
   - [Bootstrap][], [Font Awesome][], [Social Buttons][]
   - [jQuery][], [NProgress][], [Moment.js][]
+  - [Angular][]
   - [OpenID][] sign in (Google, Facebook, Twitter)
   - [Python 2.7][], [pip][], [virtualenv][]
   - [Gulp][], [Bower][]
@@ -116,6 +117,7 @@ Author
 [lipisflair]: http://stackexchange.com/users/flair/5282.png
 [mdxs]: https://github.com/mdxs
 [moment.js]: http://momentjs.com/
+[angular]: https://angularjs.org/
 [ndb]: https://developers.google.com/appengine/docs/python/ndb/
 [node.js]: http://nodejs.org/
 [nprogress]: http://ricostacruz.com/nprogress/
