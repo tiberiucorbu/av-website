@@ -61,16 +61,7 @@ class StoryListAPI(restful.Resource):
       else:
         story_db = model.Story();
 
-      story_db.user_key=auth.current_user_key()
-      story_db.title=form.title.data
-      story_db.description=form.description.data
-      story_db.tags=form.tags.data
-      story_db.meta_keywords=form.meta_keywords.data
-      story_db.meta_description=form.meta_keywords.data
-      story_db.tags=form.tags.data
-      story_db.canonical_path=form.canonical_path.data
-      story_db.deprecated_category_id=form.deprecated_category_id.data
-      story_db.deprecated_category_data=form.deprecated_category_data.data
+      populate_story_db(story_db, form)
 
       story_db.put()
 
@@ -113,6 +104,21 @@ def delete_story_dbs(story_db_keys):
     delete_story_task(story_key)
 
 
+def populate_story_db(story_db, form):
+  story_db.user_key=auth.current_user_key()
+  story_db.title=form.title.data
+  story_db.description=form.description.data
+  story_db.tags=form.tags.data
+  story_db.meta_keywords=form.meta_keywords.data
+  story_db.meta_description=form.meta_keywords.data
+  story_db.tags=form.tags.data
+  story_db.canonical_path=form.canonical_path.data
+  story_db.deprecated_category_id=form.deprecated_category_id.data
+  story_db.deprecated_category_data=form.deprecated_category_data.data
+
+  resource_db_keys = [ndb.Key(urlsafe=k) for k in form.story_items.data]
+  story_db.story_items = resource_db_keys
+
 def delete_story_task(story_key, next_cursor=None):
   if next_cursor:
     deferred.defer(delete_story_task, story_key, next_cursor)
@@ -120,7 +126,7 @@ def delete_story_task(story_key, next_cursor=None):
     story_key.delete()
 
 
-class TagListField(wtforms.Field):
+class ListField(wtforms.Field):
   widget = wtforms.widgets.TextInput()
 
   def _value(self):
@@ -139,7 +145,8 @@ class StoryUpdateForm(wtf.Form):
   title = wtforms.StringField('Title', [wtforms.validators.required()])
   description = wtforms.StringField(
       'Description', [wtforms.validators.optional()])
-  tags = TagListField('Tags', [wtforms.validators.optional()])
+  tags = ListField('Tags', [wtforms.validators.optional()])
+  story_items = ListField('Items Keys', [wtforms.validators.optional()])
   canonical_path = wtforms.StringField(
       'Canonical Path', [wtforms.validators.optional()])
   meta_keywords = wtforms.StringField(

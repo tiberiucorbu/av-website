@@ -117,7 +117,10 @@ def resource_db_from_upload():
     uploaded_file = flask.request.files['file']
   except:
     return None
-  util.param('resource_keys', list)
+
+  image_thumb_data_url = util.param('image-thumb-data-url', str)
+  image_average_color = util.param('image-average-color', str)
+  
   headers = uploaded_file.headers['Content-Type']
   parsedOptionHeader = werkzeug.parse_options_header(headers)[1]
   blob_info_key = parsedOptionHeader['blob-key']
@@ -138,6 +141,8 @@ def resource_db_from_upload():
       size=blob_info.size,
       image_url=image_url,
       bucket_name=config.CONFIG_DB.bucket_name or None,
+      image_thumb_data_url = image_thumb_data_url,
+      image_average_color = image_average_color
     )
   resource_db.put()
   return resource_db

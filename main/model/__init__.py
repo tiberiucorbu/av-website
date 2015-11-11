@@ -11,5 +11,4 @@ from .meta import ItemMeta
 from .meta import PageMeta
 
 from .story import Story
-from .story_item import StoryItem
 from .module_config import ModuleConfig

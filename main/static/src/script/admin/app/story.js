@@ -1,6 +1,6 @@
 (function(window, angular, moment) {
   "use strict";
-  
+
   var app = window.app;
 
   app.controller('storyListController', function($scope, storyDataFactory) {
@@ -55,11 +55,7 @@
 
   app.controller('editStoryController', function($scope, storyItemSelect, $uibModal, storyDataFactory, generateDataFactory) {
     $scope.story = storyItemSelect.item;
-    $scope.storyItems = [{
-      title: 'A'
-    }, {
-      title: 'B'
-    }];
+    $scope.storyItems = [];
     $scope.openSelectParentStory = function() {
 
       var modalInstance = $uibModal.open({
@@ -84,15 +80,22 @@
 
     $scope.save = function() {
       generateDataFactory.getJson().then(function(res) {
-
+        var storyItemKeys = [];
+        for (var i = 0; i < $scope.storyItems.length; i++){
+          var item = $scope.storyItems[i];
+          if (item.resource && item.resource.key){
+              storyItemKeys.push(item.resource.key);
+          }
+        }
         var params = angular.extend($scope.story, {
-          csrf_token: res.data.result.csrf_token
+          csrf_token: res.data.result.csrf_token,
+          story_items: storyItemKeys
         });
 
         storyDataFactory.postJson(params).then(function(res) {
-
+          console.log(res);
         }, function(res) {
-
+          console.log(res);
         });
       });
     };

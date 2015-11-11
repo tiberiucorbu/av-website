@@ -25,7 +25,7 @@ class Story(model.Base, model.VisibilityFlags, model.PageMeta):
 
     deprecated_category_id = ndb.IntegerProperty(required=False)
     deprecated_category_data = ndb.JsonProperty(required=False)
-    story_items = ndb.KeyProperty(kind='StoryItem', repeated=True)
+    story_items = ndb.KeyProperty(kind='Resource', repeated=True)
     story_item_count = ndb.ComputedProperty(lambda self: len(self.story_items))
 
     def url_safe_item_keys(self):
