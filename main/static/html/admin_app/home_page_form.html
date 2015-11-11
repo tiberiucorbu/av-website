@@ -1,0 +1,86 @@
+<form  name="home_page_form" >
+
+  <div class="row">
+    <fieldset class="col-md-8">
+
+      <div class="form-group ">
+        <label class="control-label" for="title">Main Title</label>
+        <input autofocus class="form-control" id="title" name="title" rows="4" type="text" ng-model="page.title">
+      </div>
+
+      <div class="form-group ">
+        <label class="control-label" for="title">Footnote</label>
+        <input autofocus class="form-control" id="title" name="title" rows="4" type="text" ng-model="story.title">
+      </div>
+
+      <div class="form-group ">
+        <label class="control-label" for="description">Description</label>
+        <small class="text-muted">(optional)</small>
+        <div class="pull-right">
+          <a href="https://guides.github.com/features/mastering-markdown/" target="_blank">
+            <span class="fa fa-markdown"></span>
+            Styling with Markdown is supported
+          </a>
+        </div>
+        <textarea class="form-control" id="description" name="description" rows="4" ng-model="page.description"></textarea>
+      </div>
+      <div class="preview">
+
+        <small class="text-muted">Description preview</small>
+
+        <div ng-bind-html="page.description | markdown"></div>
+      </div>
+
+    </fieldset>
+
+    <fieldset class="col-md-4">
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            <a data-toggle="collapse" data-parent=".panel-group" href="#meta-data">Meta Data</a>
+            <span class="fa fa-check pull-right hide"></span>
+          </h4>
+        </div>
+        <div id="meta-data" class="panel-collapse collapse">
+          <div class="panel-body">
+            <div class="form-group ">
+              <label class="control-label" for="meta_keywords">Meta Kewords</label>
+              <small class="text-muted">(optional)</small>
+              <input class="form-control" id="meta_keywords" name="meta_keywords" type="text" ng-model="page.meta_keywords">
+            </div>
+            <div class="form-group ">
+              <label class="control-label" for="meta_description">Meta Description</label>
+              <small class="text-muted">(optional)</small>
+              <input class="form-control" id="meta_description" name="meta_description" type="text" ng-model="page.meta_description">
+            </div>
+          </div>
+        </div>
+      </div>
+    </fieldset>
+    <fieldset class="col-md-4">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            <a data-toggle="collapse" data-parent=".panel-group" href="#upload-images-panel">Images</a>
+            <span class="fa fa-check pull-right hide"></span>
+          </h4>
+        </div>
+        <div id="upload-images-panel" class="panel-collapse">
+          <div class="panel-body">
+            <div image-upload-form items="pageResourceItems" ></div>
+          </div>
+        </div>
+      </div>
+
+    </fieldset>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6 col-md-offset-3">
+      <button ng-click="save()" type="submit" class="btn btn-primary btn-block">
+        Save
+      </button>
+    </div>
+  </div>
+</form>

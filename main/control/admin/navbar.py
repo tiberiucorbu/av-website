@@ -17,7 +17,7 @@ from main import app
 ###############################################################################
 @app.route('/admin/navbar')
 @auth.admin_required
-def admin_content_navbar():
+def admin_navbar():
   return flask.render_template(
       'admin/navbar/navbar.html',
       title='Manage Navbar',

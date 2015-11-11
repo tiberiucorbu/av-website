@@ -18,6 +18,12 @@ from google.appengine.ext import ndb
 def home():
   resp_model = {};
   resp_model['html_class'] = 'hp'
+
+  home_page_db = model.ModuleConfig.get_by('module_id', 'home-page')
+  if home_page_db is not None and home_page_db.config is not None:
+    home_page_data = json.loads(home_page_db.config)
+    resp_model['page'] = home_page_data
+
   decorate_page_response_model(resp_model)
   return flask.render_template('public/home/home.html', model=resp_model)
 

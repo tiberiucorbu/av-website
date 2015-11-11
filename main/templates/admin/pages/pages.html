@@ -1,0 +1,17 @@
+#extends 'admin/admin_app_base.html'
+#import 'macro/utils.html' as utils
+
+#block admin_content
+<div id="#app-wrapper" ng-app="adminApp" class="container-fluid">
+
+  <div ng-controller="homePageController">
+    <h3> Home Page </h3>
+    <div home-page-form></div>
+  </div>
+
+  <div ng-controller="aboutPageController">
+    <h3> About Page </h3>
+    <div about-page-form></div>
+  </div>
+</div><!-- #app-wrapper -->
+# endblock

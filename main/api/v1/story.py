@@ -44,7 +44,23 @@ class StoryListAPI(restful.Resource):
       return helpers.make_response(story_dbs, model.Story.FIELDS)
 
     story_dbs, story_cursor = model.Story.get_dbs(query)
-    return helpers.make_response(story_dbs, model.Story.FIELDS, story_cursor)
+
+    fields = {};
+    fields.update(model.Story.FIELDS);
+
+    load_items = util.param('load-items', bool);
+    if load_items:
+      fields.update(model.Story.FIELD_STORY_ITEMS);
+
+    load_childs = util.param('load-childs', bool);
+    if load_childs:
+      fields.update(model.Story.FIELD_CHILD_STORIES);
+
+    load_parent = util.param('load-parent', bool);
+    if load_parent :
+      fields.update(model.Story.FIELD_PARENT_STORY);
+
+    return helpers.make_response(story_dbs, fields, story_cursor)
 
   def post(self):
 

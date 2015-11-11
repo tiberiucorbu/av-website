@@ -6,3 +6,4 @@ from .resource import *
 from .navbar import *
 from .story import *
 from .images import *
+from .pages import *

@@ -1,21 +1,15 @@
 # extends 'base.html'
 
 # block content
-  <div class="page-header">
-    <h1>{{title}}</h1>
-  </div>
+
   <div class="row text-center">
 
     {{admin_link('Stories', 'heart', url_for('admin_stories'))}}
 
-  </div>
-  <div class="page-header">
-    <h2>Resources</h2>
-  </div>
+    {{admin_link('Navbar', 'navicon', url_for('admin_navbar'))}}
 
-  <div class="row text-center">
-    {{admin_link('Resource Upload', 'cloud-upload', url_for('resource_upload'))}}
-    {{admin_link('Resource List', 'th-list', url_for('resource_list'))}}
+    {{admin_link('Pages', 'files-o', url_for('admin_pages'))}}
+
   </div>
 
   <div class="page-header">
@@ -34,6 +28,7 @@
 
   <div class="row text-center">
     {{admin_link('User List', 'group', url_for('user_list', order='-modified', active=True))}}
+    {{admin_link('Resource List', 'th-list', url_for('resource_list'))}}
   </div>
 
   <div class="page-header">

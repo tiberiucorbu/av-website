@@ -94,7 +94,6 @@
       xhr.open 'POST', url, true
       data = new FormData()
       data.append 'file', file
-      data.set 'stuff', 'other_stuff'
       xhr.send data
       callback()
 )()

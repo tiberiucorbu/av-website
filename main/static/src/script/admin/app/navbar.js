@@ -10,17 +10,8 @@
     }])
     .factory('navbarSelectedItem', function() {
       return {};
-    })
-    .factory('mainNavbarDataService', ['$http', function($http) {
-      return {
-        getJson: function() {
-          return $http.get('/api/v1/module-config/main-navbar/');
-        },
-        postJson: function(data) {
-          return $http.post('/api/v1/module-config/main-navbar/', data);
-        }
-      };
-    }]);
+    });
+
 
   app.controller('navbarBuilderController', ['$scope', '$http', 'mainNavbarDataService', 'navbarTreeModel', 'navbarSelectedItem', function($scope, $http, treeModelFactory, navbarTreeModel, navbarSelectedItem) {
 
@@ -106,7 +97,7 @@
         scope.selectedItem = navbarSelectedItem;
         scope.$watch(function() {
           return scope.selectedItem.item;
-        }, function(/* oldValue, newValue */) {
+        }, function( /* oldValue, newValue */ ) {
           scope.focusAndSelectFirst();
         });
         scope.focusAndSelectFirst = function() {
@@ -139,10 +130,10 @@
       scope: {
         nodes: '=nodes'
       },
-      templateUrl: '/p/html/admin_app/nav_group.html'//,
-      // link: function(scope, element, attrs) {
-      //
-      // }
+      templateUrl: '/p/html/admin_app/nav_group.html' //,
+        // link: function(scope, element, attrs) {
+        //
+        // }
     };
   });
 
