@@ -10,64 +10,83 @@ import util
 import control.public
 import json
 from google.appengine.ext import ndb
+from google.appengine.datastore.datastore_query import Cursor
 
 ###############################################################################
 # Welcome
 ###############################################################################
+
+
 @app.route('/')
 def home():
-  resp_model = {};
+  resp_model = {}
   resp_model['html_class'] = 'hp'
 
-  home_page_db = model.ModuleConfig.get_by('module_id', 'home-page')
-  if home_page_db is not None and home_page_db.config is not None:
-    home_page_data = json.loads(home_page_db.config)
-    resp_model['page'] = home_page_data
-
   decorate_page_response_model(resp_model)
+
+  if len(resp_model['page_data']['image_keys']) > 0:
+    res_kes = [ndb.Key(urlsafe=k) for k in resp_model['page_data']['image_keys']]
+    resp_model['page_data']['images'] = ndb.get_multi(res_kes)
+
   return flask.render_template('public/home/home.html', model=resp_model)
 
 
 @app.route('/category/<int:category_id>')
 def category(category_id):
   # permanent redirection to the new story URL
-  #find story by category id
-  story = model.Story.get_by('deprecated_category_id', category_id);
+  # find story by category id
+  story = model.Story.get_by('deprecated_category_id', category_id)
   redirect_url = None
-  if story :
-      redirect_url =flask.url_for('story', story_key=story.title)
-  else :
-      # TODO: flash a message here
-
-      redirect_url = flask.url_for('home')
-  return flask.redirect(redirect_url) # add 301 for permanent redirection
+  if story:
+    redirect_url = flask.url_for('story', story_key=story.title)
+  else:
+    # TODO: flash a message here
+    redirect_url = flask.url_for('home')
+  return flask.redirect(redirect_url)  # add 301 for permanent redirection
 
 
 @app.route('/story/<story_key>')
 def story(story_key):
-  story_db = get_story_db(story_key);
+
+  story_db = get_story_db(story_key)
   if story_db is None:
     flask.redirect(flask.url_for('404'))
-  resp_model = {};
+  resp_model = {}
   resp_model['html_class'] = 'story'
   decorate_page_response_model(resp_model)
-  decorate_story_page_model(resp_model, story_db);
+  decorate_story_page_model(resp_model, story_db)
   return flask.render_template('public/story/story.html', model=resp_model)
+
 
 @app.route('/tag/<tag>')
 def tag(tag):
-  story_db = model.Story.query(model.Story.tags == tag).fetch(30);
-  if len(story_db) == 0:
-    flask.redirect(flask.url_for('404'))
-  resp_model = {};
-  resp_model['html_class'] = 'category'
+  cursor_str = util.param('cursor', str)
+  cursor = None
+  try:
+    cursor = Cursor(urlsafe=cursor_str)
+  except TypeError:
+    key = None
+
+  story_dbs, next_cursor, more = model.Story.query(
+      model.Story.tags == tag).filter(model.Story.story_item_count > 0).fetch_page(24, start_cursor=cursor)
+
+  if len(story_dbs) == 0:
+    return flask.redirect(flask.url_for('404'))
+  params = {
+      'next_cursor': next_cursor.urlsafe(),
+      'tag': tag,
+      'current_cursor': cursor
+  }
+  resp_model = {}
+  resp_model['html_class'] = 'tag'
   decorate_page_response_model(resp_model)
-  decorate_story_page_model(resp_model, story_db);
+  decorate_stories_page_model(resp_model, story_dbs, params)
   return flask.render_template('public/story/story_list.html', model=resp_model)
+
 
 @app.route('/about')
 def about():
-  resp_model = {};
+  resp_model = {}
 
   resp_model['html_class'] = 'about'
   decorate_page_response_model(resp_model)
@@ -76,12 +95,14 @@ def about():
 ###############################################################################
 # Sitemap stuff
 ###############################################################################
+
+
 @app.route('/sitemap.xml')
 def sitemap():
   response = flask.make_response(flask.render_template(
       'sitemap.xml',
       lastmod=config.CURRENT_VERSION_DATE.strftime('%Y-%m-%d'),
-    ))
+  ))
   response.headers['Content-Type'] = 'application/xml'
   return response
 
@@ -93,8 +114,9 @@ def sitemap():
 def warmup():
   return 'success'
 
+
 def get_story_db(key):
-  story_db = model.Story.query(model.Story.canonical_path == key).get();
+  story_db = model.Story.query(model.Story.canonical_path == key).get()
   if story_db is None and key.isdigit():
     story_db = ndb.Key('Story', long(key)).get()
   if story_db is None:
@@ -107,22 +129,36 @@ def get_story_db(key):
       story_db = key.get()
   return story_db
 
+
 def decorate_story_page_model(resp_model, story_db):
-  resp_model['story'] = story_db;
+  resp_model['story'] = story_db
 
-def decorate_page_response_model(resp_model) :
+
+def decorate_stories_page_model(resp_model, story_dbs, params):
+  resp_model['stories'] = story_dbs
+  resp_model['params'] = params
+
+
+def decorate_page_response_model(resp_model):
+  # home page data present in every page
+  home_page_db = model.ModuleConfig.get_by('module_id', 'home-page')
+  if home_page_db is not None and home_page_db.config is not None:
+    home_page_data = json.loads(home_page_db.config)
+    resp_model['page_data'] = home_page_data
+
     # Add navbar data
-    main_navbar_db = model.ModuleConfig.get_by('module_id', 'main-navbar')
-    if main_navbar_db is not None and main_navbar_db.config is not None:
-      main_navbar_data = json.loads(main_navbar_db.config)
-      resp_model['navbar'] = main_navbar_data
+  main_navbar_db = model.ModuleConfig.get_by('module_id', 'main-navbar')
+  if main_navbar_db is not None and main_navbar_db.config is not None:
+    main_navbar_data = json.loads(main_navbar_db.config)
+    resp_model['navbar'] = main_navbar_data
 
-    # Add feedbackform, present in the footer - needed for CXFR protection
-    feedback_form = control.public.FeedbackForm(obj=auth.current_user_db())
-    # Add layout switch param - this is the switcher for page render (full (default), reduced)
-    resp_model['feedback_form'] = feedback_form
-    view = util.param('v', str)
+  # Add feedbackform, present in the footer - needed for CXFR protection
+  feedback_form = control.public.FeedbackForm(obj=auth.current_user_db())
+  # Add layout switch param - this is the switcher for page render (full
+  # (default), reduced)
+  resp_model['feedback_form'] = feedback_form
+  view = util.param('v', str)
 
-    resp_model['view_reduced'] = False
-    if view == 'r':
-        resp_model['view_reduced'] = True
+  resp_model['view_reduced'] = False
+  if view == 'r':
+    resp_model['view_reduced'] = True

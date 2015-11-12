@@ -13,14 +13,7 @@ import util
 
 class Story(model.Base, model.VisibilityFlags, model.PageMeta):
 
-  def load_story_items(self):
-    return ndb.get_multi(self.story_items)
 
-  def load_child_stories(self):
-    return ndb.get_multi(self.child_stories)
-
-  def load_parent_story(self):
-    return self.parent_story_key.get()
 
   def url_safe_item_keys(self):
     result = []
@@ -38,7 +31,7 @@ class Story(model.Base, model.VisibilityFlags, model.PageMeta):
   user_key = ndb.KeyProperty(kind=model.User, required=True)
 
   parent_story_key = ndb.KeyProperty(kind='Story')
-  parent_story_expanded = ndb.ComputedProperty(load_parent_story)
+  #parent_story_expanded = ndb.ComputedProperty(load_parent_story)
 
   title = ndb.StringProperty(required=True)
 
@@ -51,14 +44,16 @@ class Story(model.Base, model.VisibilityFlags, model.PageMeta):
 
   story_items = ndb.KeyProperty(kind='Resource', repeated=True)
   story_item_count = ndb.ComputedProperty(lambda self: len(self.story_items))
-  story_items_expanded = ndb.ComputedProperty(load_story_items, repeated=True)
+  #story_items_expanded = ndb.ComputedProperty(load_story_items, repeated=True)
   story_items_keys = ndb.ComputedProperty(url_safe_item_keys, repeated=True)
+  #first_story_item_expanded = ndb.ComputedProperty(load_first_story_item)
+
 
   child_stories = ndb.KeyProperty(kind='Story', repeated=True)
   child_stories_count = ndb.ComputedProperty(
       lambda self: len(self.child_stories))
-  child_stories_expanded = ndb.ComputedProperty(
-      load_child_stories, repeated=True)
+  #child_stories_expanded = ndb.ComputedProperty(
+  #     load_child_stories, repeated=True)
   child_stories_keys = ndb.ComputedProperty(url_safe_child_keys, repeated=True)
 
   def add_child_story(self, story_db):
@@ -81,12 +76,35 @@ class Story(model.Base, model.VisibilityFlags, model.PageMeta):
     if story_item_db.key in self.story_items:
       self.story_items.remove(story_item_db.key)
 
+  @property
+  def story_items_expanded(self):
+    return ndb.get_multi(self.story_items)
+
+  @property
+  def child_stories_expanded(self):
+    return ndb.get_multi(self.child_stories)
+
+  @property
+  def first_story_item_expanded(self):
+    if len(self.story_items) > 0:
+      return self.story_items[0].get()
+    else:
+      return None
+
+  @property
+  def parent_story_expanded(self):
+    if self.parent_story_key:
+      return self.parent_story_key.get()
+    else:
+      return None
+
+
   # Exposed fields in the service api @see: api/v1/story.py
   # Must match the same name as the db table
   FIELDS = {
       'title': fields.String,
       'description': fields.String,
-      'parent_story_key': fields.String,
+      'parent_story_key': fields.Key,
       'is_root_story': fields.Boolean,
       'deprecated_category_id': fields.Integer,
       'deprecated_category_data': fields.String,

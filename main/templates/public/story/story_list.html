@@ -1,1 +1,34 @@
 # extends 'public/base.html'
+
+# macro stories_row(stories, col_num = 3)
+  #if col_num >= 1 and col_num <= 12
+    # for col in range(col_num)
+      <div class="col-md-{{(12/col_num) | int}} text-center">
+        #for story in stories
+          #if (loop.index-1)%col_num == col
+            {{story_item(story)}}
+          #endif
+        #endfor
+      </div>
+    # endfor
+  #else
+   <!--  Colnum must be an integer between 1 and 12 -->
+  #endif
+# endmacro
+
+# macro story_item(story)
+  <img class="img-responsive" alt="{{story.title}}" title="{{story.title}}" src="{{story.first_story_item_expanded.serve_url}}" />
+# endmacro
+
+# block content
+<div class="container-fluid">
+  <h1 id="title" class="text-center">{{model.page_data.title}}</h1>
+  <h2 id="subtitle" class="text-center">{{model.params.tag}}</h2>
+</div>
+  <div class="container-fluid">
+    <div class="row">
+      {{stories_row(model.stories)}}
+    </div> <!-- .row -->
+  </div><!-- .contaiener-fluid -->
+
+# endblock

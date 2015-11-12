@@ -1,6 +1,10 @@
 # extends 'public/base.html'
 
 # block content
+<div class="container-fluid">
+  <h1 id="title" class="text-center">{{model.page_data.title}}</h1>
+  <h2 id="subtitle" class="text-center">{{model.page_data.description}}</h2>
+</div>
   # block slideshow
     #include 'public/home/bit/slideshow.html'
   # endblock
