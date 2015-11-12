@@ -12,7 +12,8 @@
     "sortable": "https://github.com/RubaXa/Sortable.git#master",
     "angular-marked": "https://github.com/Hypercubed/angular-marked.git#master",
     "angular-upload": "1.0.12",
-    "ng-tags-input": "3.0.0"
+    "ng-tags-input": "3.0.0",
+    "swiper": "3.2.0"
   },
   "overrides": {
     "bootstrap": {

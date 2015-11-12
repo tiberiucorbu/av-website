@@ -1,36 +1,7 @@
-<div class="container-fluid">
-	<div class="row">
-		<div class="col-md-6 text-left">
-			&copy; Anabella
-	  </div>
-		<div class="col-md-6 text-right share-buttons-wrapper">
-			<i class="fa fa-facebook-official"></i> <i class="fa fa-twitter"></i> <i class="fa fa-google-plus"></i>
-	  </div>
-	</div>
-</div>
-<div class="container-fluid hidden">
-	<div class="row">
-		<div class="col-md-4">
-			<ul class="footer-links-list">
-				<li><a href="{{url_for('home')}}">Home</a></li>
 
-				<li class="{{'active' if model.html_class.find('auth') != -1}}">
-			    <a href="{{url_for('signin')}}"><span class="fa fa-sign-in"></span> Sign in</a>
-			  </li>
+<div class="row">
+	<div class="col-md-12 text-center">
+		 <address class="author">&copy; <a rel="author" href="{{url_for('about')}}">Anabella Veres</a></address> - <time pubdate date="{{current_year()}}" title="{{current_year()}}">{{current_year()}}</time>
+  </div>
 
-			</ul>
-		</div>
-		<div class="col-md-4">
-			<ul class="footer-links-list">
-				<li>Home</li>
-			</ul>
-		</div>
-		<div class="col-md-4">
-			<div class="contact-wrapper">
-			  # include 'public/feedback/bit/feedback_form.html'
-			</div>
-		</div>
-	</div>
-	#include 'bit/current_version.html'
-	<p>&copy; 2015 - {{config.CONFIG_DB.brand_name}}</p>
 </div>

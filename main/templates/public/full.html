@@ -16,27 +16,22 @@
   </head>
 
   <body>
-    <div id="main-wrapper" class="{{model.page}}">
-
-      <header id="page-header-wrapper" class="header" role="contentinfo">
-        # block header
-          #include 'public/shared/bit/header.html'
-        # endblock
-      </header>
-
-      <div id="page-content-wrapper">
+      # block navbar
+        #include 'public/shared/bit/navbar.html'
+      # endblock
+      <div class="container-fluid vspacer">
         # block content
 
         # endblock
       </div>
 
-      <footer id="page-footer-wrapper" class="footer" role="contentinfo">
+      <footer class="footer-wrapper container-fluid vspacer" role="contentinfo">
         # block footer
           # include 'public/shared/bit/footer.html'
         # endblock
       </footer>
 
-    </div>
+
     # include 'public/shared/bit/script.html'
     # block scripts
     # endblock

@@ -5,7 +5,7 @@ import hashlib
 import re
 import unicodedata
 import urllib
-
+import datetime
 from google.appengine.datastore.datastore_query import Cursor
 from google.appengine.ext import ndb
 import flask
@@ -222,6 +222,8 @@ def parse_tags(tags, separator=None):
     tags = str(tags.strip()).split(separator or config.TAG_SEPARATOR)
   return filter(None, sorted(list(set(tags))))
 
+def current_year():
+  return datetime.date.today().strftime("%Y")
 
 ###############################################################################
 # Lambdas

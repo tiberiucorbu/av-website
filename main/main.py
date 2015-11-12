@@ -14,6 +14,7 @@ app.jinja_env.globals.update(
     is_iterable=util.is_iterable,
     slugify=util.slugify,
     update_query_argument=util.update_query_argument,
+    current_year = util.current_year
   )
 
 import auth
