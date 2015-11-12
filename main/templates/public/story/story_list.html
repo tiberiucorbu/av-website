@@ -17,7 +17,9 @@
 # endmacro
 
 # macro story_item(story)
-  <img class="img-responsive" alt="{{story.title}}" title="{{story.title}}" src="{{story.first_story_item_expanded.serve_url}}" />
+    <a href="{{url_for('story', story_key=story_key(story))}}">
+      <img class="img-responsive" alt="{{story.title}}" title="{{story.title}}" src="{{story.first_story_item_expanded.serve_url}}" />
+    </a>
 # endmacro
 
 # block content
@@ -27,8 +29,20 @@
 </div>
   <div class="container-fluid">
     <div class="row">
-      {{stories_row(model.stories)}}
-    </div> <!-- .row -->
+      <div class="col-md-8 col-md-offset-2">
+        <div class="row">
+          {{stories_row(model.stories)}}
+        </div> <!-- .row -->
+      </div>
+    </div>
+    {% if model.params.next_cursor %}
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2 text-center">
+
+        <a class="btn btn-default" href="{{url_for('tag', cursor = model.params.next_cursor, tag=model.params.tag, prev_cursor=model.params.current_cursor)}}">Load More</a>
+      </div>
+    </div>
+    {% endif %}
   </div><!-- .contaiener-fluid -->
 
 # endblock

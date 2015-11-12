@@ -11,6 +11,7 @@ import control.public
 import json
 from google.appengine.ext import ndb
 from google.appengine.datastore.datastore_query import Cursor
+from werkzeug import exceptions
 
 ###############################################################################
 # Welcome
@@ -40,8 +41,8 @@ def category(category_id):
   if story:
     redirect_url = flask.url_for('story', story_key=story.title)
   else:
-    # TODO: flash a message here
-    redirect_url = flask.url_for('home')
+    not_found = exceptions.NotFound();
+    raise not_found
   return flask.redirect(redirect_url)  # add 301 for permanent redirection
 
 
@@ -50,7 +51,8 @@ def story(story_key):
 
   story_db = get_story_db(story_key)
   if story_db is None:
-    flask.redirect(flask.url_for('404'))
+    not_found = exceptions.NotFound();
+    raise not_found
   resp_model = {}
   resp_model['html_class'] = 'story'
   decorate_page_response_model(resp_model)
@@ -71,11 +73,12 @@ def tag(tag):
       model.Story.tags == tag).filter(model.Story.story_item_count > 0).fetch_page(24, start_cursor=cursor)
 
   if len(story_dbs) == 0:
-    return flask.redirect(flask.url_for('404'))
+    not_found = exceptions.NotFound();
+    raise not_found
   params = {
       'next_cursor': next_cursor.urlsafe(),
       'tag': tag,
-      'current_cursor': cursor
+      'current_cursor': cursor.urlsafe()
   }
   resp_model = {}
   resp_model['html_class'] = 'tag'

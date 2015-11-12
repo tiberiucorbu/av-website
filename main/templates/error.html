@@ -1,17 +1,14 @@
-# extends 'base.html'
-
-# block header
-  <div class="jumbotron">
-    <div class="container">
-      <h2>
-        <small>{{error.code}}</small>
-        Oh no...! {{error.name}}
-      </h2>
-      <p>Maybe it's our fault.. maybe it's yours.. but either case, this page is unavailable!</p>
-    </div>
-  </div>
-# endblock
+# extends 'public/empty.html'
 
 # block content
-  <img src="//i.imgur.com/wzBcYCV.png" class="img-error" alt="xkcd: Wisdom of the Ancients" title="xkcd: Wisdom of the Ancients">
+<div class="jumbotron vcenter">
+  <div class="container text-center">
+    <h2 >
+      {{error.code}}
+    </h2>
+    <p></span>Oh no...! {{error.name}} <span> <br/> Maybe it's our fault.. maybe it's yours.. but either case, this page is unavailable!</p>
+    <p><a href="{{url_for('about')}}">Contact Us</a>, <a href="javascript:history.go(-1)" title="Return to previous page">go back</a> and retry or go to the <a href="{{url_for('home')}}">main page</a></p>
+  </div>
+</div>
+
 # endblock

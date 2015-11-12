@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html class="{% block html_class %}{% endblock %}" lang="en">
+  <head>
+    # include 'bit/meta.html'
+    <title>
+      {{config.CONFIG_DB.brand_name}}
+    </title>
+
+    # include 'public/shared/bit/style.html'
+    # block head
+
+    # endblock
+  </head>
+
+  <body>
+      # block navbar
+
+      # endblock
+
+        # block content
+
+        # endblock
+
+
+
+      # block footer
+
+      # endblock
+
+
+
+    # include 'public/shared/bit/script.html'
+    # block scripts
+    # endblock
+    # include 'public/shared/bit/analytics.html'
+  </body>
+</html>

@@ -3,7 +3,18 @@ body {
   height: 100%;
   margin: 0;
 }
-
+.vcenter {
+  display: table;
+  table-layout: fixed;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  text-align: center;
+  .container {
+    display: table-cell;
+    vertical-align: middle;
+  }
+}
 .table-header {
   display: table-row;
 }
@@ -14,7 +25,6 @@ body {
 .table-footer {
   display: table-row;
 }
-
 #page-content-wrapper {
   .table-content;
   postion: relative;
@@ -32,10 +42,8 @@ body {
 .navbar .navbar-collapse {
   text-align: center;
 }
-
 .footer-wrapper {
   .author {
     display: inline-block;
   }
-
 }

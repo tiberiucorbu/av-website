@@ -225,6 +225,12 @@ def parse_tags(tags, separator=None):
 def current_year():
   return datetime.date.today().strftime("%Y")
 
+def story_key(story):
+  if story.canonical_path :
+    return story.canonical_path
+  else :
+    return story.id
+
 ###############################################################################
 # Lambdas
 ###############################################################################
