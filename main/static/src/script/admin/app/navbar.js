@@ -12,8 +12,7 @@
       return {};
     });
 
-
-  app.controller('navbarBuilderController', ['$scope', '$http', 'mainNavbarDataService', 'navbarTreeModel', 'navbarSelectedItem', function($scope, $http, treeModelFactory, navbarTreeModel, navbarSelectedItem) {
+  var navbarBuilderController = function($scope, $http, treeModelFactory, navbarTreeModel, navbarSelectedItem) {
 
     $scope.tree = navbarTreeModel;
     $scope.selectedItem = navbarSelectedItem;
@@ -89,9 +88,11 @@
       navbarSelectedItem.item = item;
     };
 
-  }]);
+  };
 
-  app.directive('navItemEditForm', function($timeout, navbarSelectedItem) {
+  app.controller('navbarBuilderController', ['$scope', '$http', 'mainNavbarDataService', 'navbarTreeModel', 'navbarSelectedItem', navbarBuilderController]);
+
+  var navbarItemEditFormDirective = function($timeout, navbarSelectedItem) {
     return {
       link: function(scope, elm, attr) {
         scope.selectedItem = navbarSelectedItem;
@@ -122,8 +123,11 @@
       replace: false,
       templateUrl: '/p/html/admin_app/nav_item_edit_form.html'
     };
-  });
-  app.directive('navGroup', function() {
+  };
+
+  app.directive('navItemEditForm', ['$timeout', 'navbarSelectedItem', navbarItemEditFormDirective]);
+
+  var navGroupDirective = function() {
     return {
       restrict: "E",
       replace: true,
@@ -135,9 +139,11 @@
         //
         // }
     };
-  });
+  };
 
-  app.directive('navItem', function($compile, navbarSelectedItem) {
+  app.directive('navGroup', navGroupDirective);
+
+  var navItemDirective = function($compile, navbarSelectedItem) {
     return {
       restrict: 'EA',
       scope: {
@@ -178,8 +184,10 @@
         }
       }
     };
-  });
-  app.directive('navPreview', function() {
+  };
+
+  app.directive('navItem', ['$compile', 'navbarSelectedItem', navItemDirective]);
+  var navPreviewDirective = function() {
     return {
       scope: {
         tree: '='
@@ -189,9 +197,10 @@
       // },
       templateUrl: '/p/html/admin_app/nav_preview.html'
     };
-  });
+  };
+  app.directive('navPreview', navPreviewDirective);
 
-  app.controller('storySelectController', function($scope, filterFilter, storyDataFactory) {
+  var storySelectController = function($scope, storyDataFactory) {
 
     $scope.buffer = [];
     var params = storyDataFactory.getDefaultParams();
@@ -237,9 +246,11 @@
     // load first page initialy
     loadPage();
 
-  });
+  };
 
-  app.directive('lazyLoad', function() {
+  app.controller('storySelectController', ['$scope', 'storyDataFactory', storySelectController]);
+
+  var lazyLoadDirective = function() {
     return {
       restrict: 'A',
       link: function(scope, elem) {
@@ -251,9 +262,11 @@
         });
       }
     };
-  });
+  };
 
-  app.directive('listItem', function($compile, navbarSelectedItem) {
+  app.directive('lazyLoad', lazyLoadDirective);
+
+  var listItemDirective = function() {
     return {
       restrict: 'EA',
       scope: {
@@ -261,10 +274,10 @@
         onRemove: '&'
       },
       replace: false,
-      templateUrl: '/p/html/admin_app/list_item.html',
-      link: function(scope, element, attrs) {
-
-      }
+      templateUrl: '/p/html/admin_app/list_item.html'
     };
-  });
+  };
+
+  app.directive('listItem', listItemDirective);
+  
 })(window, angular);

@@ -24,7 +24,7 @@ def home():
 
   decorate_page_response_model(resp_model)
 
-  if len(resp_model['page_data']['image_keys']) > 0:
+  if 'page_data' in resp_model and 'image_keys' in resp_model['page_data'] and len(resp_model['page_data']['image_keys']) > 0:
     res_kes = [ndb.Key(urlsafe=k) for k in resp_model['page_data']['image_keys']]
     resp_model['page_data']['images'] = ndb.get_multi(res_kes)
 

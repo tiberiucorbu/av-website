@@ -3,8 +3,7 @@
 
   var app = window.app;
 
-
-  app.factory('storyDataFactory', function($http) {
+  app.factory('storyDataFactory', ['$http', function($http) {
     var url = '/api/v1/story/';
     var defaultParams = {
       limit: 60
@@ -36,10 +35,9 @@
         }
       }
     };
-  });
+  }]);
 
-
-  app.factory('storyTreeDataFactory', function($http) {
+  app.factory('storyTreeDataFactory', ['$http', function($http) {
     var url = '/api/v1/story/tree';
     var defaultParams = {
       limit: 60
@@ -72,5 +70,5 @@
         }
       }
     };
-  });
+  }]);
 })(window, angular);

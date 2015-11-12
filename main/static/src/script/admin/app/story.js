@@ -3,7 +3,9 @@
 
   var app = window.app;
 
-  app.controller('storyListController', function($scope, storyDataFactory) {
+
+
+  app.controller('storyListController', ['$scope', 'storyDataFactory', function($scope, storyDataFactory) {
 
     $scope.buffer = [];
     $scope.selected = null;
@@ -50,10 +52,11 @@
     // load first page initialy
     loadPage();
 
-  });
+  }]);
 
 
-  app.controller('editStoryController', function($scope, storyItemSelect, $uibModal, storyDataFactory, generateDataFactory) {
+
+  app.controller('editStoryController', ['$scope', 'storyItemSelect', '$uibModal', 'storyDataFactory', 'generateDataFactory', function($scope, storyItemSelect, $uibModal, storyDataFactory, generateDataFactory) {
     $scope.story = storyItemSelect.item;
     $scope.storyItems = [];
     $scope.openSelectParentStory = function() {
@@ -73,18 +76,15 @@
       }, function() {
         //$log.info('Modal dismissed at: ' + new Date());
       });
-
     };
-
-
 
     $scope.save = function() {
       generateDataFactory.getJson().then(function(res) {
         var storyItemKeys = [];
-        for (var i = 0; i < $scope.storyItems.length; i++){
+        for (var i = 0; i < $scope.storyItems.length; i++) {
           var item = $scope.storyItems[i];
-          if (item.resource && item.resource.key){
-              storyItemKeys.push(item.resource.key);
+          if (item.resource && item.resource.key) {
+            storyItemKeys.push(item.resource.key);
           }
         }
         var params = angular.extend($scope.story, {
@@ -99,11 +99,9 @@
         });
       });
     };
-  });
-
+  }]);
 
   app.directive('canonicalPath', function() {
-
 
     return {
       scope: {
@@ -116,7 +114,7 @@
         scope.$watch('textInput.$viewValue', function(v) {
           var text = window.strings.removeDiacritics(v);
           text = window.strings.improveTextForPath(text);
-            // a hack read below
+          // a hack read below
           angular.element(el).val(text).trigger('input');
           //scope.$apply();
           // For some reason I didn't manage to make this work so I used the input
@@ -135,7 +133,9 @@
   // Please note that $modalInstance represents a modal window (instance) dependency.
   // It is not the same as the $uibModal service used above.
 
-  app.controller('selectStoryModalInstanceCtrl', function($scope, $uibModalInstance, items) {
+
+
+  app.controller('selectStoryModalInstanceCtrl', ['$scope', '$uibModalInstance', 'items', function($scope, $uibModalInstance, items) {
 
     $scope.items = items;
     $scope.selected = {
@@ -149,7 +149,7 @@
     $scope.cancel = function() {
       $uibModalInstance.dismiss('cancel');
     };
-  });
+  }]);
 
   app.directive('mapDate', function() {
     return {
@@ -184,7 +184,7 @@
     return {};
   });
 
-  app.directive('storyListItem', function($compile, storyItemSelect) {
+  app.directive('storyListItem', ['$compile', 'storyItemSelect', function($compile, storyItemSelect) {
     return {
       restrict: 'EA',
       scope: {
@@ -217,5 +217,6 @@
         };
       }
     };
-  });
+  }]);
+
 })(window, angular, moment);

@@ -3,7 +3,7 @@
 
   var app = window.app;
 
-  app.directive('imageUploadThumbsPreview', function() {
+  var imageUploadThumbsPreviewDirective = function() {
     return {
       scope: {
         items: '=items'
@@ -14,9 +14,11 @@
         // console.log('imageUploadThumbsPreview', scope);
       //}
     };
-  });
+  };
 
-  app.directive('imageUploadThumbPreview', function() {
+  app.directive('imageUploadThumbsPreview', imageUploadThumbsPreviewDirective);
+
+  var imageUploadThumbPreviewDirective = function() {
     return {
       scope: {
         item: '=item'
@@ -32,9 +34,11 @@
         console.log('imageUploadThumbnail', scope);
       }
     };
-  });
+  };
 
-  app.directive('imageUploadForm', function() {
+  app.directive('imageUploadThumbPreview', imageUploadThumbPreviewDirective);
+
+  var imageUploadFormDirective = function() {
 
     var toHex = function(color) {
       return '#' + ('00000' + (color.r << 16 | color.g << 8 | color.b).toString(16)).slice(-6);
@@ -136,10 +140,14 @@
 
       }
     };
-  });
+  };
 
-  app.controller('imagesSelectController', ['$scope', function($scope) {
+  app.directive('imageUploadForm', imageUploadFormDirective );
+
+  var imagesSelectController = function($scope) {
     console.log($scope);
-  }]);
+  };
+
+  app.controller('imagesSelectController', ['$scope', imagesSelectController]);
 
 })(window);

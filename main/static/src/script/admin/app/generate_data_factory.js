@@ -1,10 +1,10 @@
 (function(window, angular) {
-  
+
   "use strict";
 
   var app = window.app;
 
-  app.factory('generateDataFactory', function($http) {
+  app.factory('generateDataFactory', ['$http', function($http) {
     var url = '/api/v1/generate/';
     var defaultParams = {
       token: 'csrf'
@@ -23,5 +23,5 @@
         return result;
       }
     };
-  });
+  }]);
 })(window, angular);
