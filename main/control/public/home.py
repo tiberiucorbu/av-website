@@ -1,12 +1,15 @@
 # coding: utf-8
 
 import flask
+import wtforms
+from flask.ext import wtf
 
 from main import app
 import auth
 import config
 import model
 import util
+import task
 import control.public
 import json
 from google.appengine.ext import ndb
@@ -41,9 +44,8 @@ def category(category_id):
   if story:
     redirect_url = flask.url_for('story', story_key=story.title)
   else:
-    not_found = exceptions.NotFound();
-    raise not_found
-  return flask.redirect(redirect_url)  # add 301 for permanent redirection
+    flask.abort(418)
+  return flask.redirect(redirect_url, 301)  # add 301 for permanent redirection
 
 
 @app.route('/story/<story_key>')
@@ -52,8 +54,7 @@ def story(story_key):
 
   story_db = get_story_db(story_key)
   if story_db is None:
-    not_found = exceptions.NotFound();
-    raise not_found
+    flask.abort(404)
   resp_model = {}
   resp_model['html_class'] = 'story'
   decorate_page_response_model(resp_model)
@@ -77,8 +78,7 @@ def stories():
   story_dbs, next_cursor, more = model.Story.query().filter(model.Story.story_item_count > 0).fetch_page(24, start_cursor=cursor)
 
   if len(story_dbs) == 0:
-    not_found = exceptions.NotFound();
-    raise not_found
+    flask.abort(404)
   params = {
       'next_cursor': next_cursor.urlsafe(),
       'current_cursor': cursor.urlsafe()
@@ -117,18 +117,65 @@ def tag(tag):
   return flask.render_template('public/story/story_list.html', model=resp_model)
 
 
-@app.route('/about')
+@app.route('/about', methods=['GET', 'POST'])
 def about():
   resp_model = {}
-
   resp_model['html_class'] = 'about'
   decorate_page_response_model(resp_model)
+
+
+  if 'feedback_form' in resp_model:
+    feedback_form = resp_model['feedback_form']
+    if not config.CONFIG_DB.has_anonymous_recaptcha or auth.is_logged_in():
+      del feedback_form.recaptcha
+    if feedback_form.validate_on_submit():
+      if not config.CONFIG_DB.feedback_email:
+        return flask.abort(418)
+      body = '%s\n\n%s' % (feedback_form.message.data, feedback_form.email.data)
+      kwargs = {
+          'reply_to': feedback_form.email.data} if feedback_form.email.data else {}
+      task.send_mail_notification('%s...' % body[:48].strip(), body, **kwargs)
+      flask.flash('Thank you for your feedback!', category='success')
+      return flask.redirect(flask.url_for('home'))
+
+  about_page_db = model.ModuleConfig.get_by('module_id', 'about-page')
+  if about_page_db is not None and about_page_db.config is not None:
+    about_page_data = json.loads(about_page_db.config)
+    if 'page_data' in resp_model:
+      resp_model['page_data'].update(about_page_data)
+    else :
+      resp_model['page_data'] = about_page_data
+  if 'page_data' in resp_model and 'image_keys' in resp_model['page_data'] and len(resp_model['page_data']['image_keys']) > 0:
+    res_kes = [ndb.Key(urlsafe=k) for k in resp_model['page_data']['image_keys']]
+    resp_model['page_data']['images'] = ndb.get_multi(res_kes)
+
   return flask.render_template('public/about/about.html', model=resp_model)
+
+
+class FeedbackForm(wtf.Form):
+  message = wtforms.TextAreaField(
+      'Message',
+      [wtforms.validators.required()], filters=[util.strip_filter],
+  )
+  name = wtforms.StringField(
+      'Name',
+      [wtforms.validators.optional()],
+  )
+  email = wtforms.StringField(
+      'Email',
+      [wtforms.validators.required(), wtforms.validators.email()],
+      filters=[util.email_filter],
+  )
+  subject = wtforms.StringField(
+        'Subject',
+        [wtforms.validators.optional()]
+
+    )
+  recaptcha = wtf.RecaptchaField()
 
 ###############################################################################
 # Sitemap stuff
 ###############################################################################
-
 
 @app.route('/sitemap.xml')
 def sitemap():
@@ -186,7 +233,7 @@ def decorate_page_response_model(resp_model):
     resp_model['navbar'] = main_navbar_data
 
   # Add feedbackform, present in the footer - needed for CXFR protection
-  feedback_form = control.public.FeedbackForm(obj=auth.current_user_db())
+  feedback_form = FeedbackForm(obj=auth.current_user_db())
   # Add layout switch param - this is the switcher for page render (full
   # (default), reduced)
   resp_model['feedback_form'] = feedback_form

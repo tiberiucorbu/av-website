@@ -15,6 +15,14 @@ body {
     vertical-align: middle;
   }
 }
+
+.table {
+  display: table;
+  table-layout: fixed;
+  width: 100%;
+  height: 100%;
+}
+
 .table-header {
   display: table-row;
 }
@@ -48,22 +56,29 @@ body {
   }
 }
 
-.img-responsive-v {
-    .img-responsive;
-    width: auto;
-    max-width: auto;
-    max-height: 100%;
+.full {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  bottom: 0px;
+  right: 0px;
 }
+
+
 
 .swiper-container {
     width: 100%;
     height: 100%;
 }
 
+.slide-img {
+
+    max-height : 100%;
+}
+
 .swiper-slide {
     text-align: center;
-    font-size: 18px;
-    background: #fff;
+
 
     /* Center slide text vertically */
     display: -webkit-box;

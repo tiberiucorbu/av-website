@@ -1,6 +1,36 @@
 # extends 'public/base.html'
 
 # block content
-
-
+<header class="row vspacer">
+  <div class="col-md-12">
+    <h1 id="title" class="text-center">{{model.page_data.title}}</h1>
+    <h2 class="subtitle text-center">About</h2>
+  </div>
+</header>
+<section class="row vspacer">
+  <div class="col-xs-12 col-md-6 col-md-offset-3">
+    <p class="text-center">{{model.page_data.description}}</p>
+  </div>
+</section>
+# if model.page_data.phone or model.page_data.email
+<address class="row ">
+  <div class="col-xs-12 col-md-6 col-md-offset-3 text-center">
+    # if model.page_data.phone
+      Tel:  <span rel="telephone">{{ model.page_data.phone}}</span>
+    # endif
+    # if model.page_data.phone and model.page_data.email
+    |
+    # endif
+    # if model.page_data.email
+      <span rel="email">{{ model.page_data.email}}</span>
+    # endif
+    <hr />
+  </div>
+</address>
+# endif
+<section class="row">
+  <div class="col-xs-12 col-md-6 col-md-offset-3">
+    # include 'public/feedback/bit/feedback_form.html'
+  </div>
+</section>
 # endblock
