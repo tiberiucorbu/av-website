@@ -1,0 +1,25 @@
+# extends 'public/base.html'
+
+#macro story_item (item)
+  <div class="slide swiper-slide ">
+    <img src="{{item.serve_url}}" class="img-responsive-v" alt="{{item.name}}" title="{{item.name}}" />
+  </div>
+#endmacro
+
+# block content
+  #if not model.view_reduced
+  <div>
+    <h1>{{model.story.title}}</h1>
+    <p>{{model.story.description}}</p>
+  </div>
+  #endif
+  
+  <div class="swiper-container" data-target="swiper">
+    <div class="swiper-wrapper">
+      #for item in model.story.story_items_expanded
+        {{story_item(item)}}
+      #endfor
+    </div>
+    <div class="swiper-pagination"></div>
+  </div>
+# endblock

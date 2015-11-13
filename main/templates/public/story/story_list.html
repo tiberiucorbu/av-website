@@ -38,7 +38,6 @@
     {% if model.params.next_cursor %}
     <div class="row">
       <div class="col-md-8 col-md-offset-2 text-center">
-
         <a class="btn btn-default" href="{{url_for('tag', cursor = model.params.next_cursor, tag=model.params.tag, prev_cursor=model.params.current_cursor)}}">Load More</a>
       </div>
     </div>

@@ -49,6 +49,7 @@ def category(category_id):
 @app.route('/story/<story_key>')
 def story(story_key):
 
+
   story_db = get_story_db(story_key)
   if story_db is None:
     not_found = exceptions.NotFound();
@@ -57,7 +58,11 @@ def story(story_key):
   resp_model['html_class'] = 'story'
   decorate_page_response_model(resp_model)
   decorate_story_page_model(resp_model, story_db)
-  return flask.render_template('public/story/story.html', model=resp_model)
+  mode = util.param('m', str);
+  templatePath = 'public/story/story.html';
+  if 'gallery' == mode:
+    templatePath = 'public/story/story_gallery.html';
+  return flask.render_template(templatePath, model=resp_model)
 
 
 @app.route('/tag/<tag>')
