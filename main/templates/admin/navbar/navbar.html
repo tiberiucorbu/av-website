@@ -3,24 +3,35 @@
 
 #block admin_content
   <div id="#app-wrapper" ng-app="adminApp" class="container-fluid">
-    <div class="row">
-      <div class="col-md-12">
-        <div nav-preview tree="tree"></div>
-      </div>
-    </div>
+
     <div class="row">
       <div class="col-md-4">
         <div ng-controller="navbarBuilderController as controller">
-          <button ng-click="save()">Save</button>
-          <div ng-repeat="node in tree">
-            <div nav-item item="node"></div>
+
+          <ul class="list-group padding-v">
+            <li class="list-group-item" ng-repeat="node in tree">
+              <div nav-item item="node"></div>
+            </li>
+          </ul>
+          <div class="row">
+            <div class="col-md-12">
+              {{status}}
+            </div>
           </div>
+          <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+              <button ng-click="save()" type="submit" class="btn btn-primary btn-block">
+                Save
+              </button>
+            </div>
+          </div>
+
         </div>
       </div> <!-- .col-md-4 -->
       <div class="col-md-8">
         <div class="panel-group" role="tablist">
 
-          <div class="panel panel-default" ng-controller="storySelectController" >
+          <div class="panel panel-default"  >
             <div class="panel-heading" role="tab" id="collapseItemEditFormHeading">
               <h4 class="panel-title">
                 <a class="" role="button" data-toggle="collapse" href="#collapseItemEditForm" aria-expanded="true" aria-controls="collapseItemEditForm">
@@ -29,31 +40,30 @@
               </h4>
             </div>
 
-            <div aria-expanded="true" id="collapseItemEditForm" class="panel-collapse collapse" role="tabpanel" aria-labelledby="collapseItemEditFormHeading">
+            <div aria-expanded="true" id="collapseItemEditForm" class="panel-collapse" role="tabpanel" aria-labelledby="collapseItemEditFormHeading">
               <div nav-item-edit-form></div>
             </div>
           </div><!-- .panel -->
 
-          <div class="panel panel-default" ng-controller="storySelectController" >
+          <div class="panel panel-default" ng-controller="storyListController" >
             <div class="panel-heading" role="tab" id="collapseStoriesListGroupHeading">
               <h4 class="panel-title">
                 <a class="" role="button" data-toggle="collapse" href="#collapseStoriesListGroup" aria-expanded="true" aria-controls="collapseStoriesListGroup">
                   Select a story
                 </a>
+
+                <div class="pull-right">
+                  <div class="btn-group">
+                    <button class="btn btn-xs edit fa fa-refresh" title="Reload" alt="Reload" ng-click="reload()"></button>
+                  </div>
+                </div>
               </h4>
+
             </div>
 
             <div aria-expanded="true" id="collapseStoriesListGroup" class="panel-collapse collapse" role="tabpanel" aria-labelledby="collapseStoriesListGroupHeading">
 
-              <div class="input-group" style="margin-bottom: 15px">
-                <input class="form-control" ng-model="search" ng-change="typed(search)">
-                <div class="input-group-btn">
-                  <button class='btn btn-primary fa fa-remove' ng-click="resetList()"></button>
-                </div>
-              </div>
-
-
-              <ul ng-sortable="{ group: {	name: 'navbar',	pull: 'clone',	put: false}, animation: 150 }" class="list-group" style="min-height: 200px; height: 200px; overflow-y: scroll" lazy-load>
+              <ul ng-sortable="{ group: {	name: 'navbar',	pull: 'clone',	put: false, sort: false}, animation: 150 }" class="list-group lazy-load" lazy-load>
                 <li class="list-group-item" ng-repeat="item in buffer">
                   <span list-item item="item"></span>
                   <!-- button class="btn btn-xs pull-right" ng-click="press(item)">Press me</button -->
@@ -63,23 +73,20 @@
             </div>
           </div><!-- .panel -->
 
-          <div class="panel panel-default"  >
+          <div class="panel panel-default" ng-controller="pageListController" >
             <div class="panel-heading" role="tab" id="collapsePagesListGroupHeading">
               <h4 class="panel-title">
                 <a class="" role="button" data-toggle="collapse" href="#collapsePagesListGroup" aria-expanded="true" aria-controls="collapsePagesListGroup">
-                  Other pages
+                  Pages
                 </a>
               </h4>
             </div>
 
             <div aria-expanded="true" id="collapsePagesListGroup" class="panel-collapse collapse" role="tabpanel" aria-labelledby="collapsePagesListGroupHeading">
 
-              <ul ng-sortable="{ group: {	name: 'navbar',	pull: 'clone',	put: false}, animation: 150 }" class="list-group">
-                <li class="list-group-item">
-                  <span list-item item="{title: 'Home Page'}">Home</span>
-                </li>
-                <li class="list-group-item">
-                  <span list-item item="{title: 'About Page'}">About Page</span>
+              <ul ng-sortable="{ group: {	name: 'navbar',	pull: 'clone',	put: false}, animation: 150 }" class="list-group lazy-load" lazy-load>
+                <li class="list-group-item" ng-repeat="item in buffer">
+                  <span list-item item="item"></span>
                 </li>
               </ul>
 
@@ -90,5 +97,6 @@
       </div> <!-- .panel-group -->
       </div> <!-- .col-md-8 -->
     </div> <!-- .row -->
+
   </div> <!-- #app-wrapper -->
 # endblock

@@ -21,6 +21,7 @@
         storyDataFactory.updateNextPageParams(params, res);
         var result = res.data.result;
         for (var i = 0; i < result.length; i++) {
+          result[i].modelType = 'story';
           $scope.buffer.push(result[i]);
         }
         storyDataFactory.updateNextPageParams(params, res);
@@ -37,17 +38,11 @@
       params = storyDataFactory.getDefaultParams();
     };
 
-    $scope.loadPage = loadPage;
-
-    $scope.typed = function(searchText) {
+    $scope.reload = function(){
       reset();
-      params.search = searchText;
       loadPage();
     };
-
-    $scope.press = function(item) {
-      $scope.selectedItem = item;
-    };
+    $scope.loadPage = loadPage;
 
     // load first page initialy
     loadPage();

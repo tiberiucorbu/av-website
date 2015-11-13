@@ -3,6 +3,49 @@
 
   var app = window.app;
 
+  app.factory('pagesDataService', function() {
+    return {
+      getJson: function() {
+        return {
+          pages: [{
+            title: 'Home Page',
+            modelType: 'page',
+            url_component: 'home'
+          }, {
+            title: 'Blog',
+            modelType: 'page',
+            url_component: 'blog'
+          }, {
+            title: 'About Page',
+            modelType: 'page',
+            url_component: 'about'
+          }]
+        };
+      }
+    };
+  });
+
+
+
+  app.controller('pageListController', ['$scope', 'pagesDataService', function($scope, pagesDataService) {
+    $scope.buffer = [];
+
+    $scope.reset = function() {
+      $scope.buffer.splice(0, $scope.buffer.length);
+    };
+
+    $scope.loadPage = function() {
+      var data = pagesDataService.getJson();
+      $scope.reset();
+      for (var i = 0; i < data.pages.length; i++) {
+        data.pages[i].modelType = 'page';
+        $scope.buffer.push(data.pages[i]);
+      }
+    };
+    $scope.loadPage();
+
+  }]);
+
   app.controller('homePageController', ['$scope', 'homePageDataService', function($scope, homePageDataService) {
     $scope.page = {
 
@@ -44,7 +87,7 @@
   });
 
 
-  app.controller('aboutPageController',  ['$scope', 'aboutPageDataService', function($scope, aboutPageDataService) {
+  app.controller('aboutPageController', ['$scope', 'aboutPageDataService', function($scope, aboutPageDataService) {
     $scope.page = {
 
     };

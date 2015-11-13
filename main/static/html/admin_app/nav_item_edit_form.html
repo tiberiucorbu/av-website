@@ -1,13 +1,14 @@
-<div ng-show="selectedItem.item">
-  <div class="form-group">
-    <label>Label</label>
-    <input type="text" ui-keydown="{esc: 'cancel($event)'}" ng-model="selectedItem.item.label">
+<div class="panel-body" ng-show="selectedItem.item">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group">
+        <label class="control-label" for="label">Label</label>
+        <input type="text" class="form-control" id="name" name="name" ng-model="selectedItem.item.label">
+      </div>
+      <div class="form-group">
+        <label class="control-label" for="label">Link</label>
+        <input class="form-control" type="text" ng-model="selectedItem.item.href">
+      </div>
+    </div>
   </div>
-  <div class="form-group">
-    <label>link</label>
-    <input type="text" ui-keydown="{esc: 'cancel($event)'}" ng-model="selectedItem.item.href">
-  </div>
-  <!--  Or select a default page -->
-  <hr />
-  <div story-selector></div>
 </div>

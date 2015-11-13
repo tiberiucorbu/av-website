@@ -5,7 +5,6 @@ body {
     padding-bottom: (@line-height-computed * 2);
   }
 }
-
 .alert-announcement {
   display: none;
   &.container {
@@ -17,20 +16,27 @@ body {
     right: 0;
   }
 }
-
 .img-error {
   max-width: 100%;
   margin: auto;
   display: block;
 }
-
-.anchor{
+.anchor {
   display: block;
   position: relative;
   top: -@navbar-height;
   visibility: hidden;
 }
-
 .recaptcha {
   min-height: 78px;
+}
+.lazy-load {
+  min-height: 200px;
+  height: 200px;
+  overflow-y: scroll;
+}
+
+.padding-v {
+  padding-top: 6px;
+  badding-bottom: 6px;
 }

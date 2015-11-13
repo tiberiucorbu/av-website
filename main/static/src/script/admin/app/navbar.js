@@ -6,7 +6,9 @@
 
   app.value('navbarTreeModel', [{
       nodes: [],
-      label: 'Main Navbar'
+      label: 'Main Navbar',
+      modelType: 'rootNode',
+      deepness: 0
     }])
     .factory('navbarSelectedItem', function() {
       return {};
@@ -17,21 +19,34 @@
     $scope.tree = navbarTreeModel;
     $scope.selectedItem = navbarSelectedItem;
 
-    treeModelFactory.getJson().then(
-      function(res) {
-        var config = JSON.parse(res.data.result.config) || [];
-        angular.copy([{
-          nodes: config,
-          label: 'Main Navbar'
-        }], navbarTreeModel);
-      },
-      function() {
 
-      }
-    );
+
+    var reload = function() {
+      $scope.status = 'Loading';
+
+      treeModelFactory.getJson().then(
+        function(res) {
+          var config = JSON.parse(res.data.result.config) || [];
+          angular.copy([{
+            nodes: config,
+            label: 'Main Navbar'
+          }], navbarTreeModel);
+          $scope.status = 'Loaded';
+        },
+        function(res) {
+          $scope.error = res;
+          $scope.status = 'Faild to load';
+        }
+      );
+    };
 
     var mapRecoursive = function(model, copyObject) {
       copyObject.label = model.label;
+      for ( var x in model ){
+          if (model.hasOwnProperty(x) && x.match(/^[a-z]/) && x !== 'nodes'){
+            copyObject[x] = model[x];
+          }
+      }
       if (model.nodes !== null && $.isArray(model.nodes)) {
         copyObject.nodes = [];
         for (var i = 0; i < model.nodes.length; i++) {
@@ -53,24 +68,22 @@
       return copyObject;
     };
 
-    var successCallback = function(res) {
-      console.log(res);
-      //$scope.navbarTree = JSON.parse(response.data.result.config);
-    };
-
-    var errorCallback = function(res) {
-      console.log(res);
-
-    };
-
     $scope.save = function() {
+      $scope.status = 'Saving ... ';
       var copy = composeNavbarObj(navbarTreeModel[0].nodes);
       // post copy
       var data = {
         'module_config': copy
       };
 
-      treeModelFactory.postJson(data).then(successCallback, errorCallback);
+      treeModelFactory.postJson(data).then(function(res) {
+        console.log(res);
+        $scope.status = 'Saved !';
+        //$scope.navbarTree = JSON.parse(response.data.result.config);
+      }, function(res) {
+        console.log(res);
+
+      });
     };
 
 
@@ -87,7 +100,7 @@
       data.nodes.push(item);
       navbarSelectedItem.item = item;
     };
-
+    reload();
   };
 
   app.controller('navbarBuilderController', ['$scope', '$http', 'mainNavbarDataService', 'navbarTreeModel', 'navbarSelectedItem', navbarBuilderController]);
@@ -127,6 +140,51 @@
 
   app.directive('navItemEditForm', ['$timeout', 'navbarSelectedItem', navbarItemEditFormDirective]);
 
+  var navBarItemFromStory = function(story) {
+    return {
+      label: story.title,
+      key: story.key,
+      modelType: story.modelType,
+      url_component: story.canonical_path
+    };
+  };
+
+  var navBarItemFromPage = function(page) {
+    console.log(page);
+    return {
+
+      label: page.title,
+      modelType: page.modelType,
+      url_component: page.url_component
+    };
+  };
+
+  var navBarItemFromTag = function(tag) {
+    return {
+      label: tag.label,
+      modelType: tag.modelType,
+      url_component: tag.url_component
+    };
+  };
+
+  var convertNavbarItem = function(item, items, newIndex) {
+    var navbarItem = item;
+    if (item.modelType === 'story') {
+      navbarItem = navBarItemFromStory(item);
+    } else if (item.modelType === 'page') {
+      navbarItem = navBarItemFromPage(item);
+    } else if (item.modelType === 'tag') {
+      navbarItem = navBarItemFromTag(item);
+    }
+    console.log(navbarItem);
+    if (navbarItem !== item) {
+      items[newIndex] = navbarItem;
+      return true;
+    } else {
+      return false;
+    }
+  };
+
   var navGroupDirective = function() {
     return {
       restrict: "E",
@@ -134,10 +192,24 @@
       scope: {
         nodes: '=nodes'
       },
-      templateUrl: '/p/html/admin_app/nav_group.html' //,
-        // link: function(scope, element, attrs) {
-        //
-        // }
+      templateUrl: '/p/html/admin_app/nav_group.html',
+      link: function(scope, element, attrs) {
+        scope.sortableConfig = {
+          group: 'navbar',
+          animation: 150,
+          onAdd: function(evt) {
+            var item = evt.model;
+            var items = evt.models;
+            var newIndex = evt.newIndex;
+
+            var modified = convertNavbarItem(item, items, newIndex);
+            if (scope.$parent.item){
+              var deepness = scope.$parent.item.deppness;
+              item.deepness = deepness + 1;
+            }
+          }
+        };
+      }
     };
   };
 
@@ -152,18 +224,16 @@
       },
       replace: false,
       templateUrl: '/p/html/admin_app/nav_item.html',
-      link: function(scope, element, attrs) {
+      link: function(scope, element) {
         scope.onSelect = function(item) {
-
           var resource = navbarSelectedItem;
           resource.item = item;
-          console.log('From navitem : ', navbarSelectedItem);
         };
         scope.isSelected = function() {
           return scope.item === navbarSelectedItem.item;
 
         };
-        scope.onNewChildNode = function(item, $event) {
+        scope.onNewChildNode = function(item) {
           if (!angular.isArray(item.nodes)) {
             item.nodes = [];
           }
@@ -173,7 +243,9 @@
             $compile(newGroupEl)(scope);
           }
           item.nodes.push({
-            label: 'new item'
+            label: 'new item',
+            modelType: 'custom',
+            deepness : item.deepness+1
           });
           return false;
         };
@@ -199,56 +271,6 @@
     };
   };
   app.directive('navPreview', navPreviewDirective);
-
-  var storySelectController = function($scope, storyDataFactory) {
-
-    $scope.buffer = [];
-    var params = storyDataFactory.getDefaultParams();
-
-    var loadPage = function() {
-      if (params.loadedAll) {
-        return;
-      }
-
-      storyDataFactory.getJson(params).then(function(res) {
-        // Success
-        storyDataFactory.updateNextPageParams(params, res);
-        var result = res.data.result;
-        for (var i = 0; i < result.length; i++) {
-          $scope.buffer.push(result[i]);
-        }
-        storyDataFactory.updateNextPageParams(params, res);
-
-        console.log(params, $scope.buffer, res);
-      }, function(res) {
-        // Error
-      });
-    };
-
-    var reset = function() {
-      // clear the buffer
-      $scope.buffer = [];
-      params = storyDataFactory.getDefaultParams();
-    };
-
-    $scope.loadPage = loadPage;
-
-    $scope.typed = function(searchText) {
-      reset();
-      params.search = searchText;
-      loadPage();
-    };
-
-    $scope.press = function(item) {
-      $scope.selectedItem = item;
-    };
-
-    // load first page initialy
-    loadPage();
-
-  };
-
-  app.controller('storySelectController', ['$scope', 'storyDataFactory', storySelectController]);
 
   var lazyLoadDirective = function() {
     return {
@@ -279,5 +301,5 @@
   };
 
   app.directive('listItem', listItemDirective);
-  
+
 })(window, angular);

@@ -14,7 +14,7 @@ import control.public
 import json
 from google.appengine.ext import ndb
 from google.appengine.datastore.datastore_query import Cursor
-from werkzeug import exceptions
+from werkzeug import exceptions, routing
 
 ###############################################################################
 # Welcome
@@ -29,10 +29,21 @@ def home():
   decorate_page_response_model(resp_model)
 
   if 'page_data' in resp_model and 'image_keys' in resp_model['page_data'] and len(resp_model['page_data']['image_keys']) > 0:
-    res_kes = [ndb.Key(urlsafe=k) for k in resp_model['page_data']['image_keys']]
+    res_kes = [ndb.Key(urlsafe=k)
+               for k in resp_model['page_data']['image_keys']]
     resp_model['page_data']['images'] = ndb.get_multi(res_kes)
 
   return flask.render_template('public/home/home.html', model=resp_model)
+
+
+@app.route('/blog', defaults={'path': ''})
+@app.route('/blog/<path:path>')
+def blog(path):
+  # permanent redirection to the new story URL
+  # find story by category id
+  blog_url = 'http://anabellaveress.blogspot.de/'
+
+  return flask.redirect(blog_url + path, 301)  # add 301 for permanent redirection
 
 
 @app.route('/category/<int:category_id>')
@@ -51,7 +62,6 @@ def category(category_id):
 @app.route('/story/<story_key>')
 def story(story_key):
 
-
   story_db = get_story_db(story_key)
   if story_db is None:
     flask.abort(404)
@@ -59,10 +69,10 @@ def story(story_key):
   resp_model['html_class'] = 'story'
   decorate_page_response_model(resp_model)
   decorate_story_page_model(resp_model, story_db)
-  mode = util.param('m', str);
-  templatePath = 'public/story/story.html';
+  mode = util.param('m', str)
+  templatePath = 'public/story/story.html'
   if 'gallery' == mode:
-    templatePath = 'public/story/story_gallery.html';
+    templatePath = 'public/story/story_gallery.html'
   return flask.render_template(templatePath, model=resp_model)
 
 
@@ -75,7 +85,8 @@ def stories():
   except TypeError:
     key = None
 
-  story_dbs, next_cursor, more = model.Story.query().filter(model.Story.story_item_count > 0).fetch_page(24, start_cursor=cursor)
+  story_dbs, next_cursor, more = model.Story.query().filter(
+      model.Story.story_item_count > 0).fetch_page(24, start_cursor=cursor)
 
   if len(story_dbs) == 0:
     flask.abort(404)
@@ -103,7 +114,7 @@ def tag(tag):
       model.Story.tags == tag).filter(model.Story.story_item_count > 0).fetch_page(24, start_cursor=cursor)
 
   if len(story_dbs) == 0:
-    not_found = exceptions.NotFound();
+    not_found = exceptions.NotFound()
     raise not_found
   params = {
       'next_cursor': next_cursor.urlsafe(),
@@ -123,7 +134,6 @@ def about():
   resp_model['html_class'] = 'about'
   decorate_page_response_model(resp_model)
 
-
   if 'feedback_form' in resp_model:
     feedback_form = resp_model['feedback_form']
     if not config.CONFIG_DB.has_anonymous_recaptcha or auth.is_logged_in():
@@ -131,7 +141,8 @@ def about():
     if feedback_form.validate_on_submit():
       if not config.CONFIG_DB.feedback_email:
         return flask.abort(418)
-      body = '%s\n\n%s' % (feedback_form.message.data, feedback_form.email.data)
+      body = '%s\n\n%s' % (feedback_form.message.data,
+                           feedback_form.email.data)
       kwargs = {
           'reply_to': feedback_form.email.data} if feedback_form.email.data else {}
       task.send_mail_notification('%s...' % body[:48].strip(), body, **kwargs)
@@ -143,10 +154,11 @@ def about():
     about_page_data = json.loads(about_page_db.config)
     if 'page_data' in resp_model:
       resp_model['page_data'].update(about_page_data)
-    else :
+    else:
       resp_model['page_data'] = about_page_data
   if 'page_data' in resp_model and 'image_keys' in resp_model['page_data'] and len(resp_model['page_data']['image_keys']) > 0:
-    res_kes = [ndb.Key(urlsafe=k) for k in resp_model['page_data']['image_keys']]
+    res_kes = [ndb.Key(urlsafe=k)
+               for k in resp_model['page_data']['image_keys']]
     resp_model['page_data']['images'] = ndb.get_multi(res_kes)
 
   return flask.render_template('public/about/about.html', model=resp_model)
@@ -167,15 +179,16 @@ class FeedbackForm(wtf.Form):
       filters=[util.email_filter],
   )
   subject = wtforms.StringField(
-        'Subject',
-        [wtforms.validators.optional()]
+      'Subject',
+      [wtforms.validators.optional()]
 
-    )
+  )
   recaptcha = wtf.RecaptchaField()
 
 ###############################################################################
 # Sitemap stuff
 ###############################################################################
+
 
 @app.route('/sitemap.xml')
 def sitemap():
@@ -219,6 +232,31 @@ def decorate_stories_page_model(resp_model, story_dbs, params):
   resp_model['params'] = params
 
 
+
+def expand_links(parentItem):
+  if isinstance(parentItem, list):
+    for item in parentItem:
+      expand_links(item)
+  else:
+    modelType = util.getIfExists(parentItem, 'modelType', None)
+    if 'story' == modelType:
+      story_key = None
+      keyStr = util.getIfExists(parentItem, 'key', None)
+      if not util.isBlank(keyStr):
+        story_db = ndb.Key(urlsafe=keyStr).get();
+        print (story_db);
+        if story_db:
+          parentItem['url'] = flask.url_for('story', story_key=util.story_key(story_db));
+    if 'page' == modelType:
+      keyStr = util.getIfExists(parentItem, 'url_component', 'home')
+      try :
+        parentItem['url'] = flask.url_for(keyStr);
+      except routing.BuildError:
+        parentItem['url'] = flask.url_for('home');
+    if 'nodes' in parentItem:
+      expand_links(parentItem['nodes'])
+
+
 def decorate_page_response_model(resp_model):
   # home page data present in every page
   home_page_db = model.ModuleConfig.get_by('module_id', 'home-page')
@@ -230,6 +268,7 @@ def decorate_page_response_model(resp_model):
   main_navbar_db = model.ModuleConfig.get_by('module_id', 'main-navbar')
   if main_navbar_db is not None and main_navbar_db.config is not None:
     main_navbar_data = json.loads(main_navbar_db.config)
+    expand_links(main_navbar_data)
     resp_model['navbar'] = main_navbar_data
 
   # Add feedbackform, present in the footer - needed for CXFR protection

@@ -229,7 +229,15 @@ def story_key(story):
   if story.canonical_path :
     return story.canonical_path
   else :
-    return story.id
+    return story.key.id()
+
+def isBlank (string):
+  return not string or string.strip() == '';
+
+def getIfExists(dictionary, parameter, defaultValue=None):
+  if dictionary and parameter in dictionary :
+    return dictionary[parameter]
+  return defaultValue
 
 ###############################################################################
 # Lambdas
