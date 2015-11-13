@@ -1,14 +1,25 @@
 # extends 'public/base.html'
 
+# macro story_item(item, story, idx)
+    <a data-target="open-modal-swiper" href="{{url_for('story', story_key=story_key(story), m='gallery', active=idx)}}">
+        <img src="{{item.serve_url}}" class="img-responsive-v" alt="{{item.name}}" title="{{item.name}}" />
+    </a>
+# endmacro
+
 # block content
   <div class="container-fluid">
-    <div class="col-md-5">
+    <div class="col-md-6">
       <h1>{{model.story.title}}</h1>
       <p>{{model.story.description}}</p>
     </div> <!-- .col-md-4 -->
-    <div class="col-md-7">
-      <div class="album-wrapper"></div>
-    </div> <!-- .col-md-7 -->
-  </div><!-- .contaiener-fluid -->
+    #for item in model.story.story_items_expanded
 
+    <div class="col-md-3">
+      {{story_item(item, model.story, loop.index-1)}}
+    </div> <!-- .col-md-7 -->
+
+    #endfor
+
+  </div><!-- .contaiener-fluid -->
+  #include 'public/story/bit/swiper_modal.html'
 # endblock

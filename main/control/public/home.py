@@ -65,6 +65,31 @@ def story(story_key):
   return flask.render_template(templatePath, model=resp_model)
 
 
+@app.route('/stories')
+def stories():
+  cursor_str = util.param('cursor', str)
+  cursor = None
+  try:
+    cursor = Cursor(urlsafe=cursor_str)
+  except TypeError:
+    key = None
+
+  story_dbs, next_cursor, more = model.Story.query().filter(model.Story.story_item_count > 0).fetch_page(24, start_cursor=cursor)
+
+  if len(story_dbs) == 0:
+    not_found = exceptions.NotFound();
+    raise not_found
+  params = {
+      'next_cursor': next_cursor.urlsafe(),
+      'current_cursor': cursor.urlsafe()
+  }
+  resp_model = {}
+  resp_model['html_class'] = 'stories'
+  decorate_page_response_model(resp_model)
+  decorate_stories_page_model(resp_model, story_dbs, params)
+  return flask.render_template('public/story/story_list.html', model=resp_model)
+
+
 @app.route('/tag/<tag>')
 def tag(tag):
   cursor_str = util.param('cursor', str)
