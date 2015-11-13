@@ -132,8 +132,10 @@ def populate_story_db(story_db, form):
   story_db.deprecated_category_id=form.deprecated_category_id.data
   story_db.deprecated_category_data=form.deprecated_category_data.data
 
-  resource_db_keys = [ndb.Key(urlsafe=k) for k in form.story_items.data]
-  story_db.story_items = resource_db_keys
+  story_items = util.param('story_items', list)
+  if story_items :
+    resource_db_keys = [ndb.Key(urlsafe=k) for k in story_items]
+    story_db.story_items = resource_db_keys
 
 def delete_story_task(story_key, next_cursor=None):
   if next_cursor:

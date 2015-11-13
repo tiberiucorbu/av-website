@@ -5,7 +5,7 @@
 
 
 
-  app.controller('storyListController', ['$scope', 'storyDataFactory', function($scope, storyDataFactory) {
+  app.controller('storyListController', ['$scope', 'storyDataFactory', 'storyItemSelect', function($scope, storyDataFactory, storyItemSelect) {
 
     $scope.buffer = [];
     $scope.selected = null;
@@ -38,7 +38,14 @@
       params = storyDataFactory.getDefaultParams();
     };
 
-    $scope.reload = function(){
+    $scope.newStory = function() {
+      var story = {};
+      $scope.buffer.unshift(story);
+      storyItemSelect.item = story;
+      $scope.$broadcast('scrollIntoView', story);
+    }
+
+    $scope.reload = function() {
       reset();
       loadPage();
     };
@@ -213,5 +220,18 @@
       }
     };
   }]);
+
+
+  app.directive('scrollIntoView', function() {
+    return {
+      link: function(scope) {
+        scope.$on('scrollIntoView', function(data) {
+          console.log(data);
+        })
+
+      }
+    }
+
+  });
 
 })(window, angular, moment);

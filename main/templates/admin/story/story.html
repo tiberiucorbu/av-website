@@ -4,10 +4,13 @@
 #block admin_content
 <div id="#app-wrapper" ng-app="adminApp" class="container-fluid">
 
-  <div image-upload-form items="[]"  ></div>
 
-  <div ng-controller="storySelectController">
-    <ul class="list-group" style="max-height: 500px; overflow-y: scroll" lazy-load>
+
+  <div ng-controller="storyListController">
+    <div class="row">
+      <button ng-click="newStory()">New Item</button>
+    </div>
+    <ul class="list-group" style="max-height: 500px; overflow-y: scroll" scroll-into-view lazy-load>
       <li class="list-group-item" ng-repeat="story in buffer">
         <div story-list-item story="story" edit-on-select="true"></div>
       </li>
