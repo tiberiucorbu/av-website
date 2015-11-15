@@ -10,8 +10,7 @@
     "eonasdan-bootstrap-datetimepicker": "~4.15.35",
     "angular": "1.4.6",
     "sortable": "https://github.com/RubaXa/Sortable.git#master",
-    "angular-marked": "https://github.com/Hypercubed/angular-marked.git#master",
-    "angular-upload": "1.0.12",
+    "angular-marked": "v1.0.0",
     "ng-tags-input": "3.0.0",
     "swiper": "3.2.0"
   },

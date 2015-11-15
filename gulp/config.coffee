@@ -45,7 +45,7 @@ config.admin =
     "#{paths.static.ext}/sortable/Sortable.js"
     "#{paths.static.ext}/sortable/ng-sortable.js"
     "#{paths.static.ext}/marked/lib/marked.js"
-    "#{paths.static.ext}/angular-marked/angular-marked.js"
+    "#{paths.static.ext}/angular-marked/dist/angular-marked.js"
     "#{paths.static.ext}/angular-bootstrap/ui-bootstrap-tpls.js"
     "#{paths.static.ext}/angular-upload/angular-upload.js"
     "#{paths.static.ext}/ng-tags-input/ng-tags-input.min.js"
