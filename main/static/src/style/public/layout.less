@@ -3,40 +3,38 @@ body {
   height: 100%;
   margin: 0;
 }
-.vcenter {
-  display: table;
-  table-layout: fixed;
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  text-align: center;
-  .container {
-    display: table-cell;
-    vertical-align: middle;
+
+.centered-v {
+  position: absolute;
+  top: 50%;
+  transform : translate(0, -50%);
+}
+
+.overflow-hidden{
+   overflow : hidden;
+}
+
+.min-page-height {
+  min-height: 600px;
+}
+.masonry {
+  /* Masonry container */
+  @media (min-width: @grid-float-breakpoint) {
+    column-count: 3;
+    column-gap: 1em;
+  }
+  > .item {
+    display: inline-block;
+    margin: 0 0 1em;
+    width: 100%;
   }
 }
-
-.masonry { /* Masonry container */
-    @media (min-width: @grid-float-breakpoint) {
-      column-count: 3;
-      column-gap: 1em;
-    }
-    > .item {
-      display: inline-block;
-      margin: 0 0 1em;
-      width: 100%;
-    }
-}
-
-
-
 .table {
   display: table;
   table-layout: fixed;
   width: 100%;
   height: 100%;
 }
-
 .table-header {
   display: table-row;
 }
@@ -69,53 +67,69 @@ body {
     display: inline-block;
   }
 }
-
 .full {
   position: absolute;
-  top: 0px;
-  left: 0px;
-  bottom: 0px;
-  right: 0px;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
 }
-
+.max-size {
+  max-width: 100%;
+  max-height: 100%;
+  margin: auto;
+}
 .stick-bottom {
   position: absolute;
-  bottom: 0px;
-  left: 0px;
-  right: 0px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.aligned-v {
+
+    position: relative;
+    height: 25%;
+    white-space: nowrap;
+    left: 0px;
+    right: 0px;
+    & .item {
+      display: inline-block;
+      padding : 0 15px;
+      height: 100%;
+      & img  {
+        display: inline-block;
+        height: 100%;
+        width: auto;
+      }
+    }
+
 }
 
 .footer-wrapper {
   max-height: 42px;
 }
-
 .swiper-container {
-    width: 100%;
-    height: 100%;
+  width: 100%;
+  height: 100%;
 }
-
 .slide-img {
-
-    max-height : 100%;
+  max-height: 100%;
 }
-
-
-
 .swiper-slide {
-    text-align: center;
+  text-align: center;
 
-
-    /* Center slide text vertically */
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: -webkit-flex;
-    display: flex;
-    -webkit-box-pack: center;
-    -ms-flex-pack: center;
-    -webkit-justify-content: center;
-    justify-content: center;
-    -webkit-box-align: center;
-    -ms-flex-align: center;
-    -webkit-align-items: center;
-    align-items: center;
+  /* Center slide text vertically */
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  -webkit-align-items: center;
+  align-items: center;
 }

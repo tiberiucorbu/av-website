@@ -1,20 +1,8 @@
-# extends 'public/base.html'
-
-# macro stories_row(stories, col_num = 3)
-  #if col_num >= 1 and col_num <= 12
-    # for col in range(col_num)
-      <div class="col-md-{{(12/col_num) | int}} text-center">
-        #for story in stories
-          #if (loop.index-1)%col_num == col
-            {{story_item(story)}}
-          #endif
-        #endfor
-      </div>
-    # endfor
-  #else
-   <!--  Colnum must be an integer between 1 and 12 -->
-  #endif
-# endmacro
+{% if model.view_reduced %}
+  # extends 'public/reduced.html'
+{% else %}
+  # extends 'public/full_no_scroll.html'
+{% endif %}
 
 # macro story_item(story)
     <a data-target="open-modal-swiper" href="{{url_for('story', story_key=story_key(story))}}">
@@ -23,25 +11,22 @@
 # endmacro
 
 # block content
-<div class="container-fluid">
-  <h1 id="title" class="text-center">{{model.page_data.title}}</h1>
-  <h2 id="subtitle" class="text-center">{{model.params.tag}}</h2>
-</div>
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-md-8 col-md-offset-2">
-        <div class="row">
-          {{stories_row(model.stories)}}
-        </div> <!-- .row -->
-      </div>
-    </div>
-    {% if model.params.next_cursor %}
-    <div class="row">
-      <div class="col-md-8 col-md-offset-2 text-center">
-        <a class="btn btn-default" href="{{url_for('tag', cursor = model.params.next_cursor, tag=model.params.tag, prev_cursor=model.params.current_cursor)}}">Load More</a>
-      </div>
-    </div>
-    {% endif %}
-  </div><!-- .contaiener-fluid -->
+
+<article class="container-fluid">
+  <div class="row">
+    <div class="col-md-8 col-md-offset-2 masonry">
+
+      #for story in model.stories
+
+      <div class="item">
+        {{story_item(story)}}
+      </div> <!-- .item -->
+
+      #endfor
+    </div> <!-- .col-md-8 -->
+
+  </div>
+</article><!-- .contaiener-fluid -->
+
   #include 'public/story/bit/swiper_modal.html'
 # endblock

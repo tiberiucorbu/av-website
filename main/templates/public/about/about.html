@@ -1,4 +1,8 @@
-# extends 'public/base.html'
+{% if model.view_reduced %}
+  # extends 'public/reduced.html'
+{% else %}
+  # extends 'public/full_no_scroll.html'
+{% endif %}
 
 # block content
 <header class="row vspacer">

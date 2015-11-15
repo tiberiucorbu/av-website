@@ -1,4 +1,8 @@
-# extends 'public/base.html'
+{% if model.view_reduced %}
+  # extends 'public/reduced.html'
+{% else %}
+  # extends 'public/full_no_scroll.html'
+{% endif %}
 
 # macro story_item(item, story, idx)
     <a data-target="open-modal-swiper" href="{{url_for('story', story_key=story_key(story), m='gallery', active=idx)}}">
@@ -14,16 +18,16 @@
       </div>
     </div>
     <div class="row">
-    <div class="col-md-8 col-md-offset-2 masonry">
+      <div class="col-md-8 col-md-offset-2 masonry">
 
-      #for item in model.story.story_items_expanded
+        #for item in model.story.story_items_expanded
 
-      <div class="item">
-        {{story_item(item, model.story, loop.index-1)}}
-      </div> <!-- .col-md-7 -->
+        <div class="item">
+          {{story_item(item, model.story, loop.index-1)}}
+        </div> <!-- .item -->
 
-      #endfor
-    </div> <!-- .col-md-4 -->
+        #endfor
+      </div> <!-- .col-md-8 -->
 
     </div>
   </article><!-- .contaiener-fluid -->
