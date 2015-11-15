@@ -59,6 +59,7 @@ Tech Stack
   - [OpenID][] sign in (Google, Facebook, Twitter)
   - [Python 2.7][], [pip][], [virtualenv][]
   - [Gulp][], [Bower][]
+  - Jenkins
 
 Requirements
 ------------
