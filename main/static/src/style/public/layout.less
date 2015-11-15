@@ -16,6 +16,18 @@ body {
   }
 }
 
+.masonry { /* Masonry container */
+    column-count: 4;
+    column-gap: 1em;
+    > .item {
+      display: inline-block;
+      margin: 0 0 1em;
+      width: 100%;
+    }
+}
+
+
+
 .table {
   display: table;
   table-layout: fixed;
@@ -64,7 +76,16 @@ body {
   right: 0px;
 }
 
+.stick-bottom {
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+}
 
+.footer-wrapper {
+  max-height: 42px;
+}
 
 .swiper-container {
     width: 100%;
@@ -75,6 +96,8 @@ body {
 
     max-height : 100%;
 }
+
+
 
 .swiper-slide {
     text-align: center;

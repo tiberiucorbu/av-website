@@ -1,4 +1,4 @@
-<form  name="story_form" ng-controller="editStoryController" >
+<form name="story_form" ng-controller="editStoryController">
 
   <div class="row">
     <fieldset class="col-md-8">
@@ -19,22 +19,16 @@
         </div>
         <textarea class="form-control" id="description" name="description" rows="4" ng-model="story.description"></textarea>
       </div>
-      <div class="preview">
 
-        <small class="text-muted">Description preview</small>
-
-        <div ng-bind-html="story.description | markdown"></div>
+      <div class="panel panel-default preview">
+        <div class="panel-body">
+          <small class="text-muted">Description preview</small>
+          <div class="scroll-v" ng-bind-html="story.description | markdown"></div>
+        </div>
       </div>
 
     </fieldset>
     <fieldset class="col-md-4">
-      <div class="form-group ">
-        <label class="control-label" for="tags">Parent Story</label>
-        <small class="text-muted">(optional)</small>
-
-        <button type="button" class="btn btn-default" ng-click="openSelectParentStory()">Select</button>
-      </div>
-
       <div class="form-group ">
         <label class="control-label" for="tags">Tags</label>
         <small class="text-muted">(optional)</small>
@@ -71,39 +65,16 @@
         </div>
       </div>
 
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <h4 class="panel-title">
-            <a data-toggle="collapse" data-parent=".panel-group" href="#old-data">Old Data</a>
-            <span class="fa fa-check pull-right hide"></span>
-          </h4>
-        </div>
-        <div id="old-data" class="panel-collapse collapse">
-          <div class="panel-body">
-            <div class="form-group ">
-              <label class="control-label" for="deprecated_category_id">Old Category Id</label>
-              <small class="text-muted">(optional)</small>
-              <input class="form-control" id="deprecated_category_id" name="deprecated_category_id" type="text" ng-model="story.deprecated_category_id">
-            </div>
-            <div class="form-group ">
-              <label class="control-label" for="deprecated_category_data">Old Category Data</label>
-              <small class="text-muted">(optional)</small>
-              <input class="form-control" id="deprecated_category_data" name="deprecated_category_data" type="text" ng-model="story.deprecated_category_data">
-            </div>
-          </div>
-        </div>
-      </div>
+
+
 
     </fieldset>
   </div>
-  <div class="row">
-    <div class="col-sm-12">
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <h3 class="panel-title">Photos</h3>
-        </div>
-        <div class="panel-body">
-          <div image-upload-form items="storyItems" ></div>
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <div class="row">
+        <div class="col-md-6 col-offset-3">
+          <div image-upload-form items="storyItems"></div>
         </div>
       </div>
     </div>

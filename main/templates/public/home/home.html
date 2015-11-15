@@ -1,13 +1,44 @@
-# extends 'public/base.html'
+{% if model.view_reduced %}
+  # extends 'public/reduced.html'
+{% else %}
+  # extends 'public/full_no_scroll.html'
+{% endif %}
 
 # block content
-    <header class="row vspacer">
-      <div class="col-md-12">
-        <h1 id="title" class="text-center">{{model.page_data.title}}</h1>
-        <h2 class="subtitle text-center">{{model.page_data.description}}</h2>
-      </div>
-    </header>
+  <div class="table">
+    <div class="row table-content" style="position:relative">
   # block slideshow
-    #include 'public/home/bit/slideshow.html'
+    # if model.page_data.images
+
+    <section class="hp-main-image full" style="overflow : hidden">
+      <div data-target="diaporama" style="position: absolute; top: 0; bottom: 0; overflow:hidden; white-space: nowrap;">
+      # if model.page_data.images|length < 1
+      #for image in model.page_data.images
+            <img style="height:100%; width : auto; display: inline-block" class="hp-main-image " src="{{image.serve_url}}" />
+      #endfor
+
+      #elif model.page_data.images|length
+          <img class="hp-main-image" src="{{model.page_data.images[0].serve_url}}" />
+      <!-- #elif model.page_data.images|length == 2 -->
+          <!-- <img class="img-responsive hp-main-image" src="{{model.page_data.images[0].serve_url}}" /> -->
+          <!-- <img class="img-responsive hp-main-image" src="{{model.page_data.images[1].serve_url}}" /> -->
+      #endif
+      </div>
+    </section>
+
+
+    #endif
   # endblock
+    </div>
+  # if model.page_data.description
+    <article class="table-footer row vspacer">
+      <div class="col-md-12">
+        {{model.page_data.description | safe}}
+
+      </div>
+    </article>
+  # endif
+  </div>
+
+
 # endblock

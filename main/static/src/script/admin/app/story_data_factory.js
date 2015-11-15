@@ -6,7 +6,7 @@
   app.factory('storyDataFactory', ['$http', function($http) {
     var url = '/api/v1/story/';
     var defaultParams = {
-      limit: 60
+      limit: 5
     };
     return {
       getJson: function(params) {

@@ -7,14 +7,24 @@
 
 
   <div ng-controller="storyListController">
-    <div class="row">
-      <button ng-click="newStory()">New Item</button>
+
+    <div class="panel">
+      <div class="panel-body">
+        <button class="btn btn-default" ng-click="newStory()"><span class="fa fa-plus"></span> New Story</button>
+      </div>
     </div>
-    <ul class="list-group" style="max-height: 500px; overflow-y: scroll" scroll-into-view lazy-load>
+
+    <ul class="list-group" scroll-into-view>
       <li class="list-group-item" ng-repeat="story in buffer">
         <div story-list-item story="story" edit-on-select="true"></div>
       </li>
     </ul>
+
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+        <button class="btn btn-default btn-block" ng-click="loadPage()">Load More</button>
+      </div>
+    </div>
   </div>
 </div><!-- #app-wrapper -->
 # endblock

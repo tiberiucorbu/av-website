@@ -225,19 +225,53 @@ def parse_tags(tags, separator=None):
 def current_year():
   return datetime.date.today().strftime("%Y")
 
+
 def story_key(story):
-  if story.canonical_path :
+  if story.canonical_path:
     return story.canonical_path
-  else :
+  else:
     return story.key.id()
 
-def isBlank (string):
-  return not string or string.strip() == '';
 
-def getIfExists(dictionary, parameter, defaultValue=None):
-  if dictionary and parameter in dictionary :
+def is_blank(string):
+  return not string or string.strip() == ''
+
+
+def get_if_exists(dictionary, parameter, defaultValue=None):
+  if dictionary and parameter in dictionary:
     return dictionary[parameter]
   return defaultValue
+
+def set_from_dot_path(obj, path, value):
+  chunks = []
+  if not is_blank(path):
+    chunks = path.split('.')
+  if len(chunks) == 0 :
+    chunk = chunks.pop(0)
+    obj[path] = value
+  if len(chunks) > 0 :
+    chunk = chunks.pop(0)
+    child = get_if_exists(obj, chunk)
+    if child :
+      child = {}
+      obj[chunk] = child;
+    child_path = '.'.join(chunks);
+    set_from_dot_path(child, child_path, value);
+
+
+def get_from_dot_path(obj, path):
+  chunks = []
+  if not is_blank(path):
+    chunks = path.split('.')
+  if len(chunks) > 0 :
+    chunk = chunks.pop(0)
+    m = re.search('(?<=abc)def', 'abcdef')
+    child = get_if_exists(obj, chunk)
+
+    child_path = '.'.join(chunks);
+    return get_from_dot_path(child, child_path);
+  else :
+    return obj;
 
 ###############################################################################
 # Lambdas

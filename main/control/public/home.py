@@ -28,11 +28,10 @@ def home():
 
   decorate_page_response_model(resp_model)
 
-  if 'page_data' in resp_model and 'image_keys' in resp_model['page_data'] and len(resp_model['page_data']['image_keys']) > 0:
-    res_kes = [ndb.Key(urlsafe=k)
-               for k in resp_model['page_data']['image_keys']]
-    resp_model['page_data']['images'] = ndb.get_multi(res_kes)
-
+  image_keys = util.get_from_dot_path(resp_model, 'page_data.image_keys')
+  if len(image_keys) > 0:
+    res_kes = [ndb.Key(urlsafe=k) for k in image_keys]
+    resp_model['page_data'].update({'images' : ndb.get_multi(res_kes)})
   return flask.render_template('public/home/home.html', model=resp_model)
 
 
@@ -43,7 +42,8 @@ def blog(path):
   # find story by category id
   blog_url = 'http://anabellaveress.blogspot.de/'
 
-  return flask.redirect(blog_url + path, 301)  # add 301 for permanent redirection
+  # add 301 for permanent redirection
+  return flask.redirect(blog_url + path, 301)
 
 
 @app.route('/category/<int:category_id>')
@@ -232,27 +232,27 @@ def decorate_stories_page_model(resp_model, story_dbs, params):
   resp_model['params'] = params
 
 
-
 def expand_links(parentItem):
   if isinstance(parentItem, list):
     for item in parentItem:
       expand_links(item)
   else:
-    modelType = util.getIfExists(parentItem, 'modelType', None)
+    modelType = util.get_if_exists(parentItem, 'modelType', None)
     if 'story' == modelType:
       story_key = None
-      keyStr = util.getIfExists(parentItem, 'key', None)
-      if not util.isBlank(keyStr):
-        story_db = ndb.Key(urlsafe=keyStr).get();
-        print (story_db);
+      keyStr = util.get_if_exists(parentItem, 'key', None)
+      if not util.is_blank(keyStr):
+        story_db = ndb.Key(urlsafe=keyStr).get()
+        print (story_db)
         if story_db:
-          parentItem['url'] = flask.url_for('story', story_key=util.story_key(story_db));
+          parentItem['url'] = flask.url_for(
+              'story', story_key=util.story_key(story_db))
     if 'page' == modelType:
-      keyStr = util.getIfExists(parentItem, 'url_component', 'home')
-      try :
-        parentItem['url'] = flask.url_for(keyStr);
+      keyStr = util.get_if_exists(parentItem, 'url_component', 'home')
+      try:
+        parentItem['url'] = flask.url_for(keyStr)
       except routing.BuildError:
-        parentItem['url'] = flask.url_for('home');
+        parentItem['url'] = flask.url_for('home')
     if 'nodes' in parentItem:
       expand_links(parentItem['nodes'])
 

@@ -7,7 +7,6 @@
     nextButton: '.swiper-button-next',
     prevButton: '.swiper-button-prev',
     spaceBetween: 30,
-    hashnav: true
   };
 
   var initSwiper = function(el) {

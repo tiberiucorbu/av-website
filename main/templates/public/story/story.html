@@ -8,18 +8,19 @@
 
 # block content
   <div class="container-fluid">
-    <div class="col-md-6">
-      <h1>{{model.story.title}}</h1>
-      <p>{{model.story.description}}</p>
+    <div class="row">
+    <div class="col-md-8 col-offset-2 masonry">
+      <div class="item">{{model.story.description}}</div>
+      #for item in model.story.story_items_expanded
+
+      <div class="item">
+        {{story_item(item, model.story, loop.index-1)}}
+      </div> <!-- .col-md-7 -->
+
+      #endfor
     </div> <!-- .col-md-4 -->
-    #for item in model.story.story_items_expanded
 
-    <div class="col-md-3">
-      {{story_item(item, model.story, loop.index-1)}}
-    </div> <!-- .col-md-7 -->
-
-    #endfor
-
+    </div>
   </div><!-- .contaiener-fluid -->
   #include 'public/story/bit/swiper_modal.html'
 # endblock
