@@ -17,8 +17,10 @@ body {
 }
 
 .masonry { /* Masonry container */
-    column-count: 4;
-    column-gap: 1em;
+    @media (min-width: @grid-float-breakpoint) {
+      column-count: 3;
+      column-gap: 1em;
+    }
     > .item {
       display: inline-block;
       margin: 0 0 1em;

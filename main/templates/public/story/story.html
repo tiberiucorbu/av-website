@@ -7,10 +7,15 @@
 # endmacro
 
 # block content
-  <div class="container-fluid">
+  <article class="container-fluid">
     <div class="row">
-    <div class="col-md-8 col-offset-2 masonry">
-      <div class="item">{{model.story.description}}</div>
+      <div class="col-md-8 col-md-offset-2">
+        <div class="description">{{model.story.description | safe}}</div>
+      </div>
+    </div>
+    <div class="row">
+    <div class="col-md-8 col-md-offset-2 masonry">
+
       #for item in model.story.story_items_expanded
 
       <div class="item">
@@ -21,6 +26,6 @@
     </div> <!-- .col-md-4 -->
 
     </div>
-  </div><!-- .contaiener-fluid -->
+  </article><!-- .contaiener-fluid -->
   #include 'public/story/bit/swiper_modal.html'
 # endblock
