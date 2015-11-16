@@ -6,7 +6,12 @@
     paginationClickable: '.swiper-pagination',
     nextButton: '.swiper-button-next',
     prevButton: '.swiper-button-prev',
+    slidesPerView: 'auto',
+    scrollbar: '.swiper-scrollbar',
+    //centeredSlides: true,
+    freeMode: true,
     spaceBetween: 30,
+    grabCursor: true
   };
 
   var initSwiper = function(el) {
@@ -32,6 +37,7 @@
     var $swiperModalEl = $('#swiper-modal-container');
 
     $swiperModalEl.modal('hide'); // init the modal
+
 
     $('[data-target="open-modal-swiper"]').each(function(idx, el) {
       var $el = $(el);
@@ -61,38 +67,6 @@
           });
         });
       }
-    });
-
-    var mapValue = function(x, inMin, inMax, outMin, outMax){
-      return (x - inMin) * (outMax - outMin) / (inMax - inMin) + outMin;
-    };
-
-    var proportionalHeight = function(el){
-      var $el = $(el);
-      var containerWidth = $el.parent().width();
-      var containerHeight = $el.parent().height();
-
-      var childsWidth = 0;
-      var childsMaxHeight = 0;
-      $el.children().each(function(idx, child){
-        var $child = $(child);
-        childsMaxHeight = Math.max(childsMaxHeight, $child.outerHeight());
-        childsWidth = childsWidth + $child.outerWidth();
-      });
-
-      var r = childsWidth / childsMaxHeight;
-      var height = Math.round(containerWidth / r);
-      $el.height(height);
-      setTimeout(function(){ proportionalHeight(el);}, 500);
-    };
-
-
-
-    $('[data-target="optimal-size"]').each(function(idx, el) {
-        proportionalHeight(el);
-
-
-
     });
   });
 

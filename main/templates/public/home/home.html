@@ -11,24 +11,29 @@
     # if model.page_data.images
 
 
+
+
         # if model.page_data.images|length > 2
           <section class="col-md-12" style="height: 100%;">
-            <div data-target="swiper" class="swiper-container">
-              <div class="swiper-wrapper">
-            #for image in model.page_data.images
-                <div class="diaporama-item swiper-slide">
-                  <div class="full">
-                    <img class="hp-main-image full max-size" src="{{image.serve_url}}" />
-                  </div>
+
+              <div id="filmstrip" data-target="swiper" class="swiper-container" >
+              <div id="thumblist"  class="swiper-wrapper" >
+                #for image in model.page_data.images
+
+                <div class="swiper-slide" >
+                  <img class="slide-img" src="{{image.serve_url}}" />
                 </div>
-            #endfor
+
+                #endfor
+              </div>
+              <div class="swiper-scrollbar"></div>
+              <div class="swiper-pagination"></div>
+
+              <div class="swiper-button-next"></div>
+              <div class="swiper-button-prev"></div>
             </div>
 
-            <div class="swiper-pagination"></div>
 
-            <div class="swiper-button-next"></div>
-            <div class="swiper-button-prev"></div>
-          </div>
         </section>
       #elif model.page_data.images|length == 1
         <section class="col-md-12" style="height: 100%;">
