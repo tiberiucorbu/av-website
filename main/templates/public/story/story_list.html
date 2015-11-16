@@ -5,7 +5,7 @@
 {% endif %}
 
 # macro story_item(story)
-    <a data-target="open-modal-swiper" href="{{url_for('story', story_key=story_key(story))}}">
+    <a href="{{url_for('story', story_key=story_key(story))}}">
       <img class="img-responsive" alt="{{story.title}}" title="{{story.title}}" src="{{story.first_story_item_expanded.serve_url}}" />
     </a>
 # endmacro
@@ -14,7 +14,7 @@
 
 <article class="container-fluid">
   <div class="row">
-    <div class="col-md-8 col-md-offset-2 masonry">
+    <div class="offset-md-2 masonry">
 
       #for story in model.stories
 
