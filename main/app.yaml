@@ -29,8 +29,6 @@ handlers:
 - url: /robots.txt
   static_files: static/robots.txt
   upload: static/robots.txt
-  http_headers:
-    Access-Control-Allow-Origin: *
 
 - url: /p/(.*\.ttf)
   static_files: static/\1
@@ -38,7 +36,7 @@ handlers:
   mime_type: font/ttf
   expiration: 1000d
   http_headers:
-    Access-Control-Allow-Origin: *
+    Access-Control-Allow-Origin: '*'
 
 - url: /p/(.*\.woff2)
   static_files: static/\1
@@ -46,7 +44,7 @@ handlers:
   mime_type: font/woff2
   expiration: 1000d
   http_headers:
-    Access-Control-Allow-Origin: *
+    Access-Control-Allow-Origin: '*'
 
 - url: /p/
   static_dir: static/
