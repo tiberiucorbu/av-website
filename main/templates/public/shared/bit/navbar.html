@@ -8,7 +8,7 @@
           {{navbar_items(item.nodes, 'dropdown-menu')}}
         </li>
       {% else %}
-        <li>
+        <li {%if item.url == model.canonical_path%} class="active" {%endif%}>
           <a href="{{item.url}}">{{ item.label }}</a>
         </li>
       {% endif %}

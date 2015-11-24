@@ -25,13 +25,14 @@ from werkzeug import exceptions, routing
 def home():
   resp_model = {}
   resp_model['html_class'] = 'hp'
-
+  resp_model['canonical_path'] = flask.url_for(
+      'home')
   decorate_page_response_model(resp_model)
 
   image_keys = util.get_from_dot_path(resp_model, 'page_data.image_keys')
   if len(image_keys) > 0:
     res_kes = [ndb.Key(urlsafe=k) for k in image_keys]
-    resp_model['page_data'].update({'images' : ndb.get_multi(res_kes)})
+    resp_model['page_data'].update({'images': ndb.get_multi(res_kes)})
   return flask.render_template('public/home/home.html', model=resp_model)
 
 
@@ -67,6 +68,9 @@ def story(story_key):
     flask.abort(404)
   resp_model = {}
   resp_model['html_class'] = 'story'
+
+  resp_model['canonical_path'] = flask.url_for(
+      'story', story_key=util.story_key(story_db))
   decorate_page_response_model(resp_model)
   decorate_story_page_model(resp_model, story_db)
   mode = util.param('m', str)
@@ -96,6 +100,7 @@ def stories():
   }
   resp_model = {}
   resp_model['html_class'] = 'stories'
+  resp_model['canonical_path'] = flask.url_for('stories')
   decorate_page_response_model(resp_model)
   decorate_stories_page_model(resp_model, story_dbs, params)
   return flask.render_template('public/story/story_list.html', model=resp_model)
@@ -123,15 +128,24 @@ def tag(tag):
   }
   resp_model = {}
   resp_model['html_class'] = 'tag'
+  resp_model['canonical_path'] = flask.url_for('tag', tag=tag)
   decorate_page_response_model(resp_model)
   decorate_stories_page_model(resp_model, story_dbs, params)
   return flask.render_template('public/story/story_list.html', model=resp_model)
+
 
 @app.route('/contact', methods=['GET', 'POST'])
 def contact():
   resp_model = {}
   resp_model['html_class'] = 'contact'
+  resp_model['canonical_path'] = flask.url_for('contact')
   decorate_page_response_model(resp_model)
+
+  # Add feedbackform, present in the footer - needed for CXFR protection
+  feedback_form = FeedbackForm(obj=auth.current_user_db())
+  # Add layout switch param - this is the switcher for page render (full
+  # (default), reduced)
+  resp_model['feedback_form'] = feedback_form
 
   if 'feedback_form' in resp_model:
     feedback_form = resp_model['feedback_form']
@@ -167,6 +181,7 @@ def contact():
 def about():
   resp_model = {}
   resp_model['html_class'] = 'about'
+  resp_model['canonical_path'] = flask.url_for('about')
   decorate_page_response_model(resp_model)
 
   if 'feedback_form' in resp_model:
@@ -292,6 +307,7 @@ def expand_links(parentItem):
 
 
 def decorate_page_response_model(resp_model):
+  resp_model['host'] = flask.url_for('home', _external=True)[:-1]
   # home page data present in every page
   home_page_db = model.ModuleConfig.get_by('module_id', 'home-page')
   if home_page_db is not None and home_page_db.config is not None:
@@ -305,11 +321,6 @@ def decorate_page_response_model(resp_model):
     expand_links(main_navbar_data)
     resp_model['navbar'] = main_navbar_data
 
-  # Add feedbackform, present in the footer - needed for CXFR protection
-  feedback_form = FeedbackForm(obj=auth.current_user_db())
-  # Add layout switch param - this is the switcher for page render (full
-  # (default), reduced)
-  resp_model['feedback_form'] = feedback_form
   view = util.param('v', str)
 
   resp_model['view_reduced'] = False
