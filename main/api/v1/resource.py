@@ -53,14 +53,14 @@ class ResourceListAPI(restful.Resource):
 
 @api_v1.resource('/resource/<string:key>/', endpoint='api.resource')
 class ResourceAPI(restful.Resource):
-  @auth.login_required
+  @auth.admin_required
   def get(self, key):
     resource_db = ndb.Key(urlsafe=key).get()
     if not resource_db and resource_db.user_key != auth.current_user_key():
       helpers.make_not_found_exception('Resource %s not found' % key)
     return helpers.make_response(resource_db, model.Resource.FIELDS)
 
-  @auth.login_required
+  @auth.admin_required
   def delete(self, key):
     resource_db = ndb.Key(urlsafe=key).get()
     if not resource_db or resource_db.user_key != auth.current_user_key():
@@ -71,7 +71,7 @@ class ResourceAPI(restful.Resource):
 
 @api_v1.resource('/resource/upload/', endpoint='api.resource.upload')
 class ResourceUploadAPI(restful.Resource):
-  @auth.login_required
+  @auth.admin_required
   def get(self):
     count = util.param('count', int) or 1
     urls = []
@@ -86,7 +86,7 @@ class ResourceUploadAPI(restful.Resource):
         'result': urls,
       })
 
-  @auth.login_required
+  @auth.admin_required
   def post(self):
     resource_db = resource_db_from_upload()
     if resource_db:
@@ -118,7 +118,9 @@ def resource_db_from_upload():
 
   image_thumb_data_url = util.param('image-thumb-data-url', str)
   image_average_color = util.param('image-average-color', str)
-  
+  image_size_w = util.param('image-size-w', float)
+  image_size_h = util.param('image-size-h', float)
+
   headers = uploaded_file.headers['Content-Type']
   parsedOptionHeader = werkzeug.parse_options_header(headers)[1]
   blob_info_key = parsedOptionHeader['blob-key']
@@ -140,7 +142,9 @@ def resource_db_from_upload():
       image_url=image_url,
       bucket_name=config.CONFIG_DB.bucket_name or None,
       image_thumb_data_url = image_thumb_data_url,
-      image_average_color = image_average_color
+      image_average_color = image_average_color,
+      image_size_w = image_size_w,
+      image_size_h = image_size_h
     )
   resource_db.put()
   return resource_db

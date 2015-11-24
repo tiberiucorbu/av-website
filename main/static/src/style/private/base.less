@@ -30,19 +30,30 @@ body {
 .recaptcha {
   min-height: 78px;
 }
-
 .scroll-v {
   max-height: 200px;
   overflow-y: auto;
 }
-
 .lazy-load {
   min-height: 200px;
   height: 200px;
   overflow-y: scroll;
 }
-
 .padding-v {
   padding-top: 6px;
   badding-bottom: 6px;
+}
+.masonry {
+  column-count: 3;
+  column-gap: 1em;
+  
+  padding-left: 15px;
+  padding-right: 15px;
+  & > .item {
+    display: inline-block;
+    margin: 0 0 1em;
+    width: 100%;
+    position: relative;
+
+  }
 }

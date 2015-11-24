@@ -5,7 +5,7 @@
 
 
 
-  app.controller('storyListController', ['$scope', 'storyDataFactory', 'storyItemSelect', function($scope, storyDataFactory, storyItemSelect) {
+  app.controller('storyListController', ['$scope','$log', 'storyDataFactory', 'storyItemSelect', function($scope, $log, storyDataFactory, storyItemSelect) {
 
     $scope.buffer = [];
     $scope.selected = null;
@@ -17,6 +17,7 @@
       }
 
       storyDataFactory.getJson(params).then(function(res) {
+        $log.debug('Story list controller - successfully loaded page params:', params, ', result:', res);
         // Success
         storyDataFactory.updateNextPageParams(params, res);
         var result = res.data.result;
@@ -26,9 +27,9 @@
         }
         storyDataFactory.updateNextPageParams(params, res);
 
-        console.log(params, $scope.buffer, res);
+        $log.debug(params, $scope.buffer, res);
       }, function(res) {
-        // Error
+        $log.debug('Story list controller - failed to load page. Params:', params, ', result:', res);
       });
     };
 
@@ -43,7 +44,7 @@
       $scope.buffer.unshift(story);
       storyItemSelect.item = story;
       $scope.$broadcast('scrollIntoView', story);
-    }
+    };
 
     $scope.reload = function() {
       reset();
@@ -60,40 +61,23 @@
 
   app.controller('editStoryController', ['$scope', 'storyItemSelect', '$uibModal', 'storyDataFactory', 'generateDataFactory', function($scope, storyItemSelect, $uibModal, storyDataFactory, generateDataFactory) {
     $scope.story = storyItemSelect.item;
-    $scope.storyItems = [];
-    $scope.openSelectParentStory = function() {
-
-      var modalInstance = $uibModal.open({
-        templateUrl: '/p/html/admin_app/modal_content.html',
-        controller: 'storyListController',
-        resolve: {
-          title: function() {
-            return $scope.items;
-          }
-        }
-      });
-
-      modalInstance.result.then(function(selectedItem) {
-        $scope.selected = selectedItem;
-      }, function() {
-        //$log.info('Modal dismissed at: ' + new Date());
-      });
-    };
-
+    // $scope.$watch('story', function(newValue, oldValue) {
+    //
+    // }, true);
     $scope.save = function() {
       generateDataFactory.getJson().then(function(res) {
         var storyItemKeys = [];
-        for (var i = 0; i < $scope.storyItems.length; i++) {
-          var item = $scope.storyItems[i];
-          if (item.resource && item.resource.key) {
-            storyItemKeys.push(item.resource.key);
+        var items = $scope.story.story_items_expanded;
+        for (var i = 0; i < items.length; i++) {
+          var item = items[i];
+          if (item.key) {
+            storyItemKeys.push(item.key);
           }
         }
         var params = angular.extend($scope.story, {
           csrf_token: res.data.result.csrf_token,
           story_items: storyItemKeys
         });
-
         storyDataFactory.postJson(params).then(function(res) {
           console.log(res);
         }, function(res) {
@@ -101,7 +85,20 @@
         });
       });
     };
+
   }]);
+
+  app.directive('storyItemsEdit', function(){
+    return {
+      scope: {
+        items : '='
+      },
+      replace : true,
+      transclude: true,
+      templateUrl: '/p/html/admin_app/story_items_edit.html',
+    };
+
+  })
 
   app.directive('canonicalPath', function() {
 
@@ -227,8 +224,7 @@
       link: function(scope) {
         scope.$on('scrollIntoView', function(data) {
           console.log(data);
-        })
-
+        });
       }
     }
 

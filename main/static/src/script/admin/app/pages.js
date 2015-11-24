@@ -45,8 +45,7 @@
     $scope.loadPage();
 
   }]);
-
-  app.controller('homePageController', ['$scope', 'homePageDataService', function($scope, homePageDataService) {
+  app.controller('homePageController', ['$scope', 'homePageDataService', 'resourceDataFactory', function($scope, homePageDataService, resourceDataFactory) {
     $scope.page = {
 
     };
@@ -54,20 +53,36 @@
     $scope.pageResourceItems = [];
 
     homePageDataService.getJson().then(
-      function(res) {
-        var config = JSON.parse(res.data.result.config) || {};
+      function(configRes) {
+        var config = JSON.parse(configRes.data.result.config) || {};
         angular.copy(config, $scope.page);
+        $scope.pageResourceItems = [];
+        if ($scope.page.image_keys) {
+          var params = {
+            resource_keys: '[' + $scope.page.image_keys.join() + ']'
+          };
+
+          resourceDataFactory.getJson(params).then(function(resourceRes) {
+            for (var i = 0; i < resourceRes.data.result.length; i++) {
+              var resource = resourceRes.data.result[i];
+              $scope.pageResourceItems.push(resource);
+            }
+          });
+        }
       },
       function(res) {
-        // Request failed
+        console.log('An error ocured', res);
       }
     );
+
+
+
     $scope.save = function() {
       var config = {};
       angular.copy($scope.page, config);
       config.image_keys = [];
       for (var i = 0; i < $scope.pageResourceItems.length; i++) {
-        config.image_keys.push($scope.pageResourceItems[i].resource.key);
+        config.image_keys.push($scope.pageResourceItems[i].key);
       }
       var data = {
         module_config: config
@@ -87,37 +102,55 @@
   });
 
 
-  app.controller('aboutPageController', ['$scope', 'aboutPageDataService', function($scope, aboutPageDataService) {
-    $scope.page = {
+  app.controller('aboutPageController', ['$scope', 'aboutPageDataService', 'resourceDataFactory',
+    function($scope, aboutPageDataService, resourceDataFactory) {
+      $scope.page = {
 
-    };
-
-    $scope.pageResourceItems = [];
-
-    aboutPageDataService.getJson().then(
-      function(res) {
-        var config = JSON.parse(res.data.result.config) || {};
-        angular.copy(config, $scope.page);
-      },
-      function(res) {
-        // Request failed
-      }
-    );
-    $scope.save = function() {
-      var config = {};
-      angular.copy($scope.page, config);
-      config.image_keys = [];
-      for (var i = 0; i < $scope.pageResourceItems.length; i++) {
-        config.image_keys.push($scope.pageResourceItems[i].resource.key);
-      }
-      var data = {
-        module_config: config
       };
-      aboutPageDataService.postJson(data).then(function(res) {
-        // success ?
-      });
-    };
-  }]);
+
+      $scope.pageResourceItems = [];
+
+      aboutPageDataService.getJson().then(
+        function(res) {
+          var config = JSON.parse(res.data.result.config) || {};
+          angular.copy(config, $scope.page);
+
+          $scope.pageResourceItems = [];
+          if ($scope.page.image_keys) {
+            var params = {
+              resource_keys: '[' + $scope.page.image_keys.join() + ']'
+            };
+
+            resourceDataFactory.getJson(params).then(function(resourceRes) {
+              for (var i = 0; i < resourceRes.data.result.length; i++) {
+                var resource = resourceRes.data.result[i];
+                $scope.pageResourceItems.push(resource);
+              }
+            });
+          }
+
+
+        },
+        function(res) {
+          // Request failed
+        }
+      );
+      $scope.save = function() {
+        var config = {};
+        angular.copy($scope.page, config);
+        config.image_keys = [];
+        for (var i = 0; i < $scope.pageResourceItems.length; i++) {
+          config.image_keys.push($scope.pageResourceItems[i].key);
+        }
+        var data = {
+          module_config: config
+        };
+        aboutPageDataService.postJson(data).then(function(res) {
+          // success ?
+        });
+      };
+    }
+  ]);
 
   app.directive('aboutPageForm', function() {
     return {

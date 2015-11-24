@@ -13,7 +13,7 @@
 
 
 
-        # if model.page_data.images|length > 2
+        # if model.page_data.images|length > 1
           <section class="col-md-12" style="height: 100%;">
 
               <div id="filmstrip" data-target="swiper" class="swiper-container" >
@@ -21,7 +21,7 @@
                 #for image in model.page_data.images
 
                 <div class="swiper-slide" >
-                  <img class="slide-img" src="{{image.serve_url}}" />
+                  <img class="slide-img" width="{{image.image_size_w}}" height="{{image.image_size_h}}" src="{{image.serve_url}}" />
                 </div>
 
                 #endfor
@@ -32,33 +32,14 @@
               <div class="swiper-button-next"></div>
               <div class="swiper-button-prev"></div>
             </div>
-
-
         </section>
-      #elif model.page_data.images|length == 1
+      #else
         <section class="col-md-12" style="height: 100%;">
           <div class="full">
               <img class="hp-main-image full max-size"  src="{{model.page_data.images[0].serve_url}}" />
           </div>
         </section>
-      #elif model.page_data.images|length == 2
-        <div class="table" style="display: table; vertical-align: middle">
-        <div class="table-content">
-           <div class="aligned-v" data-target="optimal-size">
-             <div class="item">
-               <img class="hp-main-image" src="{{model.page_data.images[0].serve_url}}" />
-             </div>
-             <div class="item">
-               <img class="hp-main-image" src="{{model.page_data.images[1].serve_url}}" />
-            </div>
-          </div>
-        </div>
-      </div>
       #endif
-
-
-
-
     #endif
   # endblock
     </div>

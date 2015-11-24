@@ -243,7 +243,6 @@ def expand_links(parentItem):
       keyStr = util.get_if_exists(parentItem, 'key', None)
       if not util.is_blank(keyStr):
         story_db = ndb.Key(urlsafe=keyStr).get()
-        print (story_db)
         if story_db:
           parentItem['url'] = flask.url_for(
               'story', story_key=util.story_key(story_db))
