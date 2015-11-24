@@ -1,0 +1,49 @@
+{% if model.view_reduced %}
+  # extends 'public/reduced.html'
+{% else %}
+  # extends 'public/full_no_scroll.html'
+{% endif %}
+
+# block content
+
+<div class="table">
+  <div class="row table-content">
+
+
+
+      <div class="col-md-6">
+        #if model.page_data.images|length > 0
+         <img class="img-responsive" stype="background: {{model.page_data.images[0].image_average_color}}" src="{{model.page_data.images[0].serve_url}}"/>
+         #endif
+      </div>
+
+
+      <div class="col-md-6">
+        <div class="description">
+          {{model.page_data.description | safe}}
+        </div>
+        # if model.page_data.phone or model.page_data.email
+        <address class="row ">
+          <div class="col-xs-12 col-md-12">
+
+            # if model.page_data.phone
+              Tel:  <span rel="telephone">{{ model.page_data.phone}}</span>
+            # endif
+            # if model.page_data.phone and model.page_data.email
+            |
+            # endif
+            # if model.page_data.email
+              <span rel="email">{{ model.page_data.email}}</span>
+            # endif
+            <hr />
+          </div>
+        </address>
+        # endif
+        <section class="col-xs-12 col-md-12">
+          # include 'public/contact/bit/feedback_form.html'
+        </section>
+      </div>
+  </div>
+</div>
+
+# endblock
