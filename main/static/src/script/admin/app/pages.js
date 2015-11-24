@@ -19,6 +19,10 @@
             title: 'About Page',
             modelType: 'page',
             url_component: 'about'
+          },{
+            title: 'Contact Page',
+            modelType: 'page',
+            url_component: 'contact'
           }]
         };
       }
@@ -157,6 +161,63 @@
       restrict: 'EA',
       templateUrl: '/p/html/admin_app/about_page_form.html'
 
+    };
+  });
+
+  app.controller('contactPageController', ['$scope', 'contactPageDataService', 'resourceDataFactory',
+    function($scope, conactPageDataService, resourceDataFactory) {
+      $scope.page = {
+
+      };
+
+      $scope.pageResourceItems = [];
+
+      conactPageDataService.getJson().then(
+        function(res) {
+          var config = JSON.parse(res.data.result.config) || {};
+          angular.copy(config, $scope.page);
+
+          $scope.pageResourceItems = [];
+          if ($scope.page.image_keys) {
+            var params = {
+              resource_keys: '[' + $scope.page.image_keys.join() + ']'
+            };
+
+            resourceDataFactory.getJson(params).then(function(resourceRes) {
+              for (var i = 0; i < resourceRes.data.result.length; i++) {
+                var resource = resourceRes.data.result[i];
+                $scope.pageResourceItems.push(resource);
+              }
+            });
+          }
+
+
+        },
+        function(res) {
+          // Request failed
+        }
+      );
+      $scope.save = function() {
+        var config = {};
+        angular.copy($scope.page, config);
+        config.image_keys = [];
+        for (var i = 0; i < $scope.pageResourceItems.length; i++) {
+          config.image_keys.push($scope.pageResourceItems[i].key);
+        }
+        var data = {
+          module_config: config
+        };
+        conactPageDataService.postJson(data).then(function(res) {
+          // success ?
+        });
+      };
+    }
+  ]);
+
+  app.directive('contactPageForm', function() {
+    return {
+      restrict: 'EA',
+      templateUrl: '/p/html/admin_app/contact_page_form.html'
     };
   });
 

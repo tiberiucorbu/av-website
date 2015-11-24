@@ -4,39 +4,10 @@
   # extends 'public/full_no_scroll.html'
 {% endif %}
 
-#block contactForm
-
-# if model.page_data.phone or model.page_data.email
-<address class="row ">
-  <div class="col-xs-12 col-md-6 col-md-offset-3 text-center">
-    # if model.page_data.phone
-      Tel:  <span rel="telephone">{{ model.page_data.phone}}</span>
-    # endif
-    # if model.page_data.phone and model.page_data.email
-    |
-    # endif
-    # if model.page_data.email
-      <span rel="email">{{ model.page_data.email}}</span>
-    # endif
-    <hr />
-  </div>
-</address>
-# endif
-<section class="row">
-  <div class="col-xs-12 col-md-6 col-md-offset-3">
-    # include 'public/feedback/bit/feedback_form.html'
-  </div>
-</section>
-
-# endblock
-
 # block content
 
 <div class="table">
-  <div class="row table-content"  style="position:relative;{% if model.page_data.images|length > 1 %} background: {{model.page_data.images[0].image_average_color}} url('{{model.page_data.images[0].serve_url}}'); background-size: cover; background-position: center center;  {% endif %}">
-
-
-
+  <div class="row table-content"  style="position:relative;{% if model.page_data.images|length > 0 %} background: {{model.page_data.images[0].image_average_color}} url('{{model.page_data.images[0].serve_url}}'); background-size: cover; background-position: center center;  {% endif %}">
       <div class="row">
         <div class="col-xs-10 col-md-4 col-md-offset-1 col-xs-offset-1" style="background: #fff; margin-top: 20%; margin-bottom: 5%;">
           <h1 class="subtitle ">About</h1>
@@ -44,7 +15,6 @@
           {{model.page_data.description | safe}}
         </div>
       </div>
-
   </div>
 </div>
 

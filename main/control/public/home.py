@@ -127,6 +127,41 @@ def tag(tag):
   decorate_stories_page_model(resp_model, story_dbs, params)
   return flask.render_template('public/story/story_list.html', model=resp_model)
 
+@app.route('/contact', methods=['GET', 'POST'])
+def contact():
+  resp_model = {}
+  resp_model['html_class'] = 'contact'
+  decorate_page_response_model(resp_model)
+
+  if 'feedback_form' in resp_model:
+    feedback_form = resp_model['feedback_form']
+    if not config.CONFIG_DB.has_anonymous_recaptcha or auth.is_logged_in():
+      del feedback_form.recaptcha
+    if feedback_form.validate_on_submit():
+      if not config.CONFIG_DB.feedback_email:
+        return flask.abort(418)
+      body = '%s\n\n%s' % (feedback_form.message.data,
+                           feedback_form.email.data)
+      kwargs = {
+          'reply_to': feedback_form.email.data} if feedback_form.email.data else {}
+      task.send_mail_notification('%s...' % body[:48].strip(), body, **kwargs)
+      flask.flash('Thank you for your feedback!', category='success')
+      return flask.redirect(flask.url_for('home'))
+
+  contact_page_db = model.ModuleConfig.get_by('module_id', 'contact-page')
+  if contact_page_db is not None and contact_page_db.config is not None:
+    contact_page_data = json.loads(contact_page_db.config)
+    if 'page_data' in resp_model:
+      resp_model['page_data'].update(contact_page_data)
+    else:
+      resp_model['page_data'] = contact_page_data
+  if 'page_data' in resp_model and 'image_keys' in resp_model['page_data'] and len(resp_model['page_data']['image_keys']) > 0:
+    res_kes = [ndb.Key(urlsafe=k)
+               for k in resp_model['page_data']['image_keys']]
+    resp_model['page_data']['images'] = ndb.get_multi(res_kes)
+
+  return flask.render_template('public/contact/contact.html', model=resp_model)
+
 
 @app.route('/about', methods=['GET', 'POST'])
 def about():
