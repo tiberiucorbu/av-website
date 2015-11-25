@@ -1,4 +1,4 @@
-<form  name="home_page_form" >
+<form  name="home_page_form" ng-controller="homePageController">
 
   <div class="row">
     <fieldset class="col-md-8">
@@ -25,10 +25,8 @@
         <textarea class="form-control" id="description" name="description" rows="4" ng-model="page.description"></textarea>
       </div>
       <div class="preview">
-
         <small class="text-muted">Description preview</small>
-
-        <div ng-bind-html="page.description | markdown"></div>
+        <div ng-if="page.description" ng-bind-html="page.description | markdown"></div>
       </div>
 
     </fieldset>

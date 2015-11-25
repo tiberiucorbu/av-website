@@ -19,7 +19,7 @@
             title: 'About Page',
             modelType: 'page',
             url_component: 'about'
-          },{
+          }, {
             title: 'Contact Page',
             modelType: 'page',
             url_component: 'contact'
