@@ -13,5 +13,5 @@ import util
 def admin_pages():
   return flask.render_template(
       'admin/pages/pages.html',
-      title=' pages'
+      title='Pages configurator'
   )

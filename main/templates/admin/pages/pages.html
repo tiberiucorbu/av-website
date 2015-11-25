@@ -1,22 +1,25 @@
 #extends 'admin/admin_app_base.html'
 #import 'macro/utils.html' as utils
-
 #block admin_content
 <div id="#app-wrapper" ng-app="adminApp" class="container-fluid">
+  <uib-tabset>
+      <uib-tab heading="Home">
 
-  <div ng-controller="homePageController">
-    <h3> Home Page </h3>
-    <div home-page-form></div>
-  </div>
+          <div class="tab-content" style="margin-top: 1em;" home-page-form></div>
 
-  <div ng-controller="aboutPageController">
-    <h3> About Page </h3>
-    <div about-page-form></div>
-  </div>
+      </uib-tab>
+      <uib-tab heading="About">
+          <div class="tab-content" style="margin-top: 1em;"  about-page-form></div>
 
-  <div ng-controller="contactPageController">
-    <h3> Contact Page </h3>
-    <div contact-page-form></div>
-  </div>
-</div><!-- #app-wrapper -->
+      </uib-tab>
+
+      <uib-tab heading="Contact">
+
+          <div class="tab-content" style="margin-top: 1em;" contact-page-form></div>
+
+      </uib-tab>
+    </uib-tabset>
+
+</div>
+<!-- #app-wrapper -->
 # endblock
