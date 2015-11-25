@@ -63,7 +63,7 @@
         $scope.pageResourceItems = [];
         if ($scope.page.image_keys) {
           var params = {
-            resource_keys: '[' + $scope.page.image_keys.join() + ']'
+            resource_keys: $scope.page.image_keys.join(',')
           };
 
           resourceDataFactory.getJson(params).then(function(resourceRes) {
@@ -122,7 +122,7 @@
           $scope.pageResourceItems = [];
           if ($scope.page.image_keys) {
             var params = {
-              resource_keys: '[' + $scope.page.image_keys.join() + ']'
+              resource_keys: $scope.page.image_keys.join()
             };
 
             resourceDataFactory.getJson(params).then(function(resourceRes) {
@@ -172,6 +172,19 @@
 
       $scope.pageResourceItems = [];
 
+      //var removeImage function ()
+
+      $scope.removeImageKey = function(key) {
+
+
+
+
+        resourceDataFactory.deleteJson({
+          resource_keys: key
+        }).then(function() {
+
+        });
+      };
       conactPageDataService.getJson().then(
         function(res) {
           var config = JSON.parse(res.data.result.config) || {};
@@ -180,7 +193,7 @@
           $scope.pageResourceItems = [];
           if ($scope.page.image_keys) {
             var params = {
-              resource_keys: '[' + $scope.page.image_keys.join() + ']'
+              resource_keys: $scope.page.image_keys.join()
             };
 
             resourceDataFactory.getJson(params).then(function(resourceRes) {

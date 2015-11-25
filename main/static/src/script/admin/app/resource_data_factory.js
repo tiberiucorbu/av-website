@@ -10,6 +10,13 @@
           url: '/api/v1/resource/',
           params: params
         });
+      },
+      deleteJson: function(params) {
+        return $http({
+          method: 'DELETE',
+          url: '/api/v1/resource/',
+          params: params
+        });
       }
     };
   }]);
