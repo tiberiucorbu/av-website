@@ -16,8 +16,8 @@
     </ul>
   {% endif %}
 {%- endmacro %}
-<nav class="navbar navbar-default" role="navigation">
-  <div class="container container-main-block" >
+<nav class="navbar navbar-default container-main-block" role="navigation">
+
     <div class="navbar-header">
       <a class="navbar-brand" href="{{url_for('home')}}">{{config.CONFIG_DB.brand_name}}</a>
       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -34,5 +34,5 @@
       {{navbar_items(model.navbar, 'nav navbar-nav navbar-right')}}
     </div><!-- /.navbar-collapse -->
     # endif
-  </div><!-- /.container-fluid -->
+
 </nav>

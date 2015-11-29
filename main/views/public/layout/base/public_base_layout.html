@@ -9,23 +9,24 @@
   </head>
 
   <body>
-      <div class="table full container-fluid container-main-block min-page-height">
-          <div class="table-header">
+      <div class="container-fluid container-main-block">
+
           # block navbar
             #include 'public/layout/base/bit/navbar.html'
           # endblock
-          </div>
-          <div class="table-content">
+      </div>
+      <div class="container-fluid container-main-block">
+
           # block content
 
           # endblock
-          </div>
-        <footer class="table-footer footer-wrapper" role="contentinfo">
-          # block footer
-            # include 'public/layout/base/bit/footer.html'
-          # endblock
-        </footer>
+
       </div>
+      <footer class="container-fluid container-main-block" style="margin-top:15px" role="contentinfo">
+        # block footer
+          # include 'public/layout/base/bit/footer.html'
+        # endblock
+      </footer>
 
     # include 'public/layout/base/bit/script.html'
     # block scripts

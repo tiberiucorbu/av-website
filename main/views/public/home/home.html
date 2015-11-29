@@ -5,25 +5,18 @@
 {% endif %}
 
 # block content
-  <div class="table">
-    <div class="row table-content" style="position:relative">
   # block slideshow
+    <div class="row">
     # if model.page_data.images
-
-
-
-
         # if model.page_data.images|length > 1
-          <section class="col-md-12" style="height: 100%;">
+          <section class="col-md-12" style="height: 615px">
 
-              <div id="filmstrip" data-target="swiper" class="swiper-container" >
-              <div id="thumblist"  class="swiper-wrapper" >
+              <div  data-target="swiper" class="swiper-container" >
+              <div  class="swiper-wrapper">
                 #for image in model.page_data.images
-
-                <div class="swiper-slide" >
-                  <img class="slide-img" width="{{image.image_size_w}}" height="{{image.image_size_h}}" src="{{image.serve_url}}" />
+                <div class="swiper-slide">
+                  <img style="background: {{image.image_average_color}}" class="slide-img" width="{{(image.image_size_w / image.image_size_h) * 615}}" height="615px" src="{{image.serve_url}}" />
                 </div>
-
                 #endfor
               </div>
               <div class="swiper-scrollbar"></div>
@@ -34,23 +27,22 @@
             </div>
         </section>
       #else
-        <section class="col-md-12" style="height: 100%;">
-          <div class="full">
-              <img class="hp-main-image full max-size"  src="{{model.page_data.images[0].serve_url}}" />
-          </div>
+        <section class="col-md-12 text-center hp-image-wrapper" style="position: relative">
+          <img style="width: 100%; background: {{model.page_data.images[0].image_average_color}}"  src="{{model.page_data.images[0].serve_url}}" />
+          # if model.page_data.description
+            <article class="image-footnote text-left">
+              <h3 style="margin:0px; line-height:20px; font-size:18px;">{{model.page_data.images[0].name}}</h4>
+              <p style="font-size: 11px;">{{model.page_data.images[0].description}}</p>
+            </article>
+          # endif
         </section>
       #endif
     #endif
-  # endblock
-    </div>
-  # if model.page_data.description
-    <article class="table-footer row vspacer">
-      <div class="col-md-12">
-        {{model.page_data.description | safe}}
-      </div>
-    </article>
-  # endif
   </div>
+  # endblock
+
+
+
 
 
 # endblock
