@@ -1,5 +1,24 @@
 .hp {
 
+  .image-footnote {
+    position: absolute;
+    bottom: 0px;
+    height: 57px;
+    padding: 4px;
+    width: 100%;
+    opacity: 0;
+    background: #FFF;
+    transition: 0.5s;
+  }
+  .hp-image-wrapper {
+    position: relative;
+  }
+  .hp-image-wrapper:hover{
+    .image-footnote {
+      opacity : 1;
+    }
+  }
+
   #hp-carousel {
     .carousel-control, .carousel-control {
       background-image : none;
