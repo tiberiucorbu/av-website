@@ -1,6 +1,47 @@
 
 <div class="row">
-	<div class="col-md-12 text-center">
+	<div class="col-xs-6 text-left">
 		 <address class="author">&copy; <a rel="author" href="{{url_for('about')}}">Anabella Veres</a></address> - <time pubdate date="{{current_year()}}" title="{{current_year()}}">{{current_year()}}</time>
   </div>
+
+	<div class="col-xs-6 text-right">
+		<div class="dropup" style="display: inline-block">
+			<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				<span class="glyphicon glyphicon-send"></span> Share
+				<span class="caret"></span>
+			</button>
+			<ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+
+				{% if model %}
+					{% if model.canonical_path and model.host %}
+					<li>
+						<a class="pop-share-button" rel="nofollow" data-share-chanel='twitter' href='{{model.host}}{{model.canonical_path}}' >Share on twitter</a>
+					</li>
+					<li>
+						<a class="pop-share-button" rel="nofollow" data-share-chanel='gPlus' href='{{model.host}}{{model.canonical_path}}' >Share on google plus</a>
+					</li>
+					<li>
+						<a class="pop-share-button" rel="nofollow" data-share-chanel='facebook' href='{{model.host}}{{model.canonical_path}}' >Share on facebook</a>
+					</li>
+					<li>
+						<a class="pop-share-button" rel="nofollow" data-share-chanel='facebook-feed' href='{{model.host}}{{model.canonical_path}}' >Share on facebook via Feed</a>
+					</li>
+					{% endif %}
+				{% endif %}
+			</ul>
+		</div>
+
+		<a class="btn btn-social-icon btn-google" href="javascript:" title="Google" rel="nofollow">
+			<span class="fa fa-google-plus"></span>
+		</a>
+
+		<a class="btn btn-social-icon btn-facebook" href="javascript:" title="Facebook" rel="nofollow">
+			<span class="fa fa-facebook"></span>
+		</a>
+
+		<a class="btn btn-social-icon btn-twitter" href="javascript:" target="_blank" title="Twitter" rel="nofollow">
+			<span class="fa fa-twitter"></span>
+		</a>
+
+	</div>
 </div>
