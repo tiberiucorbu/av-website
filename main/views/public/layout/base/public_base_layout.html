@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html class="{% block html_class %}{% if model%}{{model.html_class}}{% endif %}{% endblock %}" lang="en">
+  <head>
+    # include 'public/layout/base/bit/meta.html'
+    <title>
+      # block title
+        # if model
+        {{model.title + ' |' if model.title}}
+        # endif
+      # endblock
+      {{config.CONFIG_DB.brand_name}}
+    </title>
+
+    # include 'public/layout/base/bit/style.html'
+    # block head
+
+    # endblock
+  </head>
+
+  <body>
+      <div class="table full container-fluid container-main-block min-page-height">
+          <div class="table-header">
+          # block navbar
+            #include 'public/layout/base/bit/navbar.html'
+          # endblock
+          </div>
+          <div class="table-content">
+          # block content
+
+          # endblock
+          </div>
+        <footer class="table-footer footer-wrapper" role="contentinfo">
+          # block footer
+            # include 'public/layout/base/bit/footer.html'
+          # endblock
+        </footer>
+      </div>
+
+    # include 'public/layout/base/bit/script.html'
+    # block scripts
+    # endblock
+    # include 'public/layout/base/bit/analytics.html'
+  </body>
+</html>

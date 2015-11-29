@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html class="{% block html_class %}{{html_class}}{% endblock %}" lang="en">
+  <head>
+    # include 'admin/layout/base/bit/meta.html'
+    <title>
+      # block title
+        {{title + ' |' if title}}
+      # endblock
+      {{config.CONFIG_DB.brand_name}}
+    </title>
+    # include 'admin/layout/base/bit/style.html'
+    # block head
+    # endblock
+    # include 'admin/layout/base/bit/analytics.html'
+    # include 'admin/layout/base/bit/script.html'
+  </head>
+
+  <body>
+    # include 'admin/layout/base/bit/header.html'
+    # include 'admin/layout/base/bit/announcement.html'
+    # block header
+    # endblock
+    <div class="container">
+      # include 'admin/layout/base/bit/notifications.html'
+      # block content
+        <div class="page-header">
+          <h1>
+            {{utils.back_link('Back', back_url_for or 'admin')}}
+            {{title}}
+          </h1>
+
+          # if html_class in ['admin-config', 'admin-auth']
+            <p class="text-muted">
+              # set instances_url = 'https://console.developers.google.com/project/%s/appengine/instances?moduleId=default&versionId=%s' % (
+                    config.APPLICATION_ID,
+                    config.CURRENT_VERSION_NAME,
+                  ) if config.PRODUCTION else ''
+
+              For most of the settings to be applied for everyone, you will
+              # if instances_url
+                <a href="{{instances_url}}" target="_blank">have to restart</a>
+              # else
+                have to restart
+              # endif
+              the <a href="https://developers.google.com/appengine/docs/adminconsole/instances" target="_blank">instances</a>.
+            </p>
+          # endif
+          # block admin_header
+          # endblock
+        </div>
+
+        # block admin_content
+        # endblock
+      # endblock
+    </div>
+    # include 'admin/layout/base/bit/footer.html'
+
+    # block scripts
+    # endblock
+  </body>
+</html>

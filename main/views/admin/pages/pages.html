@@ -1,0 +1,25 @@
+#extends 'admin/layout/app/admin_app_layout.html'
+
+#block admin_content
+<div id="#app-wrapper" ng-app="adminApp" class="container-fluid">
+  <uib-tabset>
+      <uib-tab heading="Home">
+
+          <div class="tab-content" style="margin-top: 1em;" home-page-form></div>
+
+      </uib-tab>
+      <uib-tab heading="About">
+          <div class="tab-content" style="margin-top: 1em;"  about-page-form></div>
+
+      </uib-tab>
+
+      <uib-tab heading="Contact">
+
+          <div class="tab-content" style="margin-top: 1em;" contact-page-form></div>
+
+      </uib-tab>
+    </uib-tabset>
+
+</div>
+<!-- #app-wrapper -->
+# endblock

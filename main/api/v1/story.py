@@ -2,8 +2,6 @@
 
 from __future__ import absolute_import
 
-from flask.ext import wtf
-import wtforms
 import flask
 from flask.ext import restful
 from flask_restful import reqparse
@@ -18,6 +16,7 @@ import auth
 from main import api_v1
 import model
 import util
+from views.admin.story import StoryForm
 
 
 @api_v1.resource('/story/', endpoint='api.story.list')
@@ -67,7 +66,7 @@ class StoryListAPI(restful.Resource):
     id = util.param('id', long)
     key = util.param('key', str)
 
-    form = StoryUpdateForm()
+    form = StoryForm()
     if form.validate():
       story_db = None
       if key is not None:
@@ -142,36 +141,3 @@ def delete_story_task(story_key, next_cursor=None):
     deferred.defer(delete_story_task, story_key, next_cursor)
   else:
     story_key.delete()
-
-
-class ListField(wtforms.Field):
-  widget = wtforms.widgets.TextInput()
-
-  def _value(self):
-    if self.data:
-      return u', '.join(self.data)
-    else:
-      return u''
-
-  def process_formdata(self, valuelist):
-    if valuelist:
-      self.data = [x.strip() for x in valuelist[0].split(',')]
-    else:
-      self.data = []
-
-class StoryUpdateForm(wtf.Form):
-  title = wtforms.StringField('Title', [wtforms.validators.required()])
-  description = wtforms.StringField(
-      'Description', [wtforms.validators.optional()])
-  tags = ListField('Tags', [wtforms.validators.optional()])
-  story_items = ListField('Items Keys', [wtforms.validators.optional()])
-  canonical_path = wtforms.StringField(
-      'Canonical Path', [wtforms.validators.optional()])
-  meta_keywords = wtforms.StringField(
-      'Meta Kewords', [wtforms.validators.optional()])
-  meta_description = wtforms.StringField(
-      'Meta Description', [wtforms.validators.optional()])
-  deprecated_category_id = wtforms.IntegerField(
-      'Old Category Id', [wtforms.validators.optional()])
-  deprecated_category_data = wtforms.StringField(
-      'Old Category Data', [wtforms.validators.optional()])

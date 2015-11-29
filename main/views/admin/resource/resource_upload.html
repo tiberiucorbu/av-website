@@ -1,0 +1,17 @@
+{% if not only_html %}
+  # extends 'admin/layout/base/admin_base_layout.html'
+{% endif %}
+
+# import 'share/macro/utils.html' as utils
+
+# block content
+  {% if not only_html %}
+    <div class="page-header">
+      <h1>
+        {{utils.back_link('Back', 'resource_list')}}
+        {{title}}
+      </h1>
+    </div>
+  {% endif %}
+  #include 'admin/resource/bit/upload_form.html'
+# endblock

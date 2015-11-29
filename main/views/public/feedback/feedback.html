@@ -1,0 +1,14 @@
+# extends 'public/layout/base/public_base_layout.html'
+# import 'share/macro/forms.html' as forms
+
+# block content
+  <div class="page-header">
+    <h1>{{title}} <small>Any questions or suggestions are welcome</small></h1>
+  </div>
+
+  <div class="row">
+    <div class="col-md-4 col-sm-6">
+      # include 'public/feedback/bit/feedback_form.html'
+    </div>
+  </div>
+# endblock

@@ -13,11 +13,12 @@
         </div>
         <textarea class="form-control" id="description" name="description" rows="4" ng-model="page.description"></textarea>
       </div>
-      <div class="preview">
 
-        <small class="text-muted">Description preview</small>
-
-        <div ng-bind-html="page.description | markdown"></div>
+      <div class="panel panel-default preview">
+        <div class="panel-body">
+          <small class="text-muted">Description preview</small>
+          <div class="scroll-v" ng-bind-html="story.description | markdown"></div>
+        </div>
       </div>
 
       <div class="panel panel-default">
@@ -34,23 +35,28 @@
               <ul class="list-group" ng-sortable="{ group: 'image-upload', animation: 150 }">
 
                 <li item="item" class="list-group-item" ng-repeat="item in pageResourceItems">
-                  <div style="float:left; width: 64px">
-                    <div style="background: #cacaca url('{{item.image_thumb_data_url}}');background-size: cover; position: relative; width:100%; padding-top: 100%; padding-top: {{(item.image_size_h / item.image_size_w)*100}}%">
+                  <div style="float:left; width: 68px;border: 1px solid #cacaca; padding: 1px; margin-right: 6px; text-align : center">
+                    <img src="{{item.image_thumb_data_url}}"  style="max-width:64px; max-height:64px; " />
+                    <!--div style="background: #cacaca url('{{item.image_thumb_data_url}}');background-size: cover; position: relative; width:100%; padding-top: 100%; padding-top: {{(item.image_size_h / item.image_size_w)*100}}%">
                       <div style="position: absolute; top:0px; left:0px; bottom:0px; right: 0px;"></div>
-                    </div>
+                    </div!-->
                   </div>
-                  <div class="pull-right">
-                    <button ng-click="removeImageKey(item.key)" class="btn btn-default fa fa-trash"></button>
+                  <div style="float: left;">
+                    Alternative text &amp; Title
+                    <input name="alt_text" ng-model="item.name" />
+                    <br />
+                    size : <span>{{item.size_human}}</span>
                   </div>
-                  <div class="clearfix"><div>
+                  <div "pageResourceItems" class="pull-right">
+                    <button ng-click="pageResourceItems.splice($index,1)" class="btn btn-default fa fa-trash"></button>
+                  </div>
+                  <div class="clearfix"></div>
                 </li>
-
               </ul>
-
-
           </div>
         </div>
       </div>
+
 
     </fieldset>
 

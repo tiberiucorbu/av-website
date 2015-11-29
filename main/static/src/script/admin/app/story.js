@@ -40,7 +40,7 @@
     };
 
     $scope.newStory = function() {
-      var story = {};
+      var story = {story_items_expanded: []};
       $scope.buffer.unshift(story);
       storyItemSelect.item = story;
       $scope.$broadcast('scrollIntoView', story);

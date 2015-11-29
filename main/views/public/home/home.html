@@ -1,0 +1,56 @@
+{% if model.view_reduced %}
+  # extends 'public/layout/empty/public_empty_layout.html'
+{% else %}
+  # extends 'public/layout/base/public_base_layout.html'
+{% endif %}
+
+# block content
+  <div class="table">
+    <div class="row table-content" style="position:relative">
+  # block slideshow
+    # if model.page_data.images
+
+
+
+
+        # if model.page_data.images|length > 1
+          <section class="col-md-12" style="height: 100%;">
+
+              <div id="filmstrip" data-target="swiper" class="swiper-container" >
+              <div id="thumblist"  class="swiper-wrapper" >
+                #for image in model.page_data.images
+
+                <div class="swiper-slide" >
+                  <img class="slide-img" width="{{image.image_size_w}}" height="{{image.image_size_h}}" src="{{image.serve_url}}" />
+                </div>
+
+                #endfor
+              </div>
+              <div class="swiper-scrollbar"></div>
+              <div class="swiper-pagination"></div>
+
+              <div class="swiper-button-next"></div>
+              <div class="swiper-button-prev"></div>
+            </div>
+        </section>
+      #else
+        <section class="col-md-12" style="height: 100%;">
+          <div class="full">
+              <img class="hp-main-image full max-size"  src="{{model.page_data.images[0].serve_url}}" />
+          </div>
+        </section>
+      #endif
+    #endif
+  # endblock
+    </div>
+  # if model.page_data.description
+    <article class="table-footer row vspacer">
+      <div class="col-md-12">
+        {{model.page_data.description | safe}}
+      </div>
+    </article>
+  # endif
+  </div>
+
+
+# endblock

@@ -172,19 +172,6 @@
 
       $scope.pageResourceItems = [];
 
-      //var removeImage function ()
-
-      $scope.removeImageKey = function(key) {
-
-
-
-
-        resourceDataFactory.deleteJson({
-          resource_keys: key
-        }).then(function() {
-
-        });
-      };
       conactPageDataService.getJson().then(
         function(res) {
           var config = JSON.parse(res.data.result.config) || {};
