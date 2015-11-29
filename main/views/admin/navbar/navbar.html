@@ -1,0 +1,101 @@
+#extends 'admin/layout/app/admin_app_layout.html'
+
+#block admin_content
+  <div id="#app-wrapper" ng-app="adminApp" class="container-fluid">
+
+    <div class="row">
+      <div class="col-md-4">
+        <div ng-controller="navbarBuilderController as controller">
+
+          <ul class="list-group padding-v">
+            <li class="list-group-item" ng-repeat="node in tree">
+              <div nav-item item="node"></div>
+            </li>
+          </ul>
+          <div class="row">
+            <div class="col-md-12">
+              {{status}}
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+              <button ng-click="save()" type="submit" class="btn btn-primary btn-block">
+                Save
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </div> <!-- .col-md-4 -->
+      <div class="col-md-8">
+        <div class="panel-group" role="tablist">
+
+          <div class="panel panel-default"  >
+            <div class="panel-heading" role="tab" id="collapseItemEditFormHeading">
+              <h4 class="panel-title">
+                <a class="" role="button" data-toggle="collapse" href="#collapseItemEditForm" aria-expanded="true" aria-controls="collapseItemEditForm">
+                  Any url
+                </a>
+              </h4>
+            </div>
+
+            <div aria-expanded="true" id="collapseItemEditForm" class="panel-collapse" role="tabpanel" aria-labelledby="collapseItemEditFormHeading">
+              <div nav-item-edit-form></div>
+            </div>
+          </div><!-- .panel -->
+
+          <div class="panel panel-default" ng-controller="storyListController" >
+            <div class="panel-heading" role="tab" id="collapseStoriesListGroupHeading">
+              <h4 class="panel-title">
+                <a class="" role="button" data-toggle="collapse" href="#collapseStoriesListGroup" aria-expanded="true" aria-controls="collapseStoriesListGroup">
+                  Select a story
+                </a>
+
+                <div class="pull-right">
+                  <div class="btn-group">
+                    <button class="btn btn-xs edit fa fa-refresh" title="Reload" alt="Reload" ng-click="reload()"></button>
+                  </div>
+                </div>
+              </h4>
+
+            </div>
+
+            <div aria-expanded="true" id="collapseStoriesListGroup" class="panel-collapse collapse" role="tabpanel" aria-labelledby="collapseStoriesListGroupHeading">
+
+              <ul ng-sortable="{ group: {	name: 'navbar',	pull: 'clone',	put: false, sort: false}, animation: 150 }" class="list-group lazy-load" lazy-load>
+                <li class="list-group-item" ng-repeat="item in buffer">
+                  <span list-item item="item"></span>
+                  <!-- button class="btn btn-xs pull-right" ng-click="press(item)">Press me</button -->
+                </li>
+              </ul>
+
+            </div>
+          </div><!-- .panel -->
+
+          <div class="panel panel-default" ng-controller="pageListController" >
+            <div class="panel-heading" role="tab" id="collapsePagesListGroupHeading">
+              <h4 class="panel-title">
+                <a class="" role="button" data-toggle="collapse" href="#collapsePagesListGroup" aria-expanded="true" aria-controls="collapsePagesListGroup">
+                  Pages
+                </a>
+              </h4>
+            </div>
+
+            <div aria-expanded="true" id="collapsePagesListGroup" class="panel-collapse collapse" role="tabpanel" aria-labelledby="collapsePagesListGroupHeading">
+
+              <ul ng-sortable="{ group: {	name: 'navbar',	pull: 'clone',	put: false}, animation: 150 }" class="list-group lazy-load" lazy-load>
+                <li class="list-group-item" ng-repeat="item in buffer">
+                  <span list-item item="item"></span>
+                </li>
+              </ul>
+
+            </div>
+          </div><!-- .panel -->
+
+        </div>
+      </div> <!-- .panel-group -->
+      </div> <!-- .col-md-8 -->
+    </div> <!-- .row -->
+
+  </div> <!-- #app-wrapper -->
+# endblock

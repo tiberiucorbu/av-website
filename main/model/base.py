@@ -32,6 +32,6 @@ class Base(ndb.Model):
       'key': fields.Key,
       'id': fields.Id,
       'version': fields.Integer,
-      #'created': fields.DateTime,
-      #'modified': fields.DateTime,
+      'created': fields.DateTime,
+      'modified': fields.DateTime,
     }

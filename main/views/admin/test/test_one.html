@@ -1,0 +1,8 @@
+# extends 'public/layout/base/public_base_layout.html'
+
+
+# block admin_content
+  <section class="{{'%s-%s' % (html_class, test)}}">
+    # include 'admin/test/bit/test_%s.html' % test
+  </section>
+# endblock

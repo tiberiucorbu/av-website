@@ -103,19 +103,22 @@
           var xhr = new XMLHttpRequest();
           xhr.addEventListener('progress', function(e) {
             $log.debug('Progress', e);
-            $scope.status = 'Uploading file in progress ' + e;
+            $scope.status = 'Uploading file in progress ...';
             $scope.$apply();
           });
           xhr.addEventListener('load', function(e) {
             var res = JSON.parse(e.target.response);
-            console.log(res);
+
             var item = res.result;
 
-            console.log($scope.items);
+
 
             $scope.$apply(function(){
-              $scope.items.push(item);
+              if ($scope.items){
+                $scope.items.push(item);
+              }
               $scope.status = '';
+
             });
           });
           $scope.status = 'Uploading file ' + res.file.name;

@@ -40,6 +40,7 @@ config.admin =
     "#{paths.static.ext}/bootstrap/js/collapse.js"
     "#{paths.static.ext}/bootstrap/js/dropdown.js"
     "#{paths.static.ext}/bootstrap/js/tooltip.js"
+    "#{paths.static.ext}/bootstrap/js/tab.js"
     "#{paths.static.ext}/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"
     "#{paths.static.ext}/angular/angular.js"
     "#{paths.static.ext}/sortable/Sortable.js"

@@ -1,0 +1,39 @@
+# extends 'public/layout/base/public_base_layout.html'
+
+#macro story_item (item)
+  <div class="swiper-slide" >
+    <img class="slide-img" src="{{item.serve_url}}" class="slide-img" alt="{{item.name}}" title="{{item.name}}" />
+  </div>
+#endmacro
+
+# block content
+  #if not model.view_reduced
+  <div>
+    <h1>{{model.story.title}}</h1>
+    <p>{{model.story.description}}</p>
+  </div>
+  #endif
+
+
+  <div id="filmstrip" data-target="swiper" class="swiper-container" >
+    <div id="thumblist"  class="swiper-wrapper" >
+
+      #for item in model.story.story_items_expanded
+        {{story_item(item)}}
+      #endfor
+
+    </div>
+    <div class="swiper-scrollbar"></div>
+    <div class="swiper-pagination"></div>
+
+    <div class="swiper-button-next"></div>
+    <div class="swiper-button-prev"></div>
+  </div>
+
+  <div class="swiper-container" data-target="swiper">
+    <div class="swiper-wrapper">
+
+    </div>
+    <div class="swiper-pagination"></div>
+  </div>
+# endblock

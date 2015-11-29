@@ -1,4 +1,4 @@
-<form  name="home_page_form" >
+<form  name="home_page_form" ng-controller="aboutPageController" >
 
   <div class="row">
     <fieldset class="col-md-8">
@@ -20,6 +20,42 @@
         <div ng-bind-html="page.description | markdown"></div>
       </div>
 
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            <a data-toggle="collapse" data-parent=".panel-group" href="#about-upload-images-panel">Images</a>
+            <span class="fa fa-check pull-right hide"></span>
+          </h4>
+        </div>
+        <div id="about-upload-images-panel" class="panel-collapse">
+          <div class="panel-body">
+            <div file-upload multiple="false" accept="image/*" items="pageResourceItems"></div>
+
+              <ul class="list-group" ng-sortable="{ group: 'image-upload', animation: 150 }">
+
+                <li item="item" class="list-group-item" ng-repeat="item in pageResourceItems">
+                  <div style="float:left; width: 68px; height: 68px; border: 1px solid #cacaca; padding: 1px; margin-right: 6px; text-align : center">
+                    <img src="{{item.image_thumb_data_url}}"  style="max-width:64px; max-height:64px; " />
+                    <!--div style="background: #cacaca url('{{item.image_thumb_data_url}}');background-size: cover; position: relative; width:100%; padding-top: 100%; padding-top: {{(item.image_size_h / item.image_size_w)*100}}%">
+                      <div style="position: absolute; top:0px; left:0px; bottom:0px; right: 0px;"></div>
+                    </div!-->
+                  </div>
+                  <div style="float: left;">
+                    Alternative text &amp; Title
+                    <input name="alt_text" ng-model="item.name" />
+                    <br />
+                    size : <span>{{item.size_human}}</span>
+                  </div>
+                  <div "pageResourceItems" class="pull-right">
+                    <button ng-click="pageResourceItems.splice($index,1)" class="btn btn-default fa fa-trash"></button>
+                  </div>
+                  <div class="clearfix"></div>
+                </li>
+              </ul>
+          </div>
+        </div>
+      </div>
     </fieldset>
 
     <fieldset class="col-md-4">
@@ -27,11 +63,11 @@
       <div class="panel panel-default">
         <div class="panel-heading">
           <h4 class="panel-title">
-            <a data-toggle="collapse" data-parent=".panel-group" href="#meta-data">Meta Data</a>
-            <span class="fa fa-check pull-right hide"></span>
+            <a data-toggle="collapse" data-parent=".panel-group" href="#about-meta-data">Meta Data</a>
+            <span class="fa fa-check pull-right"></span>
           </h4>
         </div>
-        <div id="meta-data" class="panel-collapse collapse">
+        <div id="abou-meta-data" class="panel-collapse collapse">
           <div class="panel-body">
             <div class="form-group ">
               <label class="control-label" for="meta_keywords">Meta Kewords</label>
@@ -47,36 +83,7 @@
         </div>
       </div>
     </fieldset>
-    <fieldset class="col-md-4">
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <h4 class="panel-title">
-            <a data-toggle="collapse" data-parent=".panel-group" href="#about-upload-images-panel">Images</a>
-            <span class="fa fa-check pull-right hide"></span>
-          </h4>
-        </div>
-        <div id="about-upload-images-panel" class="panel-collapse">
-          <div class="panel-body">
-            <div file-upload multiple="false" accept="image/*" items="pageResourceItems" ></div>
 
-            <div class="row">
-              <div class="masonry" ng-sortable="{ group: 'image-upload', animation: 150 }">
-                <div story-item-edit item="item" class="item" ng-repeat="item in pageResourceItems">
-                  <div style="background: #cacaca url('{{item.image_thumb_data_url}}');background-size: cover; position: relative; width:100%; padding-top: 100%; padding-top: {{(item.image_size_h / item.image_size_w)*100}}%">
-                    <div style="position: absolute; top:0px; left:0px; bottom:0px; right: 0px;">
-
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-
-          </div>
-        </div>
-      </div>
-      </div>
-
-    </fieldset>
   </div>
 
   <div class="row">

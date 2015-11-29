@@ -1,0 +1,31 @@
+# extends 'admin/layout/base/admin_base_layout.html'
+# import 'share/macro/forms.html' as forms
+# import 'share/macro/utils.html' as utils
+
+# block admin_content
+  <div class="row">
+    <div class="col-md-6">
+      <form method="POST" action="." novalidate>
+        {{form.csrf_token}}
+        <div class="panel-group">
+
+          # include 'admin/config/bit/bitbucket_oauth.html'
+          # include 'admin/config/bit/dropbox_oauth.html'
+          # include 'admin/config/bit/facebook_oauth.html'
+          # include 'admin/config/bit/github_oauth.html'
+          # include 'admin/config/bit/google_oauth.html'
+          # include 'admin/config/bit/instagram_oauth.html'
+          # include 'admin/config/bit/linkedin_oauth.html'
+          # include 'admin/config/bit/microsoft_oauth.html'
+          # include 'admin/config/bit/reddit_oauth.html'
+          # include 'admin/config/bit/twitter_oauth.html'
+          # include 'admin/config/bit/vk_oauth.html'
+          # include 'admin/config/bit/yahoo_oauth.html'
+        </div>
+        <button type="submit" class="btn btn-primary btn-lg btn-block btn-loading" {{forms.data_loading_text()}}>
+          Update Config
+        </button>
+      </form>
+    </div>
+  </div>
+# endblock

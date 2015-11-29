@@ -1,0 +1,35 @@
+{% if model.view_reduced %}
+  # extends 'public/layout/empty/public_empty_layout.html'
+{% else %}
+  # extends 'public/layout/base/public_base_layout.html'
+{% endif %}
+
+# macro story_item(item, story, idx)
+    <a data-target="open-modal-swiper" href="{{url_for('story', story_key=story_key(story), m='gallery', active=idx)}}">
+        <img src="{{item.serve_url}}" class="img-responsive" alt="{{item.name}}" title="{{item.name}}" />
+    </a>
+# endmacro
+
+# block content
+  <article class="container-fluid">
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+        <div class="description">{{model.story.description | safe}}</div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="offset-md-2 masonry">
+
+        #for item in model.story.story_items_expanded
+
+        <div class="item">
+          {{story_item(item, model.story, loop.index-1)}}
+        </div> <!-- .item -->
+
+        #endfor
+      </div> <!-- .col-md-8 -->
+
+    </div>
+  </article><!-- .contaiener-fluid -->
+  #include 'public/story/bit/swiper_modal.html'
+# endblock

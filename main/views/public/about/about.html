@@ -1,0 +1,21 @@
+{% if model.view_reduced %}
+  # extends 'public/layout/empty/public_empty_layout.html'
+{% else %}
+  # extends 'public/layout/base/public_base_layout.html'
+{% endif %}
+
+# block content
+
+<div class="table">
+  <div class="row table-content"  style="position:relative;{% if model.page_data.images|length > 0 %} background: {{model.page_data.images[0].image_average_color}} url('{{model.page_data.images[0].serve_url}}'); background-size: cover; background-position: center center;  {% endif %}">
+      <div class="row">
+        <div class="col-xs-10 col-md-4 col-md-offset-1 col-xs-offset-1" style="background: #fff; margin-top: 20%; margin-bottom: 5%;">
+          <h1 class="subtitle ">About</h1>
+          <br />
+          {{model.page_data.description | safe}}
+        </div>
+      </div>
+  </div>
+</div>
+
+# endblock

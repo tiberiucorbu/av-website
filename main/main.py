@@ -5,7 +5,7 @@ import flask
 import config
 import util
 
-app = flask.Flask(__name__)
+app = flask.Flask(__name__, template_folder='views')
 app.config.from_object(config)
 app.jinja_env.line_statement_prefix = '#'
 app.jinja_env.line_comment_prefix = '##'
@@ -19,7 +19,7 @@ app.jinja_env.globals.update(
   )
 
 import auth
-import control
+import views
 import model
 import task
 

@@ -19,7 +19,7 @@
             title: 'About Page',
             modelType: 'page',
             url_component: 'about'
-          },{
+          }, {
             title: 'Contact Page',
             modelType: 'page',
             url_component: 'contact'
@@ -63,7 +63,7 @@
         $scope.pageResourceItems = [];
         if ($scope.page.image_keys) {
           var params = {
-            resource_keys: '[' + $scope.page.image_keys.join() + ']'
+            resource_keys: $scope.page.image_keys.join(',')
           };
 
           resourceDataFactory.getJson(params).then(function(resourceRes) {
@@ -122,7 +122,7 @@
           $scope.pageResourceItems = [];
           if ($scope.page.image_keys) {
             var params = {
-              resource_keys: '[' + $scope.page.image_keys.join() + ']'
+              resource_keys: $scope.page.image_keys.join()
             };
 
             resourceDataFactory.getJson(params).then(function(resourceRes) {
@@ -180,7 +180,7 @@
           $scope.pageResourceItems = [];
           if ($scope.page.image_keys) {
             var params = {
-              resource_keys: '[' + $scope.page.image_keys.join() + ']'
+              resource_keys: $scope.page.image_keys.join()
             };
 
             resourceDataFactory.getJson(params).then(function(resourceRes) {

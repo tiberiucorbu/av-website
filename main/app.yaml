@@ -19,7 +19,7 @@ libraries:
   version: latest
 
 error_handlers:
-- file: templates/error_static.html
+- file: views/share/error/error_static.html
 
 handlers:
 - url: /favicon.ico
@@ -51,7 +51,7 @@ handlers:
   expiration: 1000d
 
 - url: /serve/.*
-  script: control.serve.app
+  script: views.share.serve.app
 
 - url: /.*
   script: main.app

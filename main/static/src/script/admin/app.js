@@ -22,7 +22,8 @@
 
   app.filter('markdown', ['$sce', 'marked', function($sce, marked) {
     return function(val) {
-      var html = marked(val);
+
+      var html = val ? marked(val) : null;
       return $sce.trustAsHtml(html);
     };
   }]);
