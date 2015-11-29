@@ -51,7 +51,7 @@ handlers:
   expiration: 1000d
 
 - url: /serve/.*
-  script: views.share.serve.app
+  script: views.serve.app
 
 - url: /.*
   script: main.app

@@ -1,16 +1,7 @@
 <!DOCTYPE html>
-<html class="{% block html_class %}{% if model%}{{model.html_class}}{% endif %}{% endblock %}" lang="en">
+<html prefix="og: http://ogp.me/ns#" class="{% block html_class %}{% if model%}{{model.html_class}}{% endif %}{% endblock %}" lang="en">
   <head>
     # include 'public/layout/base/bit/meta.html'
-    <title>
-      # block title
-        # if model
-        {{model.title + ' |' if model.title}}
-        # endif
-      # endblock
-      {{config.CONFIG_DB.brand_name}}
-    </title>
-
     # include 'public/layout/base/bit/style.html'
     # block head
 
