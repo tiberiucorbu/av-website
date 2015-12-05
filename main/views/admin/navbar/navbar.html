@@ -62,7 +62,7 @@
 
             <div aria-expanded="true" id="collapseStoriesListGroup" class="panel-collapse collapse" role="tabpanel" aria-labelledby="collapseStoriesListGroupHeading">
 
-              <ul ng-sortable="{ group: {	name: 'navbar',	pull: 'clone',	put: false, sort: false}, animation: 150 }" class="list-group lazy-load" lazy-load>
+              <ul ng-sortable="{ group: {	name: 'navbar',	pull: 'clone',	put: false, sort: false}, animation: 150, draggable: '.list-group-item', handle : '.drag-handle'}" class="list-group lazy-load" lazy-load>
                 <li class="list-group-item" ng-repeat="item in buffer">
                   <span list-item item="item"></span>
                   <!-- button class="btn btn-xs pull-right" ng-click="press(item)">Press me</button -->
@@ -83,7 +83,7 @@
 
             <div aria-expanded="true" id="collapsePagesListGroup" class="panel-collapse collapse" role="tabpanel" aria-labelledby="collapsePagesListGroupHeading">
 
-              <ul ng-sortable="{ group: {	name: 'navbar',	pull: 'clone',	put: false}, animation: 150 }" class="list-group lazy-load" lazy-load>
+              <ul ng-sortable="{ group: {	name: 'navbar',	pull: 'clone',	put: false}, animation: 150, draggable: '.list-group-item', handle : '.drag-handle'}" class="list-group lazy-load" lazy-load>
                 <li class="list-group-item" ng-repeat="item in buffer">
                   <span list-item item="item"></span>
                 </li>

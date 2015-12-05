@@ -196,6 +196,8 @@
       link: function(scope, element, attrs) {
         scope.sortableConfig = {
           group: 'navbar',
+          draggable: '.list-group-item',
+          handler : '.drag-handle',
           animation: 150,
           onAdd: function(evt) {
             var item = evt.model;
