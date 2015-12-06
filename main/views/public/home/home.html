@@ -15,16 +15,14 @@
               <!-- Indicators -->
               <ol class="carousel-indicators">
                 #for image in model.page_data.images
-                <li data-target="#myCarousel" data-slide-to="{{loop.index0}}" class=""></li>
+                <li data-target="#hp-carousel" data-slide-to="{{loop.index0}}"></li>
                 #endfor
               </ol>
               <div class="carousel-inner" role="listbox" style="position: relative">
                 #for image in model.page_data.images
                 <div class="item {%if loop.index0 == 0 %} active {%endif%} text-center">
-                  <div class="text-center" style="padding-top: {{(image.image_size_h / image.image_size_w)*100}}%; min-height: 615px; position: relative">
-                    <div class="full">
-                      <img style="background: {{image.image_average_color}}; height: 100%; width:100%" src="{{image.serve_url}}" />
-                    </div>
+                  <div class="text-center" style="height: 615px;">
+                      <img style="height:100%; background: {{image.image_average_color}};" src="{{image.serve_url}}" />
                   </div>
                   <div class="container-fluid">
                     <div class="carousel-caption">

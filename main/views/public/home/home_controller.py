@@ -76,7 +76,6 @@ def story(story_key):
     flask.abort(404)
   resp_model = {}
   resp_model['html_class'] = 'story'
-
   resp_model['canonical_path'] = flask.url_for(
       'story', story_key=util.story_key(story_db))
   decorate_page_response_model(resp_model)

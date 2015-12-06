@@ -20,6 +20,7 @@ config.front =
     "#{paths.static.ext}/bootstrap/js/tooltip.js"
     "#{paths.static.ext}/bootstrap/js/carousel.js"
     "#{paths.static.ext}/bootstrap/js/modal.js"
+    
     "#{paths.static.ext}/swiper/dist/js/swiper.js"
     "#{paths.src.script}/public/**/*.js"
   ]
