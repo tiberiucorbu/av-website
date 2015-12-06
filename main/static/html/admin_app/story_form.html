@@ -9,44 +9,18 @@
       </div>
 
 
-       <div class="form-group">
+      <div class="form-group">
 
         <div class="panel panel-default">
-
-
-
-        <div class="panel-body">
-          <div class="row">
-            <div class="col-xs-12">
-              <div file-upload multiple="true" accept="image/*" items="story.story_items_expanded" ></div>
-
-              <ul class="list-group" ng-sortable="{ group: 'image-upload', animation: 150 }">
-
-                <li item="item" class="list-group-item" ng-repeat="item in story.story_items_expanded">
-                  <div style="float:left; width: 68px;border: 1px solid #cacaca; padding: 1px; margin-right: 6px; text-align : center">
-                    <img src="{{item.image_thumb_data_url}}"  style="max-width:64px; max-height:64px; " />
-                    <!--div style="background: #cacaca url('{{item.image_thumb_data_url}}');background-size: cover; position: relative; width:100%; padding-top: 100%; padding-top: {{(item.image_size_h / item.image_size_w)*100}}%">
-                      <div style="position: absolute; top:0px; left:0px; bottom:0px; right: 0px;"></div>
-                    </div!-->
-                  </div>
-                  <div style="float: left;">
-                    Alternative text &amp; Title
-                    <input name="alt_text" ng-model="item.name" />
-                    <br />
-                    size : <span>{{item.size_human}}</span>
-                  </div>
-                  <div  class="pull-right">
-                    <button ng-click="story.story_items_expanded.splice($index,1)" class="btn btn-default fa fa-trash"></button>
-                  </div>
-                  <div class="clearfix"></div>
-                </li>
-              </ul>
-
-
+          <div class="panel-body">
+            <div class="row">
+              <div class="col-xs-12">
+                <div file-upload multiple="true" accept="image/*" items="story.story_items_expanded"></div>
+                <div resource-list items="story.story_items_expanded"></div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
       </div>
       <div class="form-group ">
         <label class="control-label" for="description">Description</label>
@@ -72,7 +46,7 @@
       <div class="form-group ">
         <label class="control-label" for="tags">Tags</label>
         <small class="text-muted">(optional)</small>
-        <!-- <tags-input class="form-control" ng-model="story.tags"></tags-input> -->
+
         <input class="form-control" id="tags" name="tags" rows="4" type="textarea" value="" ng-model="story.tags">
       </div>
 
@@ -85,52 +59,39 @@
         <label class="control-label" for="canonical_path"></label>
 
       </div>
-
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <h4 class="panel-title">
-            <a data-toggle="collapse" data-parent=".panel-group" href="#meta-data">Layout preview</a>
-          </h4>
-        </div>
-        <div id="meta-data" class="panel-collapse collapse">
-          <div class="panel-body">
-            <div class="form-group " style="max-height: 600px; overflow-x : hidden; overflow-y : auto">
-                <div story-items-edit items="story.story_items_expanded"></div>
-            </div>
+      <uib-accordion close-others="oneAtATime">
+        <uib-accordion-group heading="Layout preview">
+          <div class="form-group " style="max-height: 600px; overflow-x : hidden; overflow-y : auto">
+            <div story-items-edit items="story.story_items_expanded"></div>
           </div>
-        </div>
-      </div>
-
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <h4 class="panel-title">
-            <a data-toggle="collapse" data-parent=".panel-group" href="#meta-data">Meta Data</a>
-            <span class="fa fa-check pull-right hide"></span>
-          </h4>
-        </div>
-        <div id="meta-data" class="panel-collapse collapse">
-          <div class="panel-body">
-            <div class="form-group ">
-              <label class="control-label" for="meta_keywords">Meta Kewords</label>
-              <small class="text-muted">(optional)</small>
-              <input class="form-control" id="meta_keywords" name="meta_keywords" type="text" ng-model="story.meta_keywords">
-            </div>
-            <div class="form-group ">
-              <label class="control-label" for="meta_description">Meta Description</label>
-              <small class="text-muted">(optional)</small>
-              <input class="form-control" id="meta_description" name="meta_description" type="text" ng-model="story.meta_description">
-            </div>
+        </uib-accordion-group>
+        <uib-accordion-group heading="Meta Data">
+          <div class="form-group ">
+            <label class="control-label" for="meta_keywords">Page Title</label>
+            <small class="text-muted">(optional)</small>
+            <input class="form-control" id="meta_keywords" name="meta_keywords" type="text" ng-model="story.page_title">
           </div>
-        </div>
-      </div>
+          <div class="form-group ">
+            <label class="control-label" for="meta_keywords">Meta Kewords</label>
+            <small class="text-muted">(optional)</small>
+            <input class="form-control" id="meta_keywords" name="meta_keywords" type="text" ng-model="story.meta_keywords">
+          </div>
+          <div class="form-group ">
+            <label class="control-label" for="meta_description">Meta Description</label>
+            <small class="text-muted">(optional)</small>
+            <input class="form-control" id="meta_description" name="meta_description" type="text" ng-model="story.meta_description">
+          </div>
+        </uib-accordion-group>
+
+      </uib-accordion>
     </fieldset>
   </div>
 
   <div class="row">
     <div class="col-md-6 col-md-offset-3">
-      <button ng-click="save()" type="submit" class="btn btn-primary btn-lg btn-block btn-loading" data-loading-text="<span class='fa fa-spin fa-spinner'></span> Please wait..">
-
-        Submit this Form
+      <button ng-click="save()" type="submit" ng-class="{'diabled':requestInProgress}" class="btn btn-primary btn-lg btn-block">
+        <span ng-if="requestInProgress"><span class='fa fa-spin fa-spinner'></span> Please wait...</span>
+        <span ng-if="!requestInProgress">Save</span>
       </button>
       </button>
     </div>

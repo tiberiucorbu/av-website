@@ -77,11 +77,11 @@
       };
 
       treeModelFactory.postJson(data).then(function(res) {
-        console.log(res);
+
         $scope.status = 'Saved !';
         //$scope.navbarTree = JSON.parse(response.data.result.config);
       }, function(res) {
-        console.log(res);
+
 
       });
     };
@@ -127,7 +127,6 @@
         };
 
         scope.cancel = function() {
-          //console.log('esc', scope.selectedItem)
           scope.selectedItem.item = {};
         };
 
@@ -150,7 +149,6 @@
   };
 
   var navBarItemFromPage = function(page) {
-    console.log(page);
     return {
 
       label: page.title,
@@ -176,7 +174,6 @@
     } else if (item.modelType === 'tag') {
       navbarItem = navBarItemFromTag(item);
     }
-    console.log(navbarItem);
     if (navbarItem !== item) {
       items[newIndex] = navbarItem;
       return true;
@@ -193,7 +190,7 @@
         nodes: '=nodes'
       },
       templateUrl: '/p/html/admin_app/nav_group.html',
-      link: function(scope, element, attrs) {
+      link: function(scope) {
         scope.sortableConfig = {
           group: 'navbar',
           draggable: '.list-group-item',
@@ -204,7 +201,7 @@
             var items = evt.models;
             var newIndex = evt.newIndex;
 
-            var modified = convertNavbarItem(item, items, newIndex);
+            convertNavbarItem(item, items, newIndex);
             if (scope.$parent.item){
               var deepness = scope.$parent.item.deppness;
               item.deepness = deepness + 1;

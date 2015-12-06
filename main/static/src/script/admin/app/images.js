@@ -9,10 +9,7 @@
         items: '=items'
       },
       replace: true,
-      templateUrl: '/p/html/admin_app/image_upload_thumbs_preview.html',
-      //link: function(scope, el, attr) {
-        // console.log('imageUploadThumbsPreview', scope);
-      //}
+      templateUrl: '/p/html/admin_app/image_upload_thumbs_preview.html'
     };
   };
 
@@ -31,7 +28,6 @@
             scope.item.progress.percentage === 100 :
             false;
         };
-        console.log('imageUploadThumbnail', scope);
       }
     };
   };
@@ -98,7 +94,7 @@
         items: '='
       },
       templateUrl: '/resource/upload/?v=only-html',
-      link: function(scope, el, attr) {
+      link: function(scope, el) {
         // Hmm some things to reuse - not angularish but working as a charm
         window.prettyFile();
         var items = scope.items;
@@ -142,12 +138,48 @@
     };
   };
 
-  app.directive('imageUploadForm', imageUploadFormDirective );
+  app.directive('imageUploadForm', imageUploadFormDirective);
 
-  var imagesSelectController = function($scope) {
-    console.log($scope);
+  var imagesSelectController = function() {
   };
 
-  app.controller('imagesSelectController', ['$scope', imagesSelectController]);
+  app.controller('imagesSelectController', [imagesSelectController]);
+
+  var resourceForm = function() {
+    return {
+      scope: {
+        item: '=item',
+        items : '=items',
+        idx: '=idx'
+      },
+      replace: true,
+      controller : ['$scope', 'resourceDataFactory',function($scope, resourceDataFactory){
+        this.save = function(){
+          resourceDataFactory.postJson($scope.item).then(function(res){
+
+          });
+        };
+      }],
+      controllerAs: 'ctrl',
+      templateUrl: '/p/html/admin_app/resource_form.html'
+    };
+  };
+
+  app.directive('resourceForm', resourceForm);
+
+  var resourceList = function(){
+    return {
+      scope: {
+
+        items : '=items',
+
+      },
+      replace: true,
+      templateUrl: '/p/html/admin_app/resource_list.html'
+    };
+
+  };
+  app.directive('resourceList', resourceList);
+
 
 })(window);

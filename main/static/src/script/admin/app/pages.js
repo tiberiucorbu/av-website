@@ -75,7 +75,7 @@
         }
       },
       function(res) {
-        console.log('An error ocured', res);
+        
       }
     );
 

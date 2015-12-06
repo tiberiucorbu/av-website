@@ -17,6 +17,13 @@
           url: '/api/v1/resource/',
           params: params
         });
+      },
+      postJson: function(post) {
+        return $http({
+          method: 'POST',
+          url: '/api/v1/resource/',
+          params: post
+        });
       }
     };
   }]);

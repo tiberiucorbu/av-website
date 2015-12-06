@@ -1,0 +1,7 @@
+<div>
+  <ul class="list-group" ng-sortable="{ group: 'images', animation: 150, draggable: '.list-group-item', handle : '.drag-handle'}">
+    <li class="list-group-item" ng-repeat="item in items">
+      <resource-form item="item" items="items" idx="$index"></resource-form >
+    </li>
+  </ul>
+</div>

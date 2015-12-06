@@ -9,14 +9,17 @@
 
     $scope.buffer = [];
     $scope.selected = null;
+    $scope.loading = false;
     var params = storyDataFactory.getDefaultParams();
 
     var loadPage = function() {
+      $scope.loading = true;
       if (params.loadedAll) {
         return;
       }
 
       storyDataFactory.getJson(params).then(function(res) {
+        $scope.loading = false;
         $log.debug('Story list controller - successfully loaded page params:', params, ', result:', res);
         // Success
         storyDataFactory.updateNextPageParams(params, res);
@@ -37,6 +40,10 @@
       // clear the buffer
       $scope.buffer = [];
       params = storyDataFactory.getDefaultParams();
+    };
+
+    $scope.deleteStory = function(story){
+      console.log('attemting to delete story', story);
     };
 
     $scope.newStory = function() {
@@ -64,6 +71,7 @@
     // $scope.$watch('story', function(newValue, oldValue) {
     //
     // }, true);
+    $scope.requestInProgress = false;
     $scope.save = function() {
       generateDataFactory.getJson().then(function(res) {
         var storyItemKeys = [];
@@ -78,10 +86,13 @@
           csrf_token: res.data.result.csrf_token,
           story_items: storyItemKeys
         });
+        $scope.requestInProgress = true;
         storyDataFactory.postJson(params).then(function(res) {
-          console.log(res);
+          $scope.requestInProgress = false;
+          // add here alert
         }, function(res) {
-          console.log(res);
+          $scope.requestInProgress = false;
+          // add here alert
         });
       });
     };
@@ -98,7 +109,7 @@
       templateUrl: '/p/html/admin_app/story_items_edit.html',
     };
 
-  })
+  });
 
   app.directive('canonicalPath', function() {
 
@@ -108,7 +119,7 @@
       },
       restrict: 'A',
 
-      link: function(scope, el, attr) {
+      link: function(scope, el) {
 
         scope.$watch('textInput.$viewValue', function(v) {
           var text = window.strings.removeDiacritics(v);
@@ -193,7 +204,7 @@
       },
       replace: true,
       templateUrl: '/p/html/admin_app/story_list_item.html',
-      link: function(scope, el, attrs) {
+      link: function(scope) {
         var linkedOnSelect = scope.onSelect;
         scope.selectedItem = storyItemSelect;
         scope.onSelect = function() {
@@ -223,10 +234,10 @@
     return {
       link: function(scope) {
         scope.$on('scrollIntoView', function(data) {
-          console.log(data);
+          console.log('scroll into view', data);
         });
       }
-    }
+    };
 
   });
 

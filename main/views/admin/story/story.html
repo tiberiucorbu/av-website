@@ -12,12 +12,13 @@
     </div>
 
     <ul class="list-group" scroll-into-view>
+      <div class="control-group" ng-if="loading"><span  class='fa fa-spin fa-spinner'></span> Loading ... </div>
       <li class="list-group-item" ng-repeat="story in buffer">
         <div story-list-item story="story" edit-on-select="true"></div>
       </li>
     </ul>
 
-    <div class="row">
+    <div ng-if="" class="row">
       <div class="col-md-8 col-md-offset-2">
         <button class="btn btn-default btn-block" ng-click="loadPage()">Load More</button>
       </div>

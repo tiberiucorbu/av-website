@@ -1,7 +1,18 @@
 <div  ng-class="{'selected': isSelected()}">
   <div ng-if="!showEditForm()" ng-click="onSelect()">
-    <div class="pull-left">{{story.title}}</div>
-    <div class="pull-right"></div>
+    <div class="pull-left" title="click to view '{{story.title}}' details">{{story.title}}</div>
+    <div class="pull-right">
+      <ul class="h-list">
+        <li ng-if="$index > 4"> ... </li>
+        <li ng-if="$index < 5" class="list-group-item" ng-repeat="item in story.story_items_expanded">
+          <img src="{{item.image_thumb_data_url}}" height='32' />
+        <li>
+        <li>
+          <button ng-if="false" ng-click="deleteStory(story)" class="btn btn-default fa fa-trash"></button>
+        </li>
+      </ul>
+      <div class="clearfix"></div>
+    </div>
     <div class="clearfix"></div>
   </div>
 
