@@ -39,7 +39,7 @@
           var thumbailCanvas = window.imageUtil.loadImgToCanvas(img, 128);
           $log.debug('Genarating file:[', fileName, '] thumbnail');
           scope.status = 'Genarating file: ' + fileName + ' thumbnail';
-          result.properties.thumbnail = thumbailCanvas.canvas.toDataURL("image/jpeg", 0.8);
+          result.properties.thumbnail = thumbailCanvas.canvas.toDataURL("image/jpeg", 0.98);
           scope.$apply();
           $log.debug('Computing file:[', fileName, '] average color');
           scope.status = 'Computing file: ' + fileName + ' average color';

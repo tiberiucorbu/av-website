@@ -12,7 +12,10 @@
         <label class="control-label" for="title">Footnote</label>
         <input autofocus class="form-control" id="title" name="title" rows="4" type="text" ng-model="story.title">
       </div>
-
+      <div class="form-group ">
+        <div file-upload multiple="false" accept="image/*" items="pageResourceItems"></div>
+        <div resource-list items="pageResourceItems"></div>
+      </div>
       <div class="form-group ">
         <label class="control-label" for="description">Description</label>
         <small class="text-muted">(optional)</small>
@@ -55,43 +58,6 @@
           </div>
         </div>
       </div>
-    </fieldset>
-    <fieldset class="col-md-4">
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <h4 class="panel-title">
-            <a data-toggle="collapse" data-parent=".panel-group" href="#home-upload-images-panel">Images</a>
-            <span class="fa fa-check pull-right hide"></span>
-          </h4>
-        </div>
-        <div id="home-upload-images-panel" class="panel-collapse">
-          <div class="panel-body">
-            <div file-upload multiple="false" accept="image/*" items="pageResourceItems"></div>
-
-              <ul class="list-group" ng-sortable="{ group: 'image-upload', animation: 150 }">
-
-                <li item="item" class="list-group-item" ng-repeat="item in pageResourceItems">
-                  <div style="float:left; width: 68px; height: 68px; border: 1px solid #cacaca; padding: 1px; margin-right: 6px; text-align : center">
-                    <img src="{{item.image_thumb_data_url}}"  style="max-width:64px; max-height:64px; " />
-                    <!--div style="background: #cacaca url('{{item.image_thumb_data_url}}');background-size: cover; position: relative; width:100%; padding-top: 100%; padding-top: {{(item.image_size_h / item.image_size_w)*100}}%">
-                      <div style="position: absolute; top:0px; left:0px; bottom:0px; right: 0px;"></div>
-                    </div!-->
-                  </div>
-                  <div style="float: left;">
-                    Alternative text &amp; Title
-                    <input name="alt_text" ng-model="item.name" />
-                    <br />
-                    size : <span>{{item.size_human}}</span>
-                  </div>
-                  <div "pageResourceItems" class="pull-right">
-                    <button ng-click="pageResourceItems.splice($index,1)" class="btn btn-default fa fa-trash"></button>
-                  </div>
-                  <div class="clearfix"></div>
-                </li>
-              </ul>
-          </div>
-        </div>
-
     </fieldset>
   </div>
 

@@ -13,7 +13,6 @@
       controller :['$scope', function($scope){
         this.stuff = 'hello';
         this.removeItem = function(item){
-          console.log('item');
           for (var x = 0; x< $scope.items.lenght; x++){
             var idx = -1;
             if (item === $scope.items[x]){
@@ -24,7 +23,7 @@
           if (idx > -1){
               $scope.items.splice(idx, 1);
           }
-        }
+        };
       }],
       controllerAs: 'rflCtrl',
       link : function(scope){

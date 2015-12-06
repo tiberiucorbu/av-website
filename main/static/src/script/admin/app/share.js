@@ -29,7 +29,7 @@
         }
       },
       function(res) {
-        console.log('An error ocured', res);
+  
       }
     );
 
@@ -45,7 +45,7 @@
       var data = {
         module_config: config
       };
-      shareDataService.postJson(data).then(function(res) {
+      shareDataService.postJson(data).then(function() {
         // success ?
       });
     };

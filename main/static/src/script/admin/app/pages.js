@@ -8,7 +8,7 @@
       getJson: function() {
         return {
           pages: [{
-            title: 'Home Page',
+            title: 'Home',
             modelType: 'page',
             url_component: 'home'
           }, {
@@ -16,11 +16,11 @@
             modelType: 'page',
             url_component: 'blog'
           }, {
-            title: 'About Page',
+            title: 'About',
             modelType: 'page',
             url_component: 'about'
           }, {
-            title: 'Contact Page',
+            title: 'Contact',
             modelType: 'page',
             url_component: 'contact'
           }]
@@ -75,7 +75,7 @@
         }
       },
       function(res) {
-        console.log('An error ocured', res);
+        
       }
     );
 
