@@ -39,7 +39,7 @@
           var thumbailCanvas = window.imageUtil.loadImgToCanvas(img, 128);
           $log.debug('Genarating file:[', fileName, '] thumbnail');
           scope.status = 'Genarating file: ' + fileName + ' thumbnail';
-          result.properties.thumbnail = thumbailCanvas.canvas.toDataURL("image/jpeg", 0.98);
+          result.properties.thumbnail = thumbailCanvas.canvas.toDataURL("image/jpeg", 0.97);
           scope.$apply();
           $log.debug('Computing file:[', fileName, '] average color');
           scope.status = 'Computing file: ' + fileName + ' average color';
@@ -47,7 +47,7 @@
           scope.$apply();
           $log.debug('Resizing image file:[', fileName, '] to max 1366px');
           scope.status = 'Resizing image file: ' + fileName + ' to max 1366px';
-          result.scaledCanvas = window.imageUtil.loadImgToCanvas(img, 1366);
+          result.scaledCanvas = window.imageUtil.loadImgToCanvas(img, 1010);
 
           result.properties.size = {
             w: result.scaledCanvas.size.scaledW,
@@ -122,7 +122,7 @@
             });
           });
           $scope.status = 'Uploading file ' + res.file.name;
-          var dataUrl = res.scaledCanvas.canvas.toDataURL("image/jpeg", 0.9);
+          var dataUrl = res.scaledCanvas.canvas.toDataURL("image/jpeg", 1);
           var blob = dataURLtoBlob(dataUrl);
           xhr.open('POST', res.upload_url, true);
           var formData = new FormData();
