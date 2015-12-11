@@ -122,6 +122,7 @@ def resource_db_from_upload():
   image_average_color = util.param('image-average-color', str)
   image_size_w = util.param('image-size-w', float)
   image_size_h = util.param('image-size-h', float)
+  name = util.param('name', str)
 
   headers = uploaded_file.headers['Content-Type']
   parsedOptionHeader = werkzeug.parse_options_header(headers)[1]
@@ -138,7 +139,8 @@ def resource_db_from_upload():
   resource_db = model.Resource(
       user_key=auth.current_user_key(),
       blob_key=blob_info.key(),
-      name=blob_info.filename,
+      file_name=blob_info.filename,
+      name = name,
       content_type=blob_info.content_type,
       size=blob_info.size,
       image_url=image_url,

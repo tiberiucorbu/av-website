@@ -1,39 +1,46 @@
-# extends 'public/layout/base/public_base_layout.html'
+{% if model.view_reduced %}
+  # extends 'public/layout/empty/public_empty_layout.html'
+{% else %}
+  # extends 'public/layout/base/public_base_layout.html'
+{% endif %}
 
 #macro story_item (item)
-  <div class="swiper-slide" >
-    <img class="slide-img" src="{{item.serve_url}}" class="slide-img" alt="{{item.name}}" title="{{item.name}}" />
-  </div>
+      <div class="item">
+        <div class="contents">
+          <img style="background: {{item.image_average_color}};" src="{{item.serve_url}}" alt="{{item.name}}" title="{{item.name}}" />
+
+        </div>
+      </div>
 #endmacro
 
+# block navbar
+# endblock
+
+# block footer
+# endblock
+
 # block content
-  #if not model.view_reduced
-  <div>
-    <h1>{{model.story.title}}</h1>
-    <p>{{model.story.description}}</p>
-  </div>
-  #endif
-
-
-  <div id="filmstrip" data-target="swiper" class="swiper-container" >
-    <div id="thumblist"  class="swiper-wrapper" >
+  <div id="story-carousel" class="slideshow full" data-target="slideshow">
 
       #for item in model.story.story_items_expanded
         {{story_item(item)}}
       #endfor
+      <div class="close-wrapper" style="z-index: 100; position: absolute; top: 0; right: 0; height: 100px;">
+        <button style="display:inline-block;top: 0px;position: absolute; font-size: 3em" type="button" class="close slideshow-icon pul-right" data-dismiss="modal" aria-label="Close">
+          <svg viewBox="0 0 180 180"><path d="M5 5 L175 175 M175 5 L5 175"></path></svg>
+        </button>
+      </div>
+      <a class="left carousel-control" href="#story-carousel" role="button" data-slide="prev">
+        <span class="slideshow-icon" aria-hidden="true">
+            <svg viewBox="0 0 180 310"><path d="M170 10 L10 161 M10 150 L170 300"></path></svg>
+        </span>
+        <span class="sr-only">Previous</span>
+      </a>
+      <a class="right carousel-control" href="#story-slideshow" role="button" data-slide="next">
+          <span class="slideshow-icon">
+            <svg viewBox="0 0 180 310" style="fill:#FFF"><path d="M10 10 L170 161 M170 150 L10 300"></path></svg>
+          </span>
+      </a>
 
-    </div>
-    <div class="swiper-scrollbar"></div>
-    <div class="swiper-pagination"></div>
-
-    <div class="swiper-button-next"></div>
-    <div class="swiper-button-prev"></div>
-  </div>
-
-  <div class="swiper-container" data-target="swiper">
-    <div class="swiper-wrapper">
-
-    </div>
-    <div class="swiper-pagination"></div>
   </div>
 # endblock

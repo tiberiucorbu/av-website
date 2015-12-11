@@ -12,12 +12,12 @@
   margin-bottom: 0px;
 
   .navbar-toggle {
-    background: @gray-base;
-    color: #fff;
+    background: #FFF;
+    color: @gray-base;
   }
 
   .navbar-toggle:hover, .navbar-toggle:focus {
-    background-color: fade(@gray-base, 90%);
+    background-color: fade(#fff, 97%);
   }
 
   .navbar-collapse {
@@ -34,7 +34,7 @@
   }
   .navbar-nav {
     width: 100%;
-    background-color: fade(@gray-base, 97%);
+    background-color: fade(#fff, 97%);
     position: absolute;
     left: 15px;
     right: 15px;
@@ -56,12 +56,12 @@
     & > li > a {
       font-size: 1.2em;
       text-align: left;
-      color: #fff;
+      color: @gray-base;
     }
     @media (min-width: @grid-float-breakpoint) {
       width: auto;
       position: static;
-      background-color: transparent;
+
       & > li {
         width: 100px;
 
@@ -70,7 +70,7 @@
       }
 
       & > li > a {
-        color: @gray-base;
+
         font-size: 0.9em;
         text-align: right;
         padding-left: 4px;
@@ -88,4 +88,66 @@
 }
 .vspacer {
   margin-bottom: 26px;
+}
+
+.fade-hover{
+  opacity: 1;
+  transition: opacity 0.5s;
+}
+
+.fade-hover:hover {
+  opacity: 0.2;
+}
+
+
+// Slideshow
+
+.slideshow-icon {
+  width: 18px;
+  height: 31px;
+  stroke: white;
+  stroke-width: 20;
+  position: absolute;
+  top: 50%;
+}
+
+.carousel-control, .carousel-control.left, .carousel-control.right {
+  background-image : none;
+  opacity: 1;
+  color : white;
+}
+
+
+.slideshow {
+
+  .item {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+
+    img {
+
+      max-height: 100%;
+      max-width: 100%;
+    }
+
+   .contents {
+      position: absolute;
+      top: 50%;
+      transform : translate(0, -50%);
+      height:0%;
+      opacity: 0;
+
+      width: 100%;
+      text-align : center;
+      transition : height 0.2s, opacity 0.5s;
+
+    }
+    &.active {
+      .contents {
+        opacity: 1;
+        height: 90%;
+      }
+    }
+  }
 }

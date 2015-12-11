@@ -1,36 +1,23 @@
-(function(w, $, Swiper) {
+(function(w, $) {
   "use strict";
 
-  var swiperOpts = {
-    pagination: '.swiper-pagination',
-    paginationClickable: '.swiper-pagination',
-    nextButton: '.swiper-button-next',
-    prevButton: '.swiper-button-prev',
-    slidesPerView: 'auto',
-    scrollbar: '.swiper-scrollbar',
-    //centeredSlides: true,
-    freeMode: true,
-    spaceBetween: 30,
-    grabCursor: true
+  var initSlideshow = function(el) {
+    var slideShow = new w.Slideshow(el);
+    $(el).data('slideshowInstance', slideShow);
   };
 
-  var initSwiper = function(el) {
-    var swiperInstance = Swiper(el, swiperOpts);
-    $(el).data('swiperInstance', swiperInstance);
-  };
-
-  var decorateSwiperElements = function(){
-    $('[data-target="swiper"]').each(function(idx, el) {
-      if (!$(el).data('deffer-load') && !$(el).data('swiperInstance')) {
-        initSwiper(el);
+  var decorateSlideshowElements = function(){
+    $('[data-target="slideshow"]').each(function(idx, el) {
+      console.log(el);
+      if (!$(el).data('deffer-load') && !$(el).data('slideshowInstance')) {
+        initSlideshow($(el));
       }
     });
   };
 
   $(function() {
-    decorateSwiperElements();
+    decorateSlideshowElements();
   });
-
 
   $(function() {
 
@@ -54,14 +41,17 @@
             success: function(res) {
 
               $swiperModalEl
-                .find('.modal-body').eq(0)
+                .find('.slideshow-wrapper').eq(0)
                 .html(res);
               window.setTimeout(function(){
-                decorateSwiperElements();
+                decorateSlideshowElements();
+                $swiperModalEl.find('.close').on('click', function(){
+                    $swiperModalEl.modal('hide');
+                });
               }, 500);
               $swiperModalEl.modal('show');
             },
-            error: function(res) {
+            error: function() {
               window.location.href = href;
             }
           });
@@ -70,4 +60,4 @@
     });
   });
 
-})(window, jQuery, Swiper);
+})(window, jQuery);
