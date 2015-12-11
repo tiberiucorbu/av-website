@@ -10,9 +10,9 @@
     this.slides = this.el.find('.item');
     var that = this;
     this.el.find('[data-slide="prev"]')
-      .on('click', function(){that.prev();});
+      .on('click', function(e){e.preventDefault(); that.prev();});
     this.el.find('[data-slide="next"]')
-      .on('click', function(){that.next();});
+      .on('click', function(e){e.preventDefault(); that.next();});
     this.currentIndex = 0;
     this.goto(this.currentIndex);
   };

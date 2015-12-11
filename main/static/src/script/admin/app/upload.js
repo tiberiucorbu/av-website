@@ -111,8 +111,6 @@
 
             var item = res.result;
 
-
-
             $scope.$apply(function(){
               if ($scope.items){
                 $scope.items.push(item);
@@ -122,15 +120,16 @@
             });
           });
           $scope.status = 'Uploading file ' + res.file.name;
-          var dataUrl = res.scaledCanvas.canvas.toDataURL("image/jpeg", 1);
+          var dataUrl = res.scaledCanvas.canvas.toDataURL("image/jpeg", 0.97);
           var blob = dataURLtoBlob(dataUrl);
           xhr.open('POST', res.upload_url, true);
           var formData = new FormData();
-          formData.append("file", blob);
+          formData.append("file", blob, res.file.name);
           formData.append('image-thumb-data-url', res.properties.thumbnail);
           formData.append('image-average-color', res.properties.averageColor);
           formData.append('image-size-w', res.properties.size.w);
           formData.append('image-size-h', res.properties.size.h);
+          formData.append('name', res.properties.name);
           xhr.send(formData);
           $log.debug('Received processed file result', res);
         };

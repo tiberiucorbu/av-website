@@ -14,6 +14,7 @@ class Resource(model.Base):
   user_key = ndb.KeyProperty(kind=model.User, required=True)
   blob_key = ndb.BlobKeyProperty(required=True)
   name = ndb.StringProperty(required=True)
+  file_name = ndb.StringProperty(required=True)
   description = ndb.StringProperty(required=False)
   tags = ndb.StringProperty(repeated=True, indexed=True)
   bucket_name = ndb.StringProperty()
@@ -55,6 +56,7 @@ class Resource(model.Base):
       'download_url': fields.String,
       'image_url': fields.String,
       'name': fields.String,
+      'file_name': fields.String,
       'description': fields.String,
       'tags': fields.List(fields.String),
       'serve_url': fields.String,

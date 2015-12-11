@@ -65,24 +65,9 @@
             <div story-items-edit items="story.story_items_expanded"></div>
           </div>
         </uib-accordion-group>
-        <uib-accordion-group heading="Meta Data">
-          <div class="form-group ">
-            <label class="control-label" for="meta_keywords">Page Title</label>
-            <small class="text-muted">(optional)</small>
-            <input class="form-control" id="meta_keywords" name="meta_keywords" type="text" ng-model="story.page_title">
-          </div>
-          <div class="form-group ">
-            <label class="control-label" for="meta_keywords">Meta Kewords</label>
-            <small class="text-muted">(optional)</small>
-            <input class="form-control" id="meta_keywords" name="meta_keywords" type="text" ng-model="story.meta_keywords">
-          </div>
-          <div class="form-group ">
-            <label class="control-label" for="meta_description">Meta Description</label>
-            <small class="text-muted">(optional)</small>
-            <input class="form-control" id="meta_description" name="meta_description" type="text" ng-model="story.meta_description">
-          </div>
+        <uib-accordion-group heading="Metadata" >
+          <metadata-form item="story"></metadata-form>
         </uib-accordion-group>
-
       </uib-accordion>
     </fieldset>
   </div>
@@ -90,7 +75,8 @@
   <div class="row">
     <div class="col-md-6 col-md-offset-3">
       <button ng-click="save()" type="submit" ng-class="{'diabled':requestInProgress}" class="btn btn-primary btn-lg btn-block">
-        <span ng-if="requestInProgress"><span class='fa fa-spin fa-spinner'></span> Please wait...</span>
+        <span ng-if="requestInProgress">
+          <span class='fa fa-spin fa-spinner'></span> Please wait...</span>
         <span ng-if="!requestInProgress">Save</span>
       </button>
       </button>

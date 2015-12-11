@@ -35,29 +35,11 @@
     </fieldset>
 
     <fieldset class="col-md-4">
-
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <h4 class="panel-title">
-            <a data-toggle="collapse" data-parent=".panel-group" href="#meta-data">Meta Data</a>
-            <span class="fa fa-check pull-right hide"></span>
-          </h4>
-        </div>
-        <div id="meta-data" class="panel-collapse collapse">
-          <div class="panel-body">
-            <div class="form-group ">
-              <label class="control-label" for="meta_keywords">Meta Kewords</label>
-              <small class="text-muted">(optional)</small>
-              <input class="form-control" id="meta_keywords" name="meta_keywords" type="text" ng-model="page.meta_keywords">
-            </div>
-            <div class="form-group ">
-              <label class="control-label" for="meta_description">Meta Description</label>
-              <small class="text-muted">(optional)</small>
-              <input class="form-control" id="meta_description" name="meta_description" type="text" ng-model="page.meta_description">
-            </div>
-          </div>
-        </div>
-      </div>
+      <uib-accordion close-others="oneAtATime">
+        <uib-accordion-group heading="Metadata" >
+          <metadata-form item="page"></metadata-form>
+        </uib-accordion-group>
+      </uib-accordion>
     </fieldset>
   </div>
 
