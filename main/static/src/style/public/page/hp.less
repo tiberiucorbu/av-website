@@ -1,21 +1,40 @@
 .hp {
-
+  .hp-image {
+    max-height:678px;
+    max-width: 100%;
+  }
   .image-footnote {
     position: absolute;
     bottom: 0px;
     height: 57px;
     padding: 4px;
-    width: 100%;
+    left: 15px;
+    right: 15px;
     opacity: 0;
     background: #FFF;
     transition: 0.5s;
   }
+  .carousel .image-footnote {
+    left: 0px;
+    right: 0px;
+  }
+
+  .carousel {
+    .carousel-control {
+      opacity: 0;
+    }
+  }
   .hp-image-wrapper {
     position: relative;
   }
-  .hp-image-wrapper:hover{
-    .image-footnote {
-      opacity : 1;
+
+  .carousel:hover{
+    .active .image-footnote {
+      opacity : 0.8;
+
+    }
+    .carousel-control {
+      opacity: 1;
     }
   }
 }
