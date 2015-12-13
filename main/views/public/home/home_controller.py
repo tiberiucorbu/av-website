@@ -62,7 +62,7 @@ def category(category_id):
   story = model.Story.get_by('deprecated_category_id', category_id)
   redirect_url = None
   if story:
-    redirect_url = flask.url_for('story', story_key=story.title)
+    redirect_url = flask.url_for('story', story_key=util.story_key(story))
   else:
     flask.abort(418)
   return flask.redirect(redirect_url, 301)  # add 301 for permanent redirection
