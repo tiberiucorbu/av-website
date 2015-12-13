@@ -26,6 +26,10 @@ handlers:
   static_files: static/img/favicon.ico
   upload: static/img/favicon.ico
 
+- url: /humans.txt
+  static_files: static/humans.txt
+  upload: static/humans.txt
+
 - url: /robots.txt
   static_files: static/robots.txt
   upload: static/robots.txt
