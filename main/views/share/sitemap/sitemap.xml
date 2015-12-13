@@ -1,23 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-
+#for page in model.pages
   <url>
-    <loc>{{url_for('home', _external=True)}}</loc>
-    <lastmod>{{home_lastmod}}</lastmod>
+    <loc>{{page.url}}</loc>
+    <lastmod>{{page.lastmod}}</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>{{page.priority}}</priority>
   </url>
-  <url>
-    <loc>{{url_for('about', _external=True)}}</loc>
-    <lastmod>{{about_lastmod}}</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>{{url_for('about', _external=True)}}</loc>
-    <lastmod>{{lastmod}}</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
+#endfor
 </urlset>
