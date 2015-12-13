@@ -1,0 +1,16 @@
+/* TEAM */
+	Developer: Tiberiu CORBU
+	Twitter: @tiberiucorbu
+	From:Brasov, Romania
+
+/* THANKS */
+
+	(First) Upstream Author: Lipis
+	Twitter: @lipis
+	From: Copenhagen, Denmark
+
+/* SITE */
+	Last update: 2015/12/11
+	Language: English
+	Doctype:HTML5
+	IDE: Atom
