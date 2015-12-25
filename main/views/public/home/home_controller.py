@@ -16,6 +16,8 @@ from google.appengine.ext import ndb
 from google.appengine.datastore.datastore_query import Cursor
 from werkzeug import exceptions, routing
 
+from views.public.common import *
+
 ###############################################################################
 # Welcome
 ###############################################################################
@@ -35,13 +37,6 @@ def home():
     resp_model['page_data'].update({'images': ndb.get_multi(res_kes)})
   return flask.render_template('public/home/home.html', model=resp_model)
 
-
-@app.route('/_sub/navbar')
-def navbar():
-  resp_model = {}
-  resp_model['extern'] = True
-  decorate_page_response_model(resp_model)
-  return flask.render_template('public/components/navbar.html', model=resp_model)
 
 
 @app.route('/blog', defaults={'path': ''})
@@ -191,21 +186,6 @@ def about():
   resp_model['canonical_path'] = flask.url_for('about')
   decorate_page_response_model(resp_model)
 
-  if 'feedback_form' in resp_model:
-    feedback_form = resp_model['feedback_form']
-    if not config.CONFIG_DB.has_anonymous_recaptcha or auth.is_logged_in():
-      del feedback_form.recaptcha
-    if feedback_form.validate_on_submit():
-      if not config.CONFIG_DB.feedback_email:
-        return flask.abort(418)
-      body = '%s\n\n%s' % (feedback_form.message.data,
-                           feedback_form.email.data)
-      kwargs = {
-          'reply_to': feedback_form.email.data} if feedback_form.email.data else {}
-      task.send_mail_notification('%s...' % body[:48].strip(), body, **kwargs)
-      flask.flash('Thank you for your feedback!', category='success')
-      return flask.redirect(flask.url_for('home'))
-
   about_page_db = model.ModuleConfig.get_by('module_id', 'about-page')
   if about_page_db is not None and about_page_db.config is not None:
     about_page_data = json.loads(about_page_db.config)
@@ -265,50 +245,3 @@ def decorate_story_page_model(resp_model, story_db):
 def decorate_stories_page_model(resp_model, story_dbs, params):
   resp_model['stories'] = story_dbs
   resp_model['params'] = params
-
-
-def expand_links(parentItem, extern=False):
-  if isinstance(parentItem, list):
-    for item in parentItem:
-      expand_links(item, extern)
-  else:
-    modelType = util.get_if_exists(parentItem, 'modelType', None)
-    if 'story' == modelType:
-      story_key = None
-      keyStr = util.get_if_exists(parentItem, 'key', None)
-      if not util.is_blank(keyStr):
-        story_db = ndb.Key(urlsafe=keyStr).get()
-        if story_db:
-          parentItem['url'] = flask.url_for(
-              'story', story_key=util.story_key(story_db), _external=extern)
-    if 'page' == modelType:
-      keyStr = util.get_if_exists(parentItem, 'url_component', 'home')
-      try:
-        parentItem['url'] = flask.url_for(keyStr, _external=extern)
-      except routing.BuildError:
-        parentItem['url'] = flask.url_for('home', _external=extern)
-    if 'nodes' in parentItem:
-      expand_links(parentItem['nodes'], extern)
-
-
-def decorate_page_response_model(resp_model):
-  resp_model['host'] = flask.url_for('home', _external=True)[:-1]
-  # home page data present in every page
-  home_page_db = model.ModuleConfig.get_by('module_id', 'home-page')
-  if home_page_db is not None and home_page_db.config is not None:
-    home_page_data = json.loads(home_page_db.config)
-    resp_model['page_data'] = home_page_data
-
-    # Add navbar data
-  main_navbar_db = model.ModuleConfig.get_by('module_id', 'main-navbar')
-  if main_navbar_db is not None and main_navbar_db.config is not None:
-    main_navbar_data = json.loads(main_navbar_db.config)
-    extern = util.get_if_exists(resp_model, 'extern', False)
-    expand_links(main_navbar_data, extern)
-    resp_model['navbar'] = main_navbar_data
-
-  view = util.param('v', str)
-
-  resp_model['view_reduced'] = False
-  if view == 'r':
-    resp_model['view_reduced'] = True

@@ -9,6 +9,7 @@
         return $http.get('/api/v1/module-config/home-page/');
       },
       postJson: function(data) {
+        console.log(data);
         return $http.post('/api/v1/module-config/home-page/', data);
       }
     };

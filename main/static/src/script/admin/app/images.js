@@ -153,11 +153,15 @@
         idx: '=idx'
       },
       replace: true,
-      controller : ['$scope', 'resourceDataFactory',function($scope, resourceDataFactory){
+      controller : ['$scope', 'resourceDataFactory', 'generateDataFactory',function($scope, resourceDataFactory, generateDataFactory){
         this.save = function(){
-          resourceDataFactory.postJson($scope.item).then(function(res){
-
+          generateDataFactory.getJson().then(function(res){
+            var item = $.extend({csrf_token: res.data.result.csrf_token}, $scope.item);
+            resourceDataFactory.postJson(item).then(function(){
+              // Feedback
+            });
           });
+
         };
       }],
       controllerAs: 'ctrl',

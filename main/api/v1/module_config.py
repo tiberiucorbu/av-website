@@ -32,7 +32,12 @@ class ModuleConfigListAPI(restful.Resource):
 
     if not module_config_obj:
       helpers.make_bad_request_exception('`module_config` parameter is expected to be found in the request')
-    module_config_db = store_module_config(module_config_obj, module_id)
+    meta = {
+      'meta_keywords' : util.param('meta_keywords'),
+      'meta_description' : util.param('meta_description')
+    }
+    module_config_db = store_module_config(module_config_obj, meta, module_id)
+
     return helpers.make_response(module_config_db, model.ModuleConfig.FIELDS)
 
   @auth.admin_required
@@ -66,7 +71,6 @@ def delete_module_config_task(key, next_cursor=None):
 
 
 def fill_module_config(module_config_db, module_config_obj, module_id) :
-    print module_config_obj.__class__
     module_config_db.user_key=auth.current_user_key()
     module_config_db.module_id = module_id
     module_config_db.config = json.dumps(module_config_obj, sort_keys=True)
@@ -79,10 +83,16 @@ def find_by_module_id(module_id):
     module_config_db = model.ModuleConfig.get_by('module_id', module_id)
     return module_config_db
 
-def store_module_config(config, module_id):
+def fill_module_config_meta(module_config_db, meta):
+  module_config_db.meta_keywords = meta['meta_keywords']
+  module_config_db.meta_description = meta['meta_description']
+
+def store_module_config(config, meta, module_id):
     module_config_db = find_by_module_id(module_id)
     if not module_config_db:
         module_config_db = model.ModuleConfig(user_key=auth.current_user_key())
+
     fill_module_config(module_config_db, config, module_id)
+    fill_module_config_meta(module_config_db, meta)
     save_to_db(module_config_db)
     return module_config_db

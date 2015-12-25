@@ -78,13 +78,6 @@ def resource_view(resource_id):
     )
 
 
-################################################################################
-# Update
-################################################################################
-class ResourceUpdateForm(wtf.Form):
-  name = wtforms.TextField('Name', [wtforms.validators.required()])
-
-
 @app.route('/resource/<int:resource_id>/update/', methods=['GET', 'POST'], endpoint='resource_update')
 @auth.admin_required
 def resource_update(resource_id):
@@ -93,7 +86,7 @@ def resource_update(resource_id):
   if not resource_db or resource_db.user_key != auth.current_user_key():
     return flask.abort(404)
 
-  form = ResourceUpdateForm(obj=resource_db)
+  form = ResourceForm(obj=resource_db)
 
   if form.validate_on_submit():
     form.populate_obj(resource_db)

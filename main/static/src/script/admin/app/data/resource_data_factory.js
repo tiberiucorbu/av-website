@@ -19,11 +19,18 @@
         });
       },
       postJson: function(post) {
-        return $http({
-          method: 'POST',
-          url: '/api/v1/resource/',
-          params: post
-        });
+        if (post) {
+          console.log(post);
+          var params = {
+            name: post.name,
+            description: post.description,
+            tags: post.tags,
+            image_average_color : post.image_average_color,
+            csrf_token : post.csrf_token,
+            key : post.key
+          };
+          return $http.post('/api/v1/resource/', params);
+        }
       }
     };
   }]);

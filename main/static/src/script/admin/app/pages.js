@@ -54,11 +54,14 @@
 
     };
 
+    $scope.meta = {};
+
     $scope.pageResourceItems = [];
 
     homePageDataService.getJson().then(
       function(configRes) {
         var config = JSON.parse(configRes.data.result.config) || {};
+        angular.copy(configRes.data.result, $scope.meta);
         angular.copy(config, $scope.page);
         $scope.pageResourceItems = [];
         if ($scope.page.image_keys) {
@@ -75,7 +78,7 @@
         }
       },
       function(res) {
-        
+
       }
     );
 
@@ -83,14 +86,19 @@
 
     $scope.save = function() {
       var config = {};
+      var data = {
+        module_config: config
+      };
       angular.copy($scope.page, config);
+      if ($scope.meta){
+        data.meta_keywords = $scope.meta.meta_keywords;
+        data.meta_description = $scope.meta.meta_description;
+      }
       config.image_keys = [];
       for (var i = 0; i < $scope.pageResourceItems.length; i++) {
         config.image_keys.push($scope.pageResourceItems[i].key);
       }
-      var data = {
-        module_config: config
-      };
+
       homePageDataService.postJson(data).then(function(res) {
         // success ?
       });

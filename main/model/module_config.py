@@ -10,7 +10,7 @@ import model
 
 import util
 
-class ModuleConfig(model.Base):
+class ModuleConfig(model.Base, model.PageMeta):
 
     #     database fields
     user_key = ndb.KeyProperty(kind=model.User, required=True)
@@ -25,3 +25,4 @@ class ModuleConfig(model.Base):
     }
 
     FIELDS.update(model.Base.FIELDS)
+    FIELDS.update(model.meta.PageMeta.FIELDS)

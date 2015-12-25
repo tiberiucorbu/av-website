@@ -17,6 +17,8 @@ from main import api_v1
 import model
 import util
 
+from views.admin.resource import ResourceForm
+
 
 ###############################################################################
 # Endpoints
@@ -35,6 +37,29 @@ class ResourceListAPI(restful.Resource):
     return helpers.make_response(
         resource_dbs, model.Resource.FIELDS, next_cursor,
       )
+
+  @auth.admin_required
+  def post(self):
+    id = util.param('id', long)
+    key = util.param('key', str)
+
+    form = ResourceForm()
+    if form.validate():
+      resource_db = None
+      if key is not None:
+        resource_db = ndb.Key(urlsafe=key).get();
+      elif id is not None:
+        resource_db = model.Resource().get_by('id', id);
+      else:
+        resource_db = model.Resource();
+
+      populate_resource_db(resource_db, form)
+
+      resource_db.put()
+
+      return helpers.make_response(resource_db, model.Resource.FIELDS)
+
+    return helpers.make_invalid_form_response(form.data, form.errors)
 
   @auth.admin_required
   def delete(self):
@@ -152,3 +177,11 @@ def resource_db_from_upload():
     )
   resource_db.put()
   return resource_db
+
+
+def populate_resource_db(resource_db, form):
+  resource_db.user_key=auth.current_user_key()
+  resource_db.name=form.name.data
+  resource_db.description=form.description.data
+  resource_db.tags=form.tags.data
+  resource_db.image_average_color = form.image_average_color.data;
