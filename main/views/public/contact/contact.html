@@ -3,6 +3,7 @@
 {% else %}
   # extends 'public/layout/base/public_base_layout.html'
 {% endif %}
+# import 'share/macro/image.html' as image_macro
 
 # block content
 
@@ -13,14 +14,16 @@
 
       <div class="col-md-6">
         #if model.page_data.images|length > 0
-         <img class="img-responsive" stype="background: {{model.page_data.images[0].image_average_color}}" src="{{model.page_data.images[0].serve_url}}"/>
-         #endif
+         {{image_macro.display(model.page_data.images[0])}}
+        #endif
       </div>
 
 
       <div class="col-md-6">
-        <div class="description">
-          {{model.page_data.description | safe}}
+        <div class="description row">
+          <div class="col-xs-12 col-md-12">
+            {{model.page_data.description | safe}}
+          </div>
         </div>
         # if model.page_data.phone or model.page_data.email
         <address class="row ">

@@ -1,0 +1,17 @@
+# macro display(image, show_description=True)
+  <article class="text-center image-wrapper" style="background: {{image.image_average_color}};">
+
+      # if show_description and (image.name or image.description)
+        <div class="image-footnote text-left">
+          # if image.name
+            <h3 style="margin:0px; line-height:20px; font-size:18px;">{{image.name}}</h3>
+          # endif
+          # if image.description
+            <p style="font-size: 11px;">{{image.description}}</p>
+          # endif
+        </div>
+      # endif
+      <img class="img-overlay" src="/p/img/pixel.gif" />
+      <img class="image" alt="{{image.name}}" title="{{image.description or image.name}}" src="{{image.serve_url}}" />
+  </article>
+# endmacro

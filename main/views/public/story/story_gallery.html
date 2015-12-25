@@ -4,11 +4,12 @@
   # extends 'public/layout/base/public_base_layout.html'
 {% endif %}
 
+# import 'share/macro/image.html' as image_macro
+
 #macro story_item (item)
       <div class="item">
         <div class="contents">
-          <img style="background: {{item.image_average_color}};" src="{{item.serve_url}}" alt="{{item.name}}" title="{{item.name}}" />
-
+          {{image_macro.display(item)}}
         </div>
       </div>
 #endmacro

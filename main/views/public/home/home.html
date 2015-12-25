@@ -3,7 +3,7 @@
 {% else %}
   # extends 'public/layout/base/public_base_layout.html'
 {% endif %}
-
+# import 'share/macro/image.html' as image_macro
 # block content
   # block slideshow
     <div class="row">
@@ -21,20 +21,7 @@
               <div class="carousel-inner" role="listbox" style="position: relative">
                 #for image in model.page_data.images
                 <div class="item {%if loop.index0 == 0 %} active {%endif%} text-center">
-                  <article class="text-center hp-image-wrapper">
-                      # if image.name or image.description
-                        <div class="image-footnote text-left">
-                          # if image.name
-                            <h3 style="margin:0px; line-height:20px; font-size:18px;">{{image.name}}</h3>
-                          # endif
-                          # if image.description
-                            <p style="font-size: 11px;">{{image.description}}</p>
-                          # endif
-                        </div>
-                      # endif
-                      <img class="img-overlay" src="/p/img/pixel.gif" />
-                      <img class="hp-image" alt="{{image.name}}" title="{{image.description or image.name}}" style="background: {{image.image_average_color}};" src="{{image.serve_url}}" />
-                  </article>
+                  {{image_macro.display(image)}}
                 </div>
                 #endfor
               </div>
