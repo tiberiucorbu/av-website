@@ -21,15 +21,20 @@
               <div class="carousel-inner" role="listbox" style="position: relative">
                 #for image in model.page_data.images
                 <div class="item {%if loop.index0 == 0 %} active {%endif%} text-center">
-                  <div class="text-center hp-image-wrapper">
-                      <img class="hp-image" style="background: {{image.image_average_color}};" src="{{image.serve_url}}" />
-                      # if image.name
-                        <article class="image-footnote text-left">
-                          <h3 style="margin:0px; line-height:20px; font-size:18px;">{{image.name}}</h4>
-                          <p style="font-size: 11px;">{{image.description}}</p>
-                        </article>
+                  <article class="text-center hp-image-wrapper">
+                      # if image.name or image.description
+                        <div class="image-footnote text-left">
+                          # if image.name
+                            <h3 style="margin:0px; line-height:20px; font-size:18px;">{{image.name}}</h3>
+                          # endif
+                          # if image.description
+                            <p style="font-size: 11px;">{{image.description}}</p>
+                          # endif
+                        </div>
                       # endif
-                  </div>
+                      <img class="img-overlay" src="/p/img/pixel.gif" />
+                      <img class="hp-image" alt="{{image.name}}" title="{{image.description or image.name}}" style="background: {{image.image_average_color}};" src="{{image.serve_url}}" />
+                  </article>
                 </div>
                 #endfor
               </div>
@@ -48,15 +53,15 @@
             </div>
         </section>
       #else
-        <section class="col-md-12 text-center hp-image-wrapper" style="position: relative">
-          <img class="hp-image" style="background: {{model.page_data.images[0].image_average_color}}"  src="{{model.page_data.images[0].serve_url}}" />
+        <article class="col-md-12 text-center hp-image-wrapper">
           # if model.page_data.description
-            <article class="image-footnote text-left">
-              <h3 style="margin:0px; line-height:20px; font-size:18px;">{{model.page_data.images[0].name}}</h4>
+            <div class="image-footnote text-left">
+              <h3 style="margin:0px; line-height:20px; font-size:18px;">{{model.page_data.images[0].name}}</h3>
               <p style="font-size: 11px;">{{model.page_data.images[0].description}}</p>
-            </article>
+            </div>
           # endif
-        </section>
+          <img class="hp-image" alt="{{model.page_data.images[0].name}}" title="{{model.page_data.images[0].description}}" style="background: {{model.page_data.images[0].image_average_color}}"  src="{{model.page_data.images[0].serve_url}}" />
+        </article>
       #endif
     #endif
   </div>

@@ -5,7 +5,8 @@
 {% endif %}
 
 # macro story_item(item, story, idx)
-    <a data-target="open-modal-swiper" href="{{url_for('story', story_key=story_key(story), m='gallery', active=idx)}}">
+    <a data-target="open-modal-swiper" style="position: relative" href="{{url_for('story', story_key=story_key(story), m='gallery', active=idx)}}">
+        <img class="img-overlay" src="/p/img/pixel.gif" />
         <img src="{{item.serve_url}}" class="img-responsive" alt="{{item.name}}" title="{{item.name}}" />
     </a>
 # endmacro

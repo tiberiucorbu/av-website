@@ -7,6 +7,20 @@
     return '#' + ('00000' + (color.r << 16 | color.g << 8 | color.b).toString(16)).slice(-6);
   };
 
+  var nameFromFile = function(file){
+    if (file && file.name){
+      // remove extension
+      var name = file.name.replace(/\.[^/.]+$/, "");
+      name = name.replace(/[^a-zA-Z0-9-_.,]/g, ' - ');
+      name = name.replace(/[\s]*([_-])[\s]*/g, ' - ');
+      name = name.replace(/[\s]*([,.])[\s]*/g, '$1 ');
+      return name;
+    } else {
+      return null;
+    }
+  };
+
+
   function dataURLtoBlob(dataurl) {
     var arr = dataurl.split(','),
       mime = arr[0].match(/:(.*?);/)[1],
@@ -129,7 +143,7 @@
           formData.append('image-average-color', res.properties.averageColor);
           formData.append('image-size-w', res.properties.size.w);
           formData.append('image-size-h', res.properties.size.h);
-          formData.append('name', res.properties.name);
+          formData.append('name', nameFromFile(res.file));
           xhr.send(formData);
           $log.debug('Received processed file result', res);
         };

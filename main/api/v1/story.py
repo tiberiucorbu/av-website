@@ -61,6 +61,7 @@ class StoryListAPI(restful.Resource):
 
     return helpers.make_response(story_dbs, fields, story_cursor)
 
+  @auth.admin_required
   def post(self):
 
     id = util.param('id', long)
