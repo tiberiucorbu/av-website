@@ -60,4 +60,22 @@
     });
   });
 
+  $(function() {
+
+    $('[data-toggle="menu"]').each(function(idx, el) {
+      var $el = $(el);
+
+      var toggle = function(e){
+
+            $el.parent().toggleClass('open');
+            $el.find('.caret').toggleClass('up');
+            e.preventDefault();
+
+
+
+      };
+      $el.on('click', toggle);
+    });
+  });
+
 })(window, jQuery);

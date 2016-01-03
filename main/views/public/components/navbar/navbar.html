@@ -3,12 +3,13 @@
     <ul class="{{list_class_string}}">
     {% for item in nodes %}
       {% if item.nodes|count > 0 %}
-        <li>
-          <a href="{{item.url}}" class="has-childs" >{{ item.label }} </a>
-          <div class="caret-wrapper">
-            <span class="caret" class="dropdown-toggle" role="button" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown"></span>
-            {{navbar_items(item.nodes, 'dropdown-menu')}}
+        <li class="has-childs">
+          <a href="{{item.url}}">{{ item.label }} </a>
+          <div class="caret-wrapper" role="button" aria-haspopup="true" aria-expanded="false" data-toggle="menu">
+            <span class="caret" class="dropdown-toggle"></span>
+
           </div>
+          {{navbar_items(item.nodes, 'menu')}}
         </li>
       {% else %}
         <li {%if item.url == model.canonical_path%} class="active" {%endif%}>

@@ -11,7 +11,7 @@
     vertical-align: middle;
     min-width: 40%;
     line-height: 60px;
-    overflow: hidden;
+    -overflow: hidden;
     white-space: nowrap;
   }
   .main-navbar-collapse {
@@ -20,7 +20,7 @@
     position: absolute;
     z-index: 1000;
     background: white;
-    overflow: hidden;
+    -overflow: hidden;
     .main-nav-items {
       top: 0;
       position: relative;
@@ -36,7 +36,41 @@
         display: block;
         margin: 0;
         padding : 0px;
-        font-size: 0.80em;
+        font-size: 12px;
+        .menu {
+          li > a {
+            border-top: 1px solid black;
+          }
+          display: none;
+          margin: 0px;
+          padding: 0px;
+        }
+        &.open {
+          & > .menu {
+            display: block;
+
+          }
+        }
+
+        &.has-childs {
+          position: relative;
+          padding: 0 ;
+
+          .caret-wrapper {
+            position: absolute;
+            top: 0px;
+            right: -1px;
+            display: inline-block;
+            line-height: 38px;
+            width: 38px;
+            text-align: center;
+            border: 1px solid black;
+            padding-right: 3px;
+            padding-left: 2px;
+          }
+        }
+
+
         a {
           padding: 3px;
           border-top: 1px solid black;
@@ -62,12 +96,17 @@
       top: 50%;
       .translate(-100%, -50%);
       display: inline-block;
-      background: grey;
+      background: transparent;
       padding: 9px 10px;
       background-image: none;
       border: 1px solid transparent;
-      border-radius: 4px;
-
+      -border-radius: 4px;
+      &:focus {
+        .icon-bar {
+          background-color:  @brand-primary;
+        }
+        outline: none;
+      }
       .icon-bar {
         display: block;
         width: 22px;
@@ -110,8 +149,41 @@
             margin: 0;
             min-width: 95px;
             padding: 0 3px;
-            font-size: 0.80em;
+            font-size: 12px;
+            .menu {
+              display: none;
+            }
+            &.open {
+              & > .menu {
+                li > a {
+                  border-top: 0px solid transparent;
+                }
+                display: block;
+                position: absolute;
+                right: 0px;
+                background: white;
+                padding: 0px;
+                z-index: 200000;
+              }
+            }
 
+            &.has-childs {
+              position: relative;
+              padding: 0 21px 0 3px;
+
+              .caret-wrapper {
+                position: absolute;
+                top: 0px;
+                right: 0px;
+                display: inline-block;
+                line-height: 18px;
+                width: 21px;
+                text-align: center;
+                border: 0px solid transparent;
+                padding-right: 3px;
+                padding-left: 2px;
+              }
+            }
             a {
               border-top: 0px solid transparent;
               line-height: 1em;
@@ -131,16 +203,7 @@
   }
 }
 
-.has-childs {
-  margin-left: 22px;
-  float: left;
-}
-
-.caret-wrapper {
-  margin-right: -22px;
-  display: inline-block;
-  line-height: 22px;
-  width: 22px;
-  text-align: center;
-  border: 1px solid black;
+.caret.up{
+  border-top: 0px dashed;
+  border-bottom: 4px dashed;;
 }
