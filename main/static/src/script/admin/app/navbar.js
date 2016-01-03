@@ -20,11 +20,10 @@
     $scope.selectedItem = navbarSelectedItem;
 
 
-
     var reload = function() {
       $scope.status = 'Loading';
 
-      treeModelFactory.getJson().then(
+      treeModelFactory.getJson('main-navbar').then(
         function(res) {
           var config = JSON.parse(res.data.result.config) || [];
           angular.copy([{
@@ -76,7 +75,7 @@
         'module_config': copy
       };
 
-      treeModelFactory.postJson(data).then(function(res) {
+      treeModelFactory.postJson('main-navbar', data).then(function(res) {
 
         $scope.status = 'Saved !';
         //$scope.navbarTree = JSON.parse(response.data.result.config);
@@ -103,7 +102,7 @@
     reload();
   };
 
-  app.controller('navbarBuilderController', ['$scope', '$http', 'mainNavbarDataService', 'navbarTreeModel', 'navbarSelectedItem', navbarBuilderController]);
+  app.controller('navbarBuilderController', ['$scope', '$http', 'moduleConfigFactory', 'navbarTreeModel', 'navbarSelectedItem', navbarBuilderController]);
 
   var navbarItemEditFormDirective = function($timeout, navbarSelectedItem) {
     return {

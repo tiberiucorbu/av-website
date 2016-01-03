@@ -4,8 +4,11 @@
     {% for item in nodes %}
       {% if item.nodes|count > 0 %}
         <li>
-          <a href="{{item.url}}" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ item.label }}  <span class="caret"></span></a>
-          {{navbar_items(item.nodes, 'dropdown-menu')}}
+          <a href="{{item.url}}" class="has-childs" >{{ item.label }} </a>
+          <div class="caret-wrapper">
+            <span class="caret" class="dropdown-toggle" role="button" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown"></span>
+            {{navbar_items(item.nodes, 'dropdown-menu')}}
+          </div>
         </li>
       {% else %}
         <li {%if item.url == model.canonical_path%} class="active" {%endif%}>
@@ -17,24 +20,28 @@
   {% endif %}
 {%- endmacro %}
 
-<nav class="navbar navbar-default container-main-block" role="navigation">
+<div class="main-navbar-wrapper">
+  <nav class="main-navbar container-main-block" role="navigation">
 
-    <div class="navbar-header">
-      <a class="navbar-brand" href="{{url_for('home')}}">{{config.CONFIG_DB.brand_name}}</a>
-    </div>
-    #if model and model.navbar
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
+      <div class="main-navbar-header">
+        <a class="main-navbar-brand" href="{{url_for('home')}}">{{config.CONFIG_DB.brand_name}}</a>
+      </div>
+
 
       # if model
       <!-- Collect the nav links, forms, and other content for toggling -->
-      <div class="collapse navbar-collapse">
-        {{navbar_items(model.navbar, 'nav navbar-nav navbar-right')}}
+      <div class="main-navbar-collapse collapse" id="main-navbar-collapse">
+        {{navbar_items(model.navbar, 'main-nav-items')}}
       </div><!-- /.navbar-collapse -->
       # endif
-    #endif
-</nav>
+      <div class="toggle-wrapper">
+        <button class="main-navbar-toggle" role="button" data-toggle="collapse" data-target=".main-navbar-collapse" aria-expanded="false" aria-controls="main-navbar-collapse">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+      </div>
+
+  </nav>
+</div>

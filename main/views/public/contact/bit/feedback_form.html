@@ -1,6 +1,6 @@
 # import 'share/macro/forms.html' as forms
 <form method="POST" action="{{url_for('contact')}}" novalidate>
-	<div class="container-fluid">
+
 	<div class="row">
 		<div class="col-md-12">
 			{{model.feedback_form.csrf_token}}
@@ -17,9 +17,10 @@
 	</div>
 		<div class="row">
 			<div class="col-md-3 pull-right">
-	<button type="submit" class="btn btn-primary btn-block btn-loading"{{forms.data_loading_text()}}>
-		Send</button>
+				<button type="submit" class="btn btn-primary btn-block btn-loading"{{forms.data_loading_text()}}>
+					Send
+				</button>
 			</div>
 	</div>
-</div>
+
 </form>
