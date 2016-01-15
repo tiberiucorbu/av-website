@@ -9,7 +9,7 @@
 			{{forms.email_field(model.feedback_form.email)}}
 		</div>
 		<div class="col-md-12">
-			{{forms.textarea_field(model.feedback_form.message, rows=8, autofocus=True)}}
+			{{forms.textarea_field(model.feedback_form.message, rows=8)}}
 			# if config.CONFIG_DB.has_anonymous_recaptcha
 			 {{forms.recaptcha_field(model.feedback_form.recaptcha)}}
 		  # endif
