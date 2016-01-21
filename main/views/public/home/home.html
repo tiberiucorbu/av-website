@@ -10,8 +10,6 @@
       <section class="col-md-12">
         # if model.page_data.images
             # if model.page_data.images|length > 1
-
-
                 <div id="hp-carousel" class="carousel slide" data-ride="carousel">
                   <!-- Indicators -->
                   <ol class="carousel-indicators">
@@ -22,7 +20,7 @@
                   <div class="carousel-inner" role="listbox" style="position: relative">
                     #for image in model.page_data.images
                     <div class="item {%if loop.index0 == 0 %} active {%endif%} text-center">
-                      {{image_macro.display(image)}}
+                      {{image_macro.display(image=image, max_height=678, container_width=1010)}}
                     </div>
                     #endfor
                   </div>
@@ -41,7 +39,7 @@
                 </div>
 
           #else
-            {{image_macro.display(model.page_data.images[0])}}
+            {{image_macro.display(image=model.page_data.images[0], max_height=678, container_width=1010)}}
           #endif
         #endif
     </section>

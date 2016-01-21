@@ -19,16 +19,39 @@
 <link rel="author" href="{{author}}" />
 <link rel="author" href="/humans.txt" />
 
-#if model and model.meta
-<meta name="keywords" content="{{model.meta.keywords}}" />
-<meta name="description" content="{{model.meta.description}}" />
+#if model and model.meta and model.meta.keywords
+  <meta name="keywords" content="{{model.meta.keywords}}" />
 #endif
+
+#if model and model.meta and model.meta.description
+<meta name="description" content="{{model.meta.description}}" />
+<meta property="og:description" content="{{model.meta.description}}" />
+<meta name="twitter:description" content="{{model.meta.description}}" />
+#endif
+
 <meta charset="utf-8">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
+<meta name="twitter:card" content="summary_large_image">
+<meta property="og:type" content="website" />
+# if config.CONFIG_DB.facebook_app_id
+<meta property="fb:app_id" content="{{config.CONFIG_DB.facebook_app_id}}" />
+#endif
 <meta property="og:title" content="{{page_title}}" />
-<!--meta property="og:type" content="video.movie" /-->
+<meta name="twitter:title" content="{{page_title}}">
+
 <meta property="og:url" content="{{page_url}}" />
-<!--meta property="og:image" content="http://ia.media-imdb.com/images/rock.jpg" /-->
+<meta name="twitter:site" content="{{page_url}}">
+
+<!--meta name="twitter:creator" content="@"-->
+
+#if model and model.page_data and model.page_data.images
+  #for image in model.page_data.images
+    #if loop.index < 6
+<meta property="og:image" content="{{image.serve_url}}" />
+<meta name="twitter:image" content="{{image.serve_url}}">
+    #endif
+  #endfor
+#endif
