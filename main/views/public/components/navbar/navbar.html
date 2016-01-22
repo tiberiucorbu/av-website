@@ -16,23 +16,25 @@
     </ul>
   {% endif %}
 {%- endmacro %}
+
 <nav class="navbar navbar-default container-main-block" role="navigation">
 
     <div class="navbar-header">
       <a class="navbar-brand" href="{{url_for('home')}}">{{config.CONFIG_DB.brand_name}}</a>
     </div>
-    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-      <span class="sr-only">Toggle navigation</span>
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
-    </button>
+    #if model.navbar
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
 
-    # if model
-    <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse">
-      {{navbar_items(model.navbar, 'nav navbar-nav navbar-right')}}
-    </div><!-- /.navbar-collapse -->
-    # endif
-
+      # if model
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse">
+        {{navbar_items(model.navbar, 'nav navbar-nav navbar-right')}}
+      </div><!-- /.navbar-collapse -->
+      # endif
+    #endif
 </nav>

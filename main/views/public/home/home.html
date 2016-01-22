@@ -7,7 +7,7 @@
 # block content
   # block slideshow
     <div class="row">
-    # if model.page_data.images
+    # if 'images' in model.page_data
         # if model.page_data.images|length > 1
           <section class="col-md-12">
 
@@ -66,9 +66,5 @@
     #endif
   </div>
   # endblock
-
-
-
-
 
 # endblock

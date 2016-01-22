@@ -32,7 +32,7 @@ def home():
   decorate_page_response_model(resp_model)
 
   image_keys = util.get_from_dot_path(resp_model, 'page_data.image_keys')
-  if len(image_keys) > 0:
+  if image_keys and len(image_keys) > 0:
     res_kes = [ndb.Key(urlsafe=k) for k in image_keys]
     resp_model['page_data'].update({'images': ndb.get_multi(res_kes)})
   return flask.render_template('public/home/home.html', model=resp_model)
