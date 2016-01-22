@@ -22,7 +22,7 @@
     <div class="navbar-header">
       <a class="navbar-brand" href="{{url_for('home')}}">{{config.CONFIG_DB.brand_name}}</a>
     </div>
-    #if model.navbar
+    #if model and model.navbar
       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
         <span class="sr-only">Toggle navigation</span>
         <span class="icon-bar"></span>
