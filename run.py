@@ -11,7 +11,6 @@ import shutil
 import socket
 import sys
 import urllib
-import urllib2
 
 import main
 
@@ -92,7 +91,7 @@ def print_out(script, filename=''):
   if not filename:
     filename = '-' * 46
     script = script.rjust(12, '-')
-  print '[%s] %12s %s' % (timestamp, script, filename)
+  print ("[%s] %s %s" % (timestamp, script, filename))
 
 
 def make_dirs(directory):
@@ -214,25 +213,7 @@ def install_dependencies():
   install_py_libs()
 
 
-def check_for_update():
-  if os.path.exists(FILE_UPDATE):
-    mtime = os.path.getmtime(FILE_UPDATE)
-    last = datetime.utcfromtimestamp(mtime).strftime('%Y-%m-%d')
-    today = datetime.utcnow().strftime('%Y-%m-%d')
-    if last == today:
-      return
-  try:
-    with open(FILE_UPDATE, 'a'):
-      os.utime(FILE_UPDATE, None)
-    request = urllib2.Request(
-        CORE_VERSION_URL,
-        urllib.urlencode({'version': main.__version__}),
-      )
-    response = urllib2.urlopen(request)
-    with open(FILE_UPDATE, 'w') as update_json:
-      update_json.write(response.read())
-  except (urllib2.HTTPError, urllib2.URLError):
-    pass
+
 
 
 def print_out_update(force_show=False):
@@ -260,12 +241,6 @@ def print_out_update(force_show=False):
 ###############################################################################
 # Doctor
 ###############################################################################
-def internet_on():
-  try:
-    urllib2.urlopen(INTERNET_TEST_URL, timeout=2)
-    return True
-  except (urllib2.URLError, socket.timeout):
-    return False
 
 
 def check_requirement(check_func):
@@ -273,7 +248,7 @@ def check_requirement(check_func):
   if not result:
     print_out('NOT FOUND', name)
     if help_url_id:
-      print 'Please see %s%s' % (REQUIREMENTS_URL, help_url_id)
+      print ('Please see %s%s' % (REQUIREMENTS_URL, help_url_id))
     return False
   return True
 
@@ -303,9 +278,6 @@ def find_gae_path():
   return GAE_PATH
 
 
-def check_internet():
-  return internet_on(), 'Internet', ''
-
 
 def check_gae():
   return bool(find_gae_path()), 'Google App Engine SDK', '#gae'
@@ -331,7 +303,7 @@ def doctor_says_ok():
   checkers = [check_gae, check_git, check_nodejs, check_pip, check_virtualenv]
   if False in [check_requirement(check) for check in checkers]:
     sys.exit(1)
-  return check_requirement(check_internet)
+  return True
 
 
 ###############################################################################
@@ -341,7 +313,7 @@ def run_start():
   make_dirs(DIR_STORAGE)
   port = int(ARGS.port)
   run_command = ' '.join(map(str, [
-      'dev_appserver.py',
+      'python2 $GAE_PYTHON_HOME/dev_appserver.py',
       DIR_MAIN,
       '--host %s' % ARGS.host,
       '--port %s' % port,
@@ -361,7 +333,6 @@ def run():
 
   if doctor_says_ok():
     install_dependencies()
-    check_for_update()
 
   if ARGS.show_version:
     print_out_update(force_show=True)
