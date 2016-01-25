@@ -2,24 +2,20 @@
 
 #block admin_content
 <div id="#app-wrapper" ng-app="adminApp" class="container-fluid">
-  <uib-tabset>
-      <uib-tab heading="Home">
+  <div ng-controller="pageTabsController">
+    <uib-tabset>
+        <uib-tab heading="Home" select="setActiveTab('home')">
+            <div ng-if="isActiveTab('home')" module-id="'home-page'" class="tab-content" style="margin-top: 1em;" home-page-form></div>
+        </uib-tab>
+        <uib-tab heading="About" select="setActiveTab('about')">
+            <div ng-if="isActiveTab('about')" module-id="'about-page'" class="tab-content" style="margin-top: 1em;"  about-page-form></div>
+        </uib-tab>
 
-          <div class="tab-content" style="margin-top: 1em;" home-page-form></div>
-
-      </uib-tab>
-      <uib-tab heading="About">
-          <div class="tab-content" style="margin-top: 1em;"  about-page-form></div>
-
-      </uib-tab>
-
-      <uib-tab heading="Contact">
-
-          <div class="tab-content" style="margin-top: 1em;" contact-page-form></div>
-
-      </uib-tab>
-    </uib-tabset>
-
+        <uib-tab heading="Contact" select="setActiveTab('contact')">
+            <div ng-if="isActiveTab('contact')"  module-id="'contact-page'" class="tab-content" style="margin-top: 1em;" contact-page-form></div>
+        </uib-tab>
+      </uib-tabset>
+  </div>
 </div>
 <!-- #app-wrapper -->
 # endblock

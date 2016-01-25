@@ -1,0 +1,30 @@
+# macro display(image=None, show_description=True, max_height=None, container_width=None, simple=False)
+  {% set ratio = image.image_size_h/image.image_size_w -%}
+  {% if max_height and container_width  %}
+    {% set size = image.image_size_w * max_height /image.image_size_h -%}
+    {% set size_proc = 100 * size / container_width-%}
+  {% endif %}
+  {% set ratio = image.image_size_h/image.image_size_w -%}
+    {%if simple %}
+      <img class="image" alt="{{image.name}}" title="{{image.description or image.name}}" src="{{image.serve_url}}" />
+    {%else%}
+    <article class="image-positioner" style="width:100%; display: block; position:relative">
+      <div class="image-width" style="display: inline-block; width : {%if size_proc %}{{size_proc}}{% else %}100{% endif %}%;">
+        <div class="text-center image-wrapper" style="background: {{image.image_average_color}}; padding-top: {{100 * (ratio)}}%" >
+            <img class="img-overlay" src="/p/img/pixel.gif" />
+          <img class="image" alt="{{image.name}}" style="width: 100%; max-height: auto; display: block; margin-top: -{{100 * (ratio)}}%" title="{{image.description or image.name}}" src="{{image.serve_url}}" />
+        </div>
+      </div>
+      # if show_description and (image.name or image.description)
+        <div class="image-footnote text-left">
+          # if image.name
+            <h3 style="margin:0px; line-height:20px; font-size:18px;">{{image.name}}</h3>
+          # endif
+          # if image.description
+            <p style="font-size: 11px;">{{image.description}}</p>
+          # endif
+        </div>
+      # endif
+    </article>
+    {% endif %}
+# endmacro

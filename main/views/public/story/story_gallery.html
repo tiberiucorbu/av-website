@@ -4,11 +4,12 @@
   # extends 'public/layout/base/public_base_layout.html'
 {% endif %}
 
-#macro story_item (item)
-      <div class="item">
-        <div class="contents">
-          <img style="background: {{item.image_average_color}};" src="{{item.serve_url}}" alt="{{item.name}}" title="{{item.name}}" />
+# import 'share/macro/image.html' as image_macro
 
+#macro story_item (image, active=False)
+      <div class="item {%if active %}active{% endif %}">
+        <div class="contents">
+          {{image_macro.display(image=image, simple=True)}}
         </div>
       </div>
 #endmacro
@@ -20,24 +21,24 @@
 # endblock
 
 # block content
-  <div id="story-carousel" class="slideshow full" data-target="slideshow">
+  <div id="story-carousel" class="slideshow full" style="top:30px; bottom:30px; overflow: auto" data-active="{{model.active}}" data-target="slideshow">
 
       #for item in model.story.story_items_expanded
-        {{story_item(item)}}
+        {{story_item(image=item, active=(loop.index == model.active))}}
       #endfor
       <div class="close-wrapper text-center" style="z-index: 100; position: absolute; top: 0; right: 0;width: 15%;height: 42px;">
-        <button style="display:inline-block;top: 0px;position: absolute; font-size: 3em" type="button" class="close slideshow-icon pul-right" data-dismiss="modal" aria-label="Close">
+        <a href="{{url_for('story', story_key=story_key(model.story))}}" style="display:inline-block;top: 0px;position: absolute; font-size: 3em" type="button" class="close slideshow-icon pul-right" data-dismiss="modal" aria-label="Close">
           <svg viewBox="0 0 180 180"><path d="M5 5 L175 175 M175 5 L5 175"></path></svg>
           <span class="sr-only">Close</span>
-        </button>
+        </a>
       </div>
-      <a class="left carousel-control" href="#story-carousel" role="button" data-slide="prev">
+      <a class="left carousel-control" href="{{url_for('story', story_key=story_key(model.story), m='gallery', active=model.active-1)}}" role="button" data-slideshow-slide="prev">
         <span class="slideshow-icon" aria-hidden="true">
             <svg viewBox="0 0 180 310"><path d="M170 10 L10 161 M10 150 L170 300"></path></svg>
         </span>
         <span class="sr-only">Previous</span>
       </a>
-      <a class="right carousel-control" href="#story-slideshow" role="button" data-slide="next">
+      <a class="right carousel-control" href="{{url_for('story', story_key=story_key(model.story), m='gallery', active=model.active+1)}}" role="button" data-slideshow-slide="next">
           <span class="slideshow-icon">
             <svg viewBox="0 0 180 310" style="fill:#FFF"><path d="M10 10 L170 161 M170 150 L10 300"></path></svg>
           </span>

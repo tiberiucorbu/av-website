@@ -78,6 +78,13 @@ def story(story_key):
   mode = util.param('m', str)
   templatePath = 'public/story/story.html'
   if 'gallery' == mode:
+    active = util.param('active', int)
+    if story_db.story_items_expanded :
+      if active > len(story_db.story_items_expanded):
+        active = 1
+      if active < 0:
+        active = len(story_db.story_items_expanded)
+    resp_model['active'] = active
     templatePath = 'public/story/story_gallery.html'
   return flask.render_template(templatePath, model=resp_model)
 
@@ -240,6 +247,8 @@ def get_story_db(key):
 
 def decorate_story_page_model(resp_model, story_db):
   resp_model['story'] = story_db
+  if 'page_data' in resp_model:
+      resp_model['page_data'].update({'images': story_db.story_items_expanded})
 
 
 def decorate_stories_page_model(resp_model, story_dbs, params):

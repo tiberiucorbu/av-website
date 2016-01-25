@@ -3,3 +3,4 @@ Disallow: /signout/
 Disallow: /signin/*/
 Disallow: /api/
 Disallow: /_ah/
+Disallow: /p/img/pixel.gif

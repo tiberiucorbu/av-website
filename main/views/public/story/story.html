@@ -4,15 +4,16 @@
   # extends 'public/layout/base/public_base_layout.html'
 {% endif %}
 
+# import 'share/macro/image.html' as image_macro
+
 # macro story_item(item, story, idx)
     <a data-target="open-modal-swiper" style="position: relative" href="{{url_for('story', story_key=story_key(story), m='gallery', active=idx)}}">
-        <img class="img-overlay" src="/p/img/pixel.gif" />
-        <img src="{{item.serve_url}}" class="img-responsive" alt="{{item.name}}" title="{{item.name}}" />
+      {{image_macro.display(item)}}
     </a>
 # endmacro
 
 # block content
-  <article class="container-fluid">
+  <section class="container-fluid">
     #if model.story.description
     <div class="row vspacer">
       <div class="col-xs-12 col-md-offset-2">
@@ -26,13 +27,13 @@
         #for item in model.story.story_items_expanded
 
         <div class="item fade-hover">
-          {{story_item(item, model.story, loop.index-1)}}
+          {{story_item(item, model.story, loop.index)}}
         </div> <!-- .item -->
 
         #endfor
       </div> <!-- .col-md-8 -->
 
     </div>
-  </article><!-- .contaiener-fluid -->
+  </section><!-- .contaiener-fluid -->
   #include 'public/story/bit/swiper_modal.html'
 # endblock

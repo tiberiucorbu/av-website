@@ -3,47 +3,50 @@
 {% else %}
   # extends 'public/layout/base/public_base_layout.html'
 {% endif %}
+# import 'share/macro/image.html' as image_macro
 
 # block content
-
-<div class="table">
-  <div class="row table-content">
-
-
-
+#if model.page_data
+  <div class="row ">
       <div class="col-md-6">
         #if model.page_data.images|length > 0
-         <img class="img-responsive" stype="background: {{model.page_data.images[0].image_average_color}}" src="{{model.page_data.images[0].serve_url}}"/>
-         #endif
+         {{image_macro.display(model.page_data.images[0])}}
+        #endif
       </div>
 
 
       <div class="col-md-6">
-        <div class="description">
-          {{model.page_data.description | safe}}
-        </div>
-        # if model.page_data.phone or model.page_data.email
-        <address class="row ">
+        <div class="spaced-section row">
           <div class="col-xs-12 col-md-12">
-
-            # if model.page_data.phone
-              Tel:  <span rel="telephone">{{ model.page_data.phone}}</span>
-            # endif
-            # if model.page_data.phone and model.page_data.email
-            |
-            # endif
-            # if model.page_data.email
-              <span rel="email">{{ model.page_data.email}}</span>
-            # endif
-            <hr />
+            <h1>Contact Us</h1>
           </div>
-        </address>
-        # endif
-        <section class="col-xs-12 col-md-12">
-          # include 'public/contact/bit/feedback_form.html'
-        </section>
+        </div>
+        #if model.page_data.description
+        <div class="spaced-section row">
+          <div class="col-xs-12 col-md-12">
+            {{model.page_data.description | safe}}
+          </div>
+        </div>
+        #endif
+        <div class="row">
+          <address class="col-xs-12 col-md-12 vcard">
+            <h2><span class="fn"><a class="url" href="{{url_for('about')}}">Anabella Veress</a><span> <span>Photography</span></h2>
+            <span class="adr">
+              <span class="address-line-1">{{ model.page_data.addressline_1}}</span><br>
+              <span class="address-line-2">{{ model.page_data.addressline_2}}</span><br>
+            </span>
+            <span class="fax">{{model.page_data.fax}}</span><br>
+            <span class="tel">{{model.page_data.phone}}</span><br>
+            <span class="email">{{ model.page_data.email}}</span><br>
+          </address>
+        </div>
+
+        <div class="row">
+          <section class="col-xs-12 col-md-12">
+            # include 'public/contact/bit/feedback_form.html'
+          </section>
+        </div>
       </div>
   </div>
-</div>
-
+#endif
 # endblock

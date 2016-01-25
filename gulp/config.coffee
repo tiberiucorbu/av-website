@@ -21,6 +21,7 @@ config.front =
     "#{paths.static.ext}/bootstrap/js/carousel.js"
     "#{paths.static.ext}/bootstrap/js/modal.js"
     "#{paths.static.ext}/bootstrap/js/transition.js"
+    "#{paths.dep.bower_components}/image-scale/image-scale.min.js"
     #"#{paths.static.ext}/swiper/dist/js/swiper.js"
     "#{paths.src.script}/public/**/*.js"
   ]
