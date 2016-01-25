@@ -10,7 +10,6 @@
        clearTimeout(timerId);
        timerId = null;
      }
-     console.log(imageLoadQueue);
      for (var i = 0; i<6; i++){
        var img = imageLoadQueue.shift();
        if (img){

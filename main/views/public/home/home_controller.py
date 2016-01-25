@@ -247,7 +247,8 @@ def get_story_db(key):
 
 def decorate_story_page_model(resp_model, story_db):
   resp_model['story'] = story_db
-  resp_model['page_data'].update({'images': story_db.story_items_expanded})
+  if 'page_data' in resp_model:
+      resp_model['page_data'].update({'images': story_db.story_items_expanded})
 
 
 def decorate_stories_page_model(resp_model, story_dbs, params):
