@@ -45,7 +45,7 @@
        (left + width) > window.pageXOffset
      );
    }
-   var $nodes = $('img');
+   var $nodes = $('img', '.defer-image-loading');
 
    $(document).on("DOMContentLoaded", function(event) {
        $nodes.each(function(idx, el){
