@@ -288,6 +288,10 @@
 
   // "what?" version ... http://jsperf.com/diacritics/12
   strings.removeDiacritics = function(str) {
+     if (!str){
+        return null;
+     }
+
     return str.replace(/[^\u0000-\u007E]/g, function(a) {
       return diacriticsMap[a] || a;
     });

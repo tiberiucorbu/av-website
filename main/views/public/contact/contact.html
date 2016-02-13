@@ -13,18 +13,16 @@
          {{image_macro.display(model.page_data.images[0])}}
         #endif
       </div>
-
-
       <div class="col-md-6">
         <div class="spaced-section row">
           <div class="col-xs-12 col-md-12">
-            <h1>Contact Us</h1>
+            <h1>Contact</h1>
           </div>
         </div>
         #if model.page_data.description
         <div class="spaced-section row">
           <div class="col-xs-12 col-md-12">
-            {{model.page_data.description | safe}}
+            {{ markdown(model.page_data.description) | safe}}
           </div>
         </div>
         #endif
@@ -43,7 +41,7 @@
 
         <div class="row">
           <section class="col-xs-12 col-md-12">
-            # include 'public/contact/bit/feedback_form.html'
+            # include 'public/contact/bit/contact_form.html'
           </section>
         </div>
       </div>

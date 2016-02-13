@@ -1,0 +1,4 @@
+cron:
+- description: Clear the trash
+  url: /tasks/clear-trash
+  schedule: every 24 hours

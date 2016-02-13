@@ -12,7 +12,7 @@
       <div class="image-width" style="display: inline-block; width : {%if size_proc %}{{size_proc}}{% else %}100{% endif %}%;">
         <div class="text-center image-wrapper" style="background: {{image.image_average_color}}; padding-top: {{100 * (ratio)}}%" >
             <img class="img-overlay" src="/p/img/pixel.gif" />
-          <img class="image" alt="{{image.name}}" style="width: 100%; max-height: auto; display: block; margin-top: -{{100 * (ratio)}}%" title="{{image.description or image.name}}" src="{{image.serve_url}}" />
+          <img class="image" {%if image.name %}alt="{{image.name}}"{% endif %} style="width: 100%; max-height: auto; display: block; margin-top: -{{100 * (ratio)}}%" {%if image.description or image.name %}title="{{image.description or image.name}}"{%endif%} src="{{image.serve_url}}" />
         </div>
       </div>
       # if show_description and (image.name or image.description)

@@ -9,7 +9,7 @@
         items: '=items'
       },
       replace: true,
-      templateUrl: '/p/html/admin_app/image_upload_thumbs_preview.html'
+      templateUrl: '/p/html/admin/image_upload_thumbs_preview.html'
     };
   };
 
@@ -21,7 +21,7 @@
         item: '=item'
       },
       replace: true,
-      templateUrl: '/p/html/admin_app/image_upload_thumb_preview.html',
+      templateUrl: '/p/html/admin/image_upload_thumb_preview.html',
       link: function(scope) {
         scope.isUploadComplete = function() {
           return scope.item.progress ?
@@ -165,7 +165,7 @@
         };
       }],
       controllerAs: 'ctrl',
-      templateUrl: '/p/html/admin_app/resource_form.html'
+      templateUrl: '/p/html/admin/resource_form.html'
     };
   };
 
@@ -179,7 +179,7 @@
 
       },
       replace: true,
-      templateUrl: '/p/html/admin_app/resource_list.html'
+      templateUrl: '/p/html/admin/resource_list.html'
     };
 
   };

@@ -1,35 +1,37 @@
 <!DOCTYPE html>
-<html prefix="og: http://ogp.me/ns#" class="{% block html_class %}{% if model%}{{model.html_class}}{% endif %}{% endblock %}" lang="en">
-  <head>
+<html prefix="og: http://ogp.me/ns#"
+      class="{% block html_class %}{% if model%}{{model.html_class}}{% endif %}{% endblock %}"
+      lang="en">
+<head>
     # include 'public/layout/base/bit/meta.html'
     # include 'public/layout/base/bit/style.html'
     # block head
 
     # endblock
-  </head>
+</head>
 
-  <body>
-      <div class="container-fluid container-main-block">
+<body>
+<div class="container-fluid container-main-block">
 
-          # block navbar
-            #include 'public/components/navbar/navbar.html'
-          # endblock
-      </div>
-      <div class="container-fluid container-main-block">
-
-          # block content
-
-          # endblock
-
-      </div>
-      <footer class="container-fluid container-main-block" style="margin-top:15px" role="contentinfo">
-        # block footer
-          # include 'public/layout/base/bit/footer.html'
-        # endblock
-      </footer>
-    # include 'public/layout/base/bit/analytics.html'
-    # include 'public/layout/base/bit/script.html'
-    # block scripts
+    # block navbar
+    #include 'public/components/navbar/navbar.html'
     # endblock
-  </body>
+</div>
+<div class="container-fluid container-main-block">
+
+    # block content
+
+    # endblock
+
+</div>
+<footer class="container-fluid container-main-block" style="margin-top:15px" role="contentinfo">
+    # block footer
+    #include 'public/components/footer/footer.html'
+    # endblock
+</footer>
+# include 'public/layout/base/bit/analytics.html'
+# include 'public/layout/base/bit/script.html'
+# block scripts
+# endblock
+</body>
 </html>

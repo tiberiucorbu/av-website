@@ -1,0 +1,94 @@
+<form name="home_page_form">
+
+    <div class="row">
+        <fieldset class="col-md-8">
+            <div class="form-group ">
+                <label class="control-label" for="description">Description</label>
+                <small class="text-muted">(optional)</small>
+                <div class="pull-right">
+                    <a href="https://guides.github.com/features/mastering-markdown/"
+                       target="_blank">
+                        <span class="fa fa-markdown"></span>
+                        Styling with Markdown is supported
+                    </a>
+                </div>
+                <textarea class="form-control" id="description" name="description" rows="4"
+                          ng-model="page.description"></textarea>
+            </div>
+
+            <div class="panel panel-default preview">
+                <div class="panel-body">
+                    <small class="text-muted">Description preview</small>
+                    <div class="scroll-v" ng-bind-html="story.description | markdown"></div>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent=".panel-group"
+                           href="#contact-upload-images-panel">Images</a>
+                        <span class="fa fa-check pull-right hide"></span>
+                    </h4>
+                </div>
+                <div id="contact-upload-images-panel" class="panel-collapse">
+                    <div class="panel-body">
+                        <div file-upload multiple="false" accept="image/*"
+                             items="pageResourceItems"></div>
+                        <div resource-list items="pageResourceItems"></div>
+                    </div>
+                </div>
+            </div>
+
+
+        </fieldset>
+
+        <fieldset class="col-md-4">
+            <div class="form-group ">
+                <label class="control-label" for="title">Phone</label>
+                <input autofocus class="form-control" id="phone" name="phone" rows="4" type="text"
+                       ng-model="page.phone">
+            </div>
+
+            <div class="form-group ">
+                <label class="control-label" for="title">Email</label>
+                <input autofocus class="form-control" id="email" name="email" rows="4" type="text"
+                       ng-model="page.email">
+            </div>
+
+            <div class="form-group ">
+                <label class="control-label" for="title">Fax</label>
+                <input autofocus class="form-control" id="fax" name="fax" rows="4" type="text"
+                       ng-model="page.fax">
+            </div>
+
+            <div class="form-group ">
+                <label class="control-label" for="title">Address Line 1</label>
+                <input autofocus class="form-control" id="addline1" name="addline1" rows="4"
+                       type="text" ng-model="page.addressline_1">
+            </div>
+
+            <div class="form-group ">
+                <label class="control-label" for="title">Address Line 2</label>
+                <input autofocus class="form-control" id="addline2" name="addline2" rows="4"
+                       type="text" ng-model="page.addressline_2">
+            </div>
+
+            <uib-accordion close-others="oneAtATime">
+                <uib-accordion-group heading="Metadata">
+                    <metadata-form item="page"></metadata-form>
+                </uib-accordion-group>
+            </uib-accordion>
+
+        </fieldset>
+
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <button ng-click="save()" type="submit" class="btn btn-primary btn-block">
+                Save
+            </button>
+        </div>
+    </div>
+</form>

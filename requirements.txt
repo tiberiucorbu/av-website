@@ -6,3 +6,4 @@ flask-restful==0.3.4
 flask-wtf==0.12
 unidecode==0.4.18
 werkzeug==0.10.4
+Markdown==2.6.5

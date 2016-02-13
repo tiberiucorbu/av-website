@@ -11,7 +11,10 @@
     vertical-align: middle;
     min-width: 40%;
     line-height: 60px;
-    -overflow: hidden;
+    .main-navbar-brand {
+      font-size: 1.4em;
+
+    }
     white-space: nowrap;
   }
   .main-navbar-collapse {
@@ -20,7 +23,7 @@
     position: absolute;
     z-index: 1000;
     background: white;
-    -overflow: hidden;
+
     .main-nav-items {
       top: 0;
       position: relative;
@@ -36,7 +39,7 @@
         display: block;
         margin: 0;
         padding : 0px;
-        font-size: 12px;
+        font-size: 16px;
         .menu {
           li > a {
             border-top: 1px solid black;
@@ -154,7 +157,7 @@
             margin: 0;
             min-width: 95px;
             padding: 0 3px;
-            font-size: 12px;
+            font-size: 16px;
             .menu {
               display: none;
             }
@@ -173,20 +176,24 @@
             }
 
             &.has-childs {
-              position: relative;
-              padding: 0 21px 0 3px;
 
+              position: relative;
+              //padding: 0 21px 0 3px;
+              &:hover {
+                & > .menu {
+                  li > a {
+                    border-top: 0px solid transparent;
+                  }
+                  display: block;
+                  position: absolute;
+                  right : 0px;
+                  background: white;
+                  padding: 0px;
+                  z-index: 200000;
+                }
+              }
               .caret-wrapper {
-                position: absolute;
-                top: 0px;
-                right: 0px;
-                display: inline-block;
-                line-height: 18px;
-                width: 21px;
-                text-align: center;
-                border: 0px solid transparent;
-                padding-right: 3px;
-                padding-left: 2px;
+                display: none;
               }
             }
             a {

@@ -2,9 +2,11 @@
 # extends 'admin/layout/base/admin_base_layout.html'
 
 #block scripts
-  # if config.DEVELOPMENT
-    <script src="/p/dev/script/admin_app_ext.js?{{config.CURRENT_VERSION_ID}}"></script>
-  # else
-    <script src="/p/min/script/admin_app_ext.js?{{config.CURRENT_VERSION_ID}}"></script>
-  # endif
+
+# if config.DEVELOPMENT
+<script src="/p/dev/script/admin_app_ext.js?{{config.CURRENT_VERSION_ID}}"></script>
+# else
+<script src="/p/min/script/admin_app_ext.js?{{config.CURRENT_VERSION_ID}}"></script>
+# endif
+<script src="/p/min/script/admin_app_template_script.js?{{config.CURRENT_VERSION_ID}}"></script>
 #endblock

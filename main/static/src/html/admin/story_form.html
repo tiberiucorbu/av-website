@@ -1,0 +1,87 @@
+<form name="story_form" ng-controller="editStoryController">
+
+  <div class="row">
+    <fieldset class="col-md-8">
+
+      <div class="form-group ">
+        <label class="control-label" for="title">Title</label>
+        <input autofocus class="form-control" id="title" name="title" rows="4" type="text" ng-model="story.title">
+      </div>
+
+
+      <div class="form-group">
+
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <div class="row">
+              <div class="col-xs-12">
+                <div file-upload multiple="true" accept="image/*" items="story.story_items_expanded"></div>
+                <div resource-list items="story.story_items_expanded"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group ">
+        <label class="control-label" for="description">Description</label>
+        <small class="text-muted">(optional)</small>
+        <div class="pull-right">
+          <a href="https://guides.github.com/features/mastering-markdown/" target="_blank">
+            <span class="fa fa-markdown"></span>
+            Styling with Markdown is supported
+          </a>
+        </div>
+        <textarea class="form-control" id="description" name="description" rows="4" ng-model="story.description"></textarea>
+      </div>
+
+      <div class="panel panel-default preview">
+        <div class="panel-body">
+          <small class="text-muted">Description preview</small>
+          <div class="scroll-v" ng-bind-html="story.description | markdown"></div>
+        </div>
+      </div>
+
+    </fieldset>
+    <fieldset class="col-md-4">
+      <div class="form-group ">
+        <label class="control-label" for="tags">Tags</label>
+        <small class="text-muted">(optional)</small>
+
+        <input class="form-control" id="tags" name="tags" rows="4" type="textarea" value="" ng-model="story.tags">
+      </div>
+
+      <div class="form-group ">
+        <label class="control-label" for="canonical_path">URL Component</label>
+        <small class="text-muted">(optional)</small>
+        <input canonical-path class="form-control" text-input="story_form.title" id="canonical_path" name="canonical_path" rows="4" type="input" ng-model="story.canonical_path">
+      </div>
+      <div class="form-group ">
+        <label class="control-label" for="canonical_path"></label>
+
+      </div>
+      <uib-accordion close-others="oneAtATime">
+        <uib-accordion-group heading="Layout preview">
+          <div class="form-group " style="max-height: 600px; overflow-x : hidden; overflow-y : auto">
+            <div story-items-edit items="story.story_items_expanded"></div>
+          </div>
+        </uib-accordion-group>
+        <uib-accordion-group heading="Metadata" >
+          <metadata-form item="story"></metadata-form>
+        </uib-accordion-group>
+      </uib-accordion>
+    </fieldset>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6 col-md-offset-3">
+      <button ng-click="save()" type="submit" ng-class="{'diabled':requestInProgress}" class="btn btn-primary btn-lg btn-block">
+        <span ng-if="requestInProgress">
+          <span class='fa fa-spin fa-spinner'></span> Please wait...</span>
+        <span ng-if="!requestInProgress">Save</span>
+      </button>
+      </button>
+    </div>
+  </div>
+
+
+</form>

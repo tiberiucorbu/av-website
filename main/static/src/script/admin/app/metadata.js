@@ -15,7 +15,7 @@
         };
       }],
       controllerAs: 'ctrl',
-      templateUrl: '/p/html/admin_app/metadata_form.html'
+      templateUrl: '/p/html/admin/metadata_form.html'
 
     };
   };

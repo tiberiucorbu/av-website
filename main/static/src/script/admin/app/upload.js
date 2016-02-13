@@ -86,7 +86,7 @@
         multiple: '=multiple',
         acceptTypes : '=acceptTypes'
       },
-      templateUrl: '/p/html/admin_app/file_upload.html',
+      templateUrl: '/p/html/admin/file_upload.html',
       link: function(scope, el, attr, ctrl) {
         scope.status = '';
         var uploadField = el.find('.upload-input').eq(0);

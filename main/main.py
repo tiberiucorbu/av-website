@@ -15,7 +15,8 @@ app.jinja_env.globals.update(
     slugify=util.slugify,
     update_query_argument=util.update_query_argument,
     current_year = util.current_year,
-    story_key = util.story_key
+    story_key = util.story_key,
+    markdown = util.fromMarkdown
   )
 
 import auth

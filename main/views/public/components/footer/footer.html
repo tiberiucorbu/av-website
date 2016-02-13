@@ -1,0 +1,40 @@
+<div class="row">
+    <div class="col-xs-6 text-left copy-footnote-wrapper">
+        <address class="author">&copy; <time pubdate date="{{current_year()}}" title="{{current_year()}}">{{current_year()}}</time> by <a rel="author" class="author-name" href="{{url_for('about')}}">anabella veress</a></address>
+    </div>
+
+    <div class="col-xs-6 text-right">
+        #if 'share_profiles' in model and 'profile' in model.share_profiles
+        #if 'fb' in model.share_profiles.profile and 'url' in model.share_profiles.profile.fb
+        <a href="{{model.share_profiles.profile.fb.url}}" class="btn btn-xs btn-social-footer-icon" title="Facebook" rel="nofollow">
+            <span class="fa fa-facebook"></span>
+        </a>
+        #endif
+        #if 'instagram' in model.share_profiles.profile and 'url' in model.share_profiles.profile.instagram
+        <a href="{{model.share_profiles.profile.instagram.url}}" class="btn btn-xs btn-social-footer-icon" target="_blank" title="Instagram" rel="nofollow">
+            <span class="fa fa-instagram"></span>
+        </a>
+        #endif
+        #if 'gplus' in model.share_profiles.profile and 'url' in model.share_profiles.profile.gplus
+        <a href="{{model.share_profiles.profile.gplus.url}}" class="btn btn-xs btn-social-footer-icon" target="_blank" title="Instagram" rel="nofollow">
+            <span class="fa fa-google-plus"></span>
+        </a>
+        #endif
+        #if 'linkedin' in model.share_profiles.profile and 'url' in model.share_profiles.profile.linkedin
+        <a href="{{model.share_profiles.profile.linkedin.url}}" class="btn btn-xs btn-social-footer-icon" target="_blank" title="Instagram" rel="nofollow">
+            <span class="fa fa-linkedin"></span>
+        </a>
+        #endif
+        #if 'twitter' in model.share_profiles.profile and 'url' in model.share_profiles.profile.twitter
+        <a href="{{model.share_profiles.profile.twitter.url}}" class="btn btn-xs btn-social-footer-icon" target="_blank" title="Instagram" rel="nofollow">
+            <span class="fa fa-twitter"></span>
+        </a>
+        #endif
+        #if 'pinterest' in model.share_profiles.profile and 'url' in model.share_profiles.profile.pinterest
+        <a href="{{model.share_profiles.profile.pinterest.url}}" class="btn btn-xs btn-social-footer-icon" target="_blank" title="Instagram" rel="nofollow">
+            <span class="fa fa-pinterest"></span>
+        </a>
+        #endif
+        #endif
+    </div>
+</div>

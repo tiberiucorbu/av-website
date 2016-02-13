@@ -44,7 +44,7 @@ Deploying on Google App Engine
 
     $ gulp deploy
 
-Before deploying make sure that the `main/app.yaml` and `gulp/config.coffee`
+Before deploying make sure that the `main/app.yaml` and `gulp/config.js`
 are up to date.
 
 Tech Stack

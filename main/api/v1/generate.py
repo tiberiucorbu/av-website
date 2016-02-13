@@ -19,13 +19,13 @@ from main import api_v1
 import model
 import util
 
+
 @api_v1.resource('/generate/', endpoint='api.generate')
 class GenerateAPI(restful.Resource):
-
-  @auth.admin_required
-  def get(self):
-    token = util.param('token', str)
-    response = {};
-    if token == 'csrf':
-        response['csrf_token'] = wtf.csrf.generate_csrf();
-    return helpers.make_object_response(response)
+    @auth.admin_required
+    def get(self):
+        token = util.param('token', str)
+        response = {};
+        if token == 'csrf':
+            response['csrf_token'] = wtf.csrf.generate_csrf();
+        return helpers.make_object_response(response)

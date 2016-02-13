@@ -18,6 +18,6 @@ def decorate_page_meta(resp_model):
 
 def decorate_from_model(resp_model):
   if 'db_obj' in resp_model:
-    if  isinstance(resp_model['db_obj'], model.meta.page_meta.PageMeta):
+    if isinstance(resp_model['db_obj'], model.meta.page_meta.PageMeta):
       db_obj = resp_model['db_obj']
       resp_model['meta'] = {'keywords': db_obj.meta_keywords, 'description':  db_obj.meta_description}

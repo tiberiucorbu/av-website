@@ -1,0 +1,40 @@
+<form name="resource_form">
+  <div class="row">
+    <div class="col-xs-3">
+      <div class="drag-handle" title="Drag to position" style="width: 100%; border: 1px solid #cacaca; padding: 1px; margin-right: 6px; text-align : center;cursor: grab">
+        <img src="{{item.image_thumb_data_url}}" style="max-width:100%; max-height:100%; " />
+      </div>
+    </div>
+    <div class="col-xs-9">
+      <div class="row">
+        <div class="col-xs-9">
+          <div class="form-group ">
+            <input class="form-control input-sm" id="alt-text" name="alt_text" placeholder="Alternative Text" type="text" ng-model="item.name">
+          </div>
+        </div>
+        <div class="col-xs-3">
+          <button ng-click="ctrl.save()" class="btn btn-default fa fa-save"></button>
+          <button ng-if="items.length" ng-click="items.splice(idx,1)" class="btn btn-default fa fa-trash"></button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12">
+          <uib-accordion close-others="oneAtATime">
+            <uib-accordion-group heading="More controls ...">
+              <div class="form-group ">
+                <input class="form-control input-sm" id="description" name="description" placeholder="Description" type="text" ng-model="item.description">
+              </div>
+              <div class="form-group ">
+                <input class="form-control input-sm" id="average_color" name="description" placeholder="Average color" type="text" ng-model="item.image_average_color">
+              </div>
+              <div class="form-group">
+                <input class="form-control input-sm" id="size" disabled="disabled" placeholder="Size" name="size" type="text" value="{{item.size_human}} / {{item.image_size_w}} x  {{item.image_size_h}}">
+              </div>
+            </uib-accordion-group>
+          </uib-accordion>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</form>

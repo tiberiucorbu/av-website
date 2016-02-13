@@ -1,0 +1,35 @@
+(function(window) {
+  "use strict";
+
+  var app = window.app;
+
+  var flashService = function(){
+    var messages = [];
+    return {
+       msg : function(text){
+         messages.push(text);
+       },
+       messages : messages
+    };
+  };
+
+  app.factory('flash', flashService);
+
+
+  var flashMessages = ['flash', function(flash){
+
+    return {
+      restrict : 'A',
+      scope: {
+        items: '=items'
+      },
+      templateUrl: '/p/html/admin_app/flash.html',
+      link : function(scope){
+        flash.messages = flash.messages
+      }
+    }
+  };
+
+  app.directive('flashMessages', flashMessages);
+
+})(window);
