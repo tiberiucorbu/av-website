@@ -123,7 +123,7 @@
     return {
       restrict: 'EA',
       controller: pageController,
-      templateUrl: '/p/html/admin_app/home_page_form.html',
+      templateUrl: '/p/html/admin/home_page_form.html',
       scope : {
         moduleId : '='
       }
@@ -134,7 +134,7 @@
     return {
       restrict: 'EA',
       controller: pageController,
-      templateUrl: '/p/html/admin_app/about_page_form.html',
+      templateUrl: '/p/html/admin/about_page_form.html',
       scope : {
         moduleId : '='
       }
@@ -146,7 +146,7 @@
     return {
       restrict: 'EA',
       controller: pageController,
-      templateUrl: '/p/html/admin_app/contact_page_form.html',
+      templateUrl: '/p/html/admin/contact_page_form.html',
       scope : {
         moduleId : '='
       }

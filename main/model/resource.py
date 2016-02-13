@@ -13,7 +13,7 @@ import util
 class Resource(model.Base):
   user_key = ndb.KeyProperty(kind=model.User, required=True)
   blob_key = ndb.BlobKeyProperty(required=True)
-  name = ndb.StringProperty(required=True)
+  name = ndb.StringProperty(required=False)
   file_name = ndb.StringProperty(required=False)
   description = ndb.StringProperty(required=False)
   tags = ndb.StringProperty(repeated=True, indexed=True)

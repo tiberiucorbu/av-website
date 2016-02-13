@@ -15,7 +15,7 @@ from main import app
 from views import  ListField
 
 class ResourceForm(wtf.Form):
-  name = wtforms.TextField('Name', [wtforms.validators.required()])
+  name = wtforms.TextField('Name', [wtforms.validators.optional()])
   description = wtforms.StringField(
       'Description', [wtforms.validators.optional()])
   tags = ListField('Tags', [wtforms.validators.optional()])

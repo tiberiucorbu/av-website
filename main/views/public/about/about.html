@@ -12,7 +12,7 @@
           <div class="col-xs-10 col-md-6 col-md-offset-1 col-xs-offset-1" style="background: #fff; margin-top: 20%; margin-bottom: 5%; ">
             <h1 class="subtitle ">About</h1>
             <br />
-            {{model.page_data.description | safe}}
+            {{ markdown(model.page_data.description) | safe}}
           </div>
         </div>
     </div>

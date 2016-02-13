@@ -9,6 +9,7 @@ import datetime
 from google.appengine.datastore.datastore_query import Cursor
 from google.appengine.ext import ndb
 import flask
+import markdown
 
 import config
 
@@ -232,6 +233,10 @@ def story_key(story):
   else:
     return story.key.id()
 
+def fromMarkdown(text):
+  if text:
+    return markdown.markdown(text)
+  return ""
 
 def is_blank(string):
   return not string or string.strip() == ''

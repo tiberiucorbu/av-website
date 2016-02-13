@@ -1,0 +1,15 @@
+<div class="col-lg-2 col-md-3 col-sm-4 col-xs-6">
+  <div class="thumbnail">
+    <div class="preview-header">
+      <span class="drag-handle fa fa-th" style="cursor: grab"></span>
+      <div class="progress" ng-class="{'hidden': isUploadComplete()}">
+        <div class="progress-bar" style="width: {{item.progress.percentage}}%;"></div>
+        <div class="progress-text"></div>
+      </div>
+    </div>
+    <div class="preview" style="background-color: {{item.color}}; background-image:url({{item.thumbnailDataUrl}})">
+
+    </div>
+    <h5>{{item.file.name}}</h5>
+  </div>
+</div>

@@ -132,7 +132,7 @@
 
       },
       replace: false,
-      templateUrl: '/p/html/admin_app/nav_item_edit_form.html'
+      templateUrl: '/p/html/admin/nav_item_edit_form.html'
     };
   };
 
@@ -188,7 +188,7 @@
       scope: {
         nodes: '=nodes'
       },
-      templateUrl: '/p/html/admin_app/nav_group.html',
+      templateUrl: '/p/html/admin/nav_group.html',
       link: function(scope) {
         scope.sortableConfig = {
           group: 'navbar',
@@ -221,7 +221,7 @@
         onRemove: '&'
       },
       replace: false,
-      templateUrl: '/p/html/admin_app/nav_item.html',
+      templateUrl: '/p/html/admin/nav_item.html',
       link: function(scope, element) {
         scope.onSelect = function(item) {
           var resource = navbarSelectedItem;
@@ -265,7 +265,7 @@
       // link: function(scope, elm, attr) {
       //
       // },
-      templateUrl: '/p/html/admin_app/nav_preview.html'
+      templateUrl: '/p/html/admin/nav_preview.html'
     };
   };
   app.directive('navPreview', navPreviewDirective);
@@ -294,7 +294,7 @@
         onRemove: '&'
       },
       replace: false,
-      templateUrl: '/p/html/admin_app/list_item.html'
+      templateUrl: '/p/html/admin/list_item.html'
     };
   };
 

@@ -1,0 +1,8 @@
+<div class="row">
+    <div class="masonry" ng-sortable="{ group: 'story-image-layout', animation: 150 }">
+        <div story-item-edit item="item" class="item" ng-repeat="item in items">
+            <div style="background: url('{{item.image_thumb_data_url}}');background-size: cover; position: relative; width:100%; padding-top: 100%; padding-top: {{(item.image_size_h / item.image_size_w)*100}}%">
+            </div>
+        </div>
+    </div>
+</div>

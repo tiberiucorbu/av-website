@@ -16,8 +16,8 @@
   <section class="container-fluid">
     #if model.story.description
     <div class="row vspacer">
-      <div class="col-xs-12 col-md-offset-2">
-        <div class="description">{{model.story.description | safe}}</div>
+      <div class="col-xs-12">
+        <div class="description">{{ markdown(model.page_data.description) | safe}}</div>
       </div>
     </div>
     # endif

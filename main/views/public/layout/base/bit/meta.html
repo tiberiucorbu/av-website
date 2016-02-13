@@ -16,7 +16,27 @@
   # endblock
 </title>
 <link rel="canonical" href="{{page_url}}"/>
-<link rel="author" href="{{author}}" />
+#if model and 'share_profiles' in model and 'profile' in model.share_profiles
+  #if 'fb' in model.share_profiles.profile and 'url' in model.share_profiles.profile.fb
+    <link rel="author" href="{{model.share_profiles.profile.fb.url}}" />
+  #endif
+  #if 'instagram' in model.share_profiles.profile and 'url' in model.share_profiles.profile.instagram
+    <link rel="author" href="{{model.share_profiles.profile.instagram.url}}" />
+  #endif
+  #if 'gplus' in model.share_profiles.profile and 'url' in model.share_profiles.profile.gplus
+    <link rel="author" href="{{model.share_profiles.profile.gplus.url}}" />
+  #endif
+  #if 'linkedin' in model.share_profiles.profile and 'url' in model.share_profiles.profile.linkedin
+    <link rel="author" href="{{model.share_profiles.profile.linkedin.url}}" />
+  #endif
+  #if 'twitter' in model.share_profiles.profile and 'url' in model.share_profiles.profile.twitter
+    <link rel="author" href="{{model.share_profiles.profile.twitter.url}}" />
+    <meta name="twitter:creator" content="{{model.share_profiles.profile.twitter.url}}" />
+  #endif
+  #if 'pinterest' in model.share_profiles.profile and 'url' in model.share_profiles.profile.pinterest
+    <link rel="author" href="{{model.share_profiles.profile.pinterest.url}}" />
+  #endif
+#endif
 <link rel="author" href="/humans.txt" />
 
 #if model and model.meta and model.meta.keywords
@@ -45,7 +65,6 @@
 <meta property="og:url" content="{{page_url}}" />
 <meta name="twitter:site" content="{{page_url}}">
 
-<!--meta name="twitter:creator" content="@"-->
 
 #if model and model.page_data and model.page_data.images
   #for image in model.page_data.images

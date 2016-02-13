@@ -1,0 +1,63 @@
+<form name="share_form" ng-controller="shareController">
+    <div class="row">
+        <fieldset class="col-md-6">
+            <h2> Profiles Links </h2>
+            <div class="form-group ">
+                <label class="control-label" for="fb_profile_url">
+                    <span class="btn btn-facebook fa fa-facebook"></span>
+                    Facebook Profile URL</label>
+                <input autofocus class="form-control" id="fb_profile_url" name="fb_profile_url"
+                       rows="4" type="text" ng-model="share.profile.fb.url">
+            </div>
+            <div class="form-group ">
+                <label class="control-label" for="instagram_profile_url">
+                    <span class="btn btn-instagram fa fa-instagram"></span>
+                    Instagram Profile URL
+                </label>
+                <input class="form-control" id="instagram_profile_url" name="instagram_profile_url"
+                       rows="4" type="text" ng-model="share.profile.instagram.url">
+            </div>
+            <div class="form-group ">
+                <label class="control-label" for="tw_profile_url">
+                    <span class="btn btn-twitter fa fa-twitter"></span>
+                    Twitter Profile URL
+                </label>
+                <input class="form-control" id="tw_profile_url" name="tw_profile_url" rows="4"
+                       type="text" ng-model="share.profile.twitter.url">
+            </div>
+            <div class="form-group ">
+                <label class="control-label" for="in_profile_url">
+                    <span class="btn btn-linkedin fa fa-linkedin"></span>
+                    LinkedIn Profile URL
+                </label>
+                <input class="form-control" id="in_profile_url" name="in_profile_url" rows="4"
+                       type="text" ng-model="share.profile.linkedin.url">
+            </div>
+            <div class="form-group ">
+                <label class="control-label" for="gp_profile_url">
+                    <span class="btn btn-google fa fa-google-plus"></span>
+                    Google+ Profile URL
+                </label>
+                <input class="form-control" id="gp_profile_url" name="gp_profile_url" rows="4"
+                       type="text" ng-model="share.profile.gplus.url">
+            </div>
+
+            <div class="form-group ">
+                <label class="control-label" for="pi_profile_url">
+                    <span class="btn btn-pinterest fa fa-pinterest"></span>
+                    Pinterest Profile URL
+                </label>
+                <input class="form-control" id="pi_profile_url" name="pi_profile_url" rows="4"
+                       type="text" ng-model="share.profile.pinterest.url">
+            </div>
+        </fieldset>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <button ng-click="save()" type="submit" class="btn btn-primary btn-block">
+                Save
+            </button>
+        </div>
+    </div>
+</form>
