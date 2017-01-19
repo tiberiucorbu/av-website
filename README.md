@@ -5,6 +5,8 @@ Showcase WebSite for a photographer.
 
 Forked from the [gae-init-upload][] sandbox.
 
+[![No Maintenance Intended](http://unmaintained.tech/badge.svg)](http://unmaintained.tech/)
+
 Running the Development Environment
 -----------------------------------
 
